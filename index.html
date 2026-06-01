@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aleksandra Pavlova-Verevkina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #f2ece0;
+      --grid:     rgba(0, 0, 0, 0.055);
+      --grid-sz:  22px;
+      --ink:      #1a1814;
+      --ink-2:    #5c5850;
+      --ink-3:    #9e9890;
+      --border:   #d0cac0;
+      --surface:  #faf7f0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: var(--grid-sz) var(--grid-sz);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 2.25rem 3rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 0.95;
+    }
+
+    .header-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      margin-top: 0.6rem;
+    }
+
+    nav { display: flex; gap: 1.5rem; padding-bottom: 0.15rem; }
+
+    nav a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: color .18s, border-color .18s;
+    }
+    nav a:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      padding: 0 3rem;
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.65rem 1.4rem 0.55rem;
+      cursor: pointer;
+      margin-bottom: -1px;
+      transition: color .18s;
+    }
+    .filter-btn:hover { color: var(--ink-2); }
+    .filter-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 2rem 3rem 1.5rem;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 2rem;
+      align-items: start;
+      max-width: 900px;
+    }
+
+    .photo {
+      width: 96px;
+      height: 124px;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .bio {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--ink-2);
+      max-width: 580px;
+    }
+    .bio-meta {
+      margin-top: 0.7rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+    }
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      padding: 0.4rem 3rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* ── ACCORDION ── */
+    .accordion-wrap { padding: 0 3rem 3rem; }
+
+    .accordion {
+      display: flex;
+      gap: 2px;
+      height: calc(100vh - 370px);
+      min-height: 460px;
+      max-height: 660px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .panel {
+      position: relative;
+      flex: 0 0 52px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: flex .52s cubic-bezier(.4, 0, .2, 1);
+      border-right: 1px solid rgba(0,0,0,.07);
+    }
+    .panel:last-child { border-right: none; }
+    .panel.open { flex: 1; cursor: default; }
+
+    /* color fill (solid when collapsed, hidden behind content when open) */
+    .panel-fill {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* ── SPINE (collapsed) ── */
+    .panel-spine {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 0;
+      opacity: 1;
+      transition: opacity .15s;
+      pointer-events: none;
+    }
+    .panel.open .panel-spine { opacity: 0; }
+
+    .spine-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,.5);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .spine-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,.92);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap;
+    }
+    .spine-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.3);
+    }
+
+    /* ── CONTENT (expanded) ── */
+    .panel-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: 1.75rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease .28s;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--surface);
+      background-image:
+        linear-gradient(rgba(0,0,0,.038) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.038) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .panel.open .panel-content { opacity: 1; pointer-events: all; }
+
+    .panel-content::-webkit-scrollbar { width: 3px; }
+    .panel-content::-webkit-scrollbar-track { background: transparent; }
+    .panel-content::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .c-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .c-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.3rem;
+    }
+    .c-title {
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .c-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      margin-top: 0.4rem;
+    }
+    .c-right { text-align: right; flex-shrink: 0; }
+    .c-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+    .c-status {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-top: 0.25rem;
+      opacity: 0.65;
+    }
+
+    .c-img {
+      width: 100%;
+      height: 128px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .c-img-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .c-org {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.85rem;
+    }
+
+    .c-bullets { list-style: none; margin-bottom: 1.2rem; }
+    .c-bullets li {
+      display: flex;
+      gap: 0.55rem;
+      font-size: 0.77rem;
+      line-height: 1.62;
+      color: var(--ink-2);
+      padding: 0.42rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .c-bullets li::before {
+      content: '—';
+      color: var(--ink-3);
+      flex-shrink: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      margin-top: 0.07em;
+    }
+
+    .c-skills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.52rem;
+      transition: color .15s, border-color .15s;
+    }
+    .skill-tag:hover { color: var(--ink); border-color: var(--ink-3); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+    .footer-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 767px) {
+      header { padding: 1.5rem 1.5rem 1rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+      h1 { font-size: 2rem; }
+      .filter-bar, .sec-label, .accordion-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { padding: 1.5rem; grid-template-columns: 76px 1fr; gap: 1rem; }
+      .photo { width: 76px; height: 100px; }
+
+      .accordion {
+        flex-direction: column;
+        height: auto; max-height: none; min-height: auto;
+        gap: 8px;
+      }
+      .panel { flex: none !important; height: auto; cursor: default; border-right: none; }
+      .panel-spine { display: none; }
+      .panel-fill { height: 3px; bottom: auto; }
+      .panel-content {
+        position: static;
+        opacity: 1 !important;
+        pointer-events: all !important;
+        transition: none;
+      }
+      footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="eyebrow">Portfolio Archive // 2024–2026</div>
+    <h1>Aleksandra<br>Pavlova-Verevkina</h1>
+    <div class="header-role">Junior PM · Producer · Game Development</div>
+  </div>
+  <nav>
+    <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:alexpavlovaverevkina@gmail.com">Email</a>
+  </nav>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
+  <button class="filter-btn" data-filter="tech">PM in Tech</button>
+</div>
+
+<div class="hero">
+  <div class="photo"><div class="photo-lbl">Photo</div></div>
+  <div>
+    <p class="bio" id="hero-bio"></p>
+    <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
+  </div>
+</div>
+
+<div class="sec-label">Archive Log // 4 Projects</div>
+
+<div class="accordion-wrap">
+  <div class="accordion" id="accordion"></div>
+</div>
+
+<footer>
+  <div class="footer-name">© Aleksandra Pavlova-Verevkina · 2026</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:alexpavlovaverevkina@gmail.com">alexpavlovaverevkina@gmail.com</a>
+    <a href="tel:+46764443361">+46 76 444 33 61</a>
+  </div>
+</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+
+const HERO = {
+  all:   'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 8 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
+  games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 8 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
+  tech:  'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
+};
+
+const PROJECTS = [
+  {
+    code:     'PROJ_001',
+    title:    'Life is a Highway',
+    subtitle: 'Thesis Game Project',
+    org:      'Uppsala University',
+    date:     'Jan 2026 — Present',
+    status:   'In Production',
+    color:    '#b5a38e',
+    roles: {
+      games: 'Project Manager & Researcher',
+      tech:  'Solo Producer & PM'
+    },
+    bullets: {
+      games: [
+        'Single-player stylized PC driving game built in Unity — core mechanic: a hyperbolized hand extending from the window to pick up and deliver items between moving cars.',
+        'Managing full production cycle independently from pre-production through current alpha builds, under remote academic supervision.',
+        'Conducting structured playtesting sessions; collecting quantitative and qualitative data to validate design hypotheses.',
+        'Analyzing playtest data for frustration, comedic impact, and session length — applying ROTI methodology to impediment prioritization.'
+      ],
+      tech: [
+        'Solo-producing a software product end-to-end — full ownership of scope, timeline, and delivery in a remote-supervised environment.',
+        'Designing and executing structured user research sessions; collecting mixed-method data to validate product hypotheses iteratively.',
+        'Applying data analysis to measure user engagement and task friction — using ROTI to prioritize blockers by output impact.',
+        'Managing the complete development lifecycle: scoping, sprint planning, iterative builds, and milestone reporting.'
+      ]
+    },
+    skills: ['Unity', 'User Research', 'Data Analysis', 'Project Management', 'Game Design']
+  },
+  {
+    code:     'PROJ_002',
+    title:    'Hauntel Management',
+    subtitle: 'Cooperative Management Game',
+    org:      'Uppsala University · Gotland Game Conference 2025',
+    date:     'Jan 2025 — Jul 2025',
+    status:   'Released',
+    color:    '#5c7591',
+    roles: {
+      games: 'Producer, Sound Designer & Game Designer',
+      tech:  'Producer & Project Manager'
+    },
+    bullets: {
+      games: [
+        'Led a cross-functional team through full alpha-to-beta production for a cooperative management game shown at Gotland Game Conference 2025.',
+        'Set sprint goals, managed production timelines, and tracked tasks in Jira across remote and on-site workflows.',
+        'Drove design decisions from playtesting and analytics to refine gameplay loops, player retention mechanics, and in-game economy.',
+        'Developed commercial strategy: market positioning, competitive analysis, and financial projections for Early Access launch and long-term monetization.',
+        'Coordinated integration of sound design, level mapping, AI behavior, and networked multiplayer — QA enforced at every milestone.'
+      ],
+      tech: [
+        'Led a cross-functional software team through a full product cycle — from scoping and sprint planning through beta and public release.',
+        'Owned the Jira backlog: sprint goals, task prioritization, milestone tracking, and blocker management across a hybrid remote/on-site team.',
+        'Made data-driven product decisions using user testing and analytics to optimize core loops, retention, and feature priority.',
+        'Built go-to-market strategy: competitive analysis, market positioning, and financial projections structured for launch and long-term growth.',
+        'Coordinated cross-disciplinary integration (audio, systems, AI, networking) — owned quality control from feature delivery to milestone sign-off.'
+      ]
+    },
+    skills: ['Jira', 'Agile', 'Team Leadership', 'Game Design', 'Sound Design', 'Market Analysis']
+  },
+  {
+    code:     'PROJ_003',
+    title:    'The Antiquarian',
+    subtitle: '3-Year Production Plan',
+    org:      'Uppsala University',
+    date:     'Sep 2024 — Jan 2025',
+    status:   'Completed',
+    color:    '#8a6e4a',
+    roles: {
+      games: 'Producer',
+      tech:  'Producer & Business Analyst'
+    },
+    bullets: {
+      games: [
+        'Created a full 3-year business plan for a cozy shopkeeping game: sales projections, DLC revenue strategies, financial forecasting — break-even modeled at 71,000 units.',
+        'Managed production timelines and coordinated an interdisciplinary team using Jira and Agile — all milestones met.',
+        'Conducted competitive analysis, market research, and player persona development to inform marketing and monetization strategy.',
+        'Presented production plan and financial forecasts to a simulated investor audience — strong feedback for clarity and analytical depth.'
+      ],
+      tech: [
+        'Authored a 3-year product roadmap and financial model: revenue projections, monetization strategy, and break-even analysis (71,000 units).',
+        'Coordinated an interdisciplinary team through milestone delivery using Jira and Agile — on time and to scope.',
+        'Conducted market research, competitive landscape analysis, and user persona development to ground product strategy in evidence.',
+        'Delivered an investor-facing pitch with full financial forecasts — recognized for analytical depth and presentation clarity.'
+      ]
+    },
+    skills: ['Business Planning', 'Financial Analysis', 'Market Research', 'Jira', 'Stakeholder Communication']
+  },
+  {
+    code:     'PROJ_004',
+    title:    'Splish-Splash Submarine',
+    subtitle: "Retro Shoot 'em Up",
+    org:      'Uppsala University · Published on itch.io',
+    date:     'Jan 2024 — Mar 2024',
+    status:   'Published',
+    color:    '#3c4a5a',
+    roles: {
+      games: 'Project Manager & Sound Designer',
+      tech:  'Project Manager'
+    },
+    bullets: {
+      games: [
+        'Managed a 7-person cross-functional team through full production in 10 weeks: planning, prototyping, playtesting, and release using Jira.',
+        'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve retention, and balance gameplay.',
+        'Introduced and taught Agile practices to the team — facilitated daily stand-ups, sprint planning, and retrospectives.',
+        'Owned the itch.io project page, market positioning, and progress presentations to faculty stakeholders.'
+      ],
+      tech: [
+        'Managed a 7-person cross-functional software team through a 10-week end-to-end release cycle using Scrum in Jira.',
+        'Gathered and synthesized feedback from 50+ user testing sessions to drive iterative product improvements and feature prioritization.',
+        'Onboarded and mentored team members on Agile methodology — introduced stand-ups, sprint reviews, and retros for a team with no prior Agile experience.',
+        'Owned the product page, release communication, and stakeholder progress presentations throughout the lifecycle.'
+      ]
+    },
+    skills: ['Scrum', 'Jira', 'Team Leadership', 'Agile', 'Game Production', 'Sound Design']
+  }
+];
+
+// ── HELPERS ──────────────────────────────────────────────────
+
+function getParam() {
+  const v = new URLSearchParams(location.search).get('view');
+  return ['games', 'tech'].includes(v) ? v : 'all';
+}
+
+function pushParam(f) {
+  const u = new URL(location.href);
+  if (f === 'all') u.searchParams.delete('view');
+  else u.searchParams.set('view', f);
+  history.pushState({}, '', u);
+}
+
+function resolveKey(f) {
+  return f === 'tech' ? 'tech' : 'games';
+}
+
+// ── BUILD ACCORDION ──────────────────────────────────────────
+
+function buildAccordion() {
+  const root = document.getElementById('accordion');
+  PROJECTS.forEach((p, i) => {
+    const panel = document.createElement('div');
+    panel.className = 'panel' + (i === 0 ? ' open' : '');
+    panel.id = 'p' + i;
+
+    panel.innerHTML = `
+      <div class="panel-fill" style="background:${p.color}"></div>
+
+      <div class="panel-spine">
+        <div class="spine-code">${p.code}</div>
+        <div class="spine-title">${p.title.toUpperCase()}</div>
+        <div class="spine-dot"></div>
+      </div>
+
+      <div class="panel-content" style="border-top: 3px solid ${p.color}">
+        <div class="c-header">
+          <div>
+            <div class="c-code">${p.code} // ${p.subtitle}</div>
+            <div class="c-title">${p.title}</div>
+            <div class="c-role js-role"></div>
+          </div>
+          <div class="c-right">
+            <div class="c-date">${p.date}</div>
+            <div class="c-status">${p.status}</div>
+          </div>
+        </div>
+
+        <div class="c-img" style="background:${p.color}18; border: 1px solid ${p.color}35">
+          <span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>
+        </div>
+
+        <div class="c-org">${p.org}</div>
+        <ul class="c-bullets js-bullets"></ul>
+        <div class="c-skills">
+          ${p.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+        </div>
+      </div>
+    `;
+
+    panel.addEventListener('click', () => {
+      if (!panel.classList.contains('open')) openPanel(i);
+    });
+
+    root.appendChild(panel);
+  });
+}
+
+function openPanel(idx) {
+  document.querySelectorAll('.panel').forEach((p, i) =>
+    p.classList.toggle('open', i === idx)
+  );
+}
+
+// ── APPLY FILTER ─────────────────────────────────────────────
+
+function applyFilter(f, push = true) {
+  document.querySelectorAll('.filter-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.filter === f)
+  );
+
+  document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
+
+  const key = resolveKey(f);
+  PROJECTS.forEach((p, i) => {
+    const panel = document.getElementById('p' + i);
+    if (!panel) return;
+    panel.querySelector('.js-role').textContent = p.roles[key];
+    panel.querySelector('.js-bullets').innerHTML =
+      p.bullets[key].map(b => `<li>${b}</li>`).join('');
+  });
+
+  if (push) pushParam(f);
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+
+buildAccordion();
+applyFilter(getParam(), false);
+
+document.querySelectorAll('.filter-btn').forEach(b =>
+  b.addEventListener('click', () => applyFilter(b.dataset.filter))
+);
+
+window.addEventListener('popstate', () => applyFilter(getParam(), false));
+</script>
+</body>
+</html>
