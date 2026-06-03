@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aleksandra Pavlova-Verevkina</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --bg:       #f2ece0;
-      --grid:     rgba(0, 0, 0, 0.055);
-      --grid-sz:  22px;
-      --ink:      #1a1814;
-      --ink-2:    #5c5850;
-      --ink-3:    #9e9890;
-      --border:   #d0cac0;
-      --surface:  #faf7f0;
-      --mustard:  #c4953a;
+      --bg: #f2ece0;
+      --grid: rgba(0, 0, 0, 0.055);
+      --grid-sz: 22px;
+      --ink: #1a1814;
+      --ink-2: #5c5850;
+      --ink-3: #9e9890;
+      --border: #d0cac0;
+      --surface: #faf7f0;
+      --mustard: #c4953a;
+      --soft-bg: #f1e3cf;
+      --soft-bd: #d7c2a5;
+      --soft-ink: #8a6a43;
+      --hard-bg: #e4ebf0;
+      --hard-bd: #b7c6d4;
+      --hard-ink: #475b6e;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      font-size: 110%;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'Space Grotesk', system-ui, sans-serif;
@@ -34,7 +53,9 @@
     }
 
     /* ── HEADER ── */
-    header { padding: 2.25rem 3rem 1.5rem; }
+    header {
+      padding: 2.25rem 3rem 1.5rem;
+    }
 
     .header-cols {
       display: grid;
@@ -42,11 +63,13 @@
       gap: 2.5rem;
       align-items: start;
     }
+
     .header-center {
       display: flex;
       justify-content: center;
       padding-top: 1.5rem;
     }
+
     .header-right {
       display: flex;
       flex-direction: column;
@@ -79,7 +102,11 @@
       margin-top: 0.6rem;
     }
 
-    nav { display: flex; gap: 1.5rem; padding-bottom: 0.15rem; }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      padding-bottom: 0.15rem;
+    }
 
     nav a {
       font-family: 'Space Mono', monospace;
@@ -92,7 +119,11 @@
       padding-bottom: 1px;
       transition: color .18s, border-color .18s;
     }
-    nav a:hover { color: var(--mustard); border-color: var(--mustard); }
+
+    nav a:hover {
+      color: var(--mustard);
+      border-color: var(--mustard);
+    }
 
     /* ── FILTER BAR ── */
     .filter-bar {
@@ -115,8 +146,15 @@
       margin-bottom: -1px;
       transition: color .18s;
     }
-    .filter-btn:hover { color: var(--mustard); }
-    .filter-btn.active { color: var(--mustard); border-bottom-color: var(--mustard); }
+
+    .filter-btn:hover {
+      color: var(--mustard);
+    }
+
+    .filter-btn.active {
+      color: var(--mustard);
+      border-bottom-color: var(--mustard);
+    }
 
     /* ── PHOTO CLIP ── */
     .photo-clip {
@@ -124,13 +162,101 @@
       width: 224px;
       transform: rotate(-2.5deg) translateX(8px);
       transform-origin: top center;
-      filter: drop-shadow(3px 6px 14px rgba(0,0,0,0.14));
+      filter: drop-shadow(3px 6px 14px rgba(0, 0, 0, 0.14));
+      perspective: 900px;
     }
+
+    .photo-flip {
+      all: unset;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .photo-flip:focus-visible {
+      outline: 2px solid var(--mustard);
+      outline-offset: 4px;
+    }
+
+    .photo-card {
+      position: relative;
+      width: 100%;
+      display: block;
+      transform-style: preserve-3d;
+      transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .photo-clip:hover .photo-card,
+    .photo-flip:hover .photo-card,
+    .photo-flip:focus-visible .photo-card {
+      transform: rotateY(180deg);
+    }
+
+    .photo-face {
+      width: 100%;
+      height: 100%;
+      display: block;
+      backface-visibility: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+    }
+
+    .photo-front {
+      position: relative;
+      z-index: 1;
+    }
+
+    .photo-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem;
+    }
+
+    .note {
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 0.8rem;
+      background: repeating-linear-gradient(0deg,
+          rgba(0, 0, 0, 0.04) 0,
+          rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px,
+          transparent 14px);
+      font-family: 'Caveat', 'Space Mono', monospace;
+      color: var(--ink-2);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .note-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .note-text {
+      font-size: 0.95rem;
+      line-height: 1.25;
+    }
+
+    .note-sign {
+      margin-top: auto;
+      font-size: 0.95rem;
+      text-align: right;
+    }
+
     .photo-clip img {
       width: 100%;
       height: auto;
       display: block;
     }
+
     .paperclip {
       position: absolute;
       top: -22px;
@@ -141,14 +267,35 @@
     }
 
     @keyframes sway {
-      0%   { transform: rotate(-2.5deg) translateX(8px); }
-      18%  { transform: rotate(4.5deg)  translateX(8px); }
-      36%  { transform: rotate(-5.5deg) translateX(8px); }
-      54%  { transform: rotate(3deg)    translateX(8px); }
-      72%  { transform: rotate(-3.5deg) translateX(8px); }
-      88%  { transform: rotate(-2deg)   translateX(8px); }
-      100% { transform: rotate(-2.5deg) translateX(8px); }
+      0% {
+        transform: rotate(-2.5deg) translateX(8px);
+      }
+
+      18% {
+        transform: rotate(4.5deg) translateX(8px);
+      }
+
+      36% {
+        transform: rotate(-5.5deg) translateX(8px);
+      }
+
+      54% {
+        transform: rotate(3deg) translateX(8px);
+      }
+
+      72% {
+        transform: rotate(-3.5deg) translateX(8px);
+      }
+
+      88% {
+        transform: rotate(-2deg) translateX(8px);
+      }
+
+      100% {
+        transform: rotate(-2.5deg) translateX(8px);
+      }
     }
+
     .photo-clip.swaying {
       animation: sway 0.9s cubic-bezier(.4, 0, .2, 1);
     }
@@ -165,6 +312,7 @@
       color: var(--ink-2);
       max-width: 580px;
     }
+
     .bio-meta {
       margin-top: 0.7rem;
       font-family: 'Space Mono', monospace;
@@ -184,7 +332,9 @@
     }
 
     /* ── ACCORDION ── */
-    .accordion-wrap { padding: 0 3rem 3rem; }
+    .accordion-wrap {
+      padding: 0 3rem 3rem;
+    }
 
     .accordion {
       display: flex;
@@ -202,10 +352,17 @@
       overflow: hidden;
       cursor: pointer;
       transition: flex .52s cubic-bezier(.4, 0, .2, 1);
-      border-right: 1px solid rgba(0,0,0,.07);
+      border-right: 1px solid rgba(0, 0, 0, .07);
     }
-    .panel:last-child { border-right: none; }
-    .panel.open { flex: 1; cursor: default; }
+
+    .panel:last-child {
+      border-right: none;
+    }
+
+    .panel.open {
+      flex: 1;
+      cursor: default;
+    }
 
     /* color fill (solid when collapsed, hidden behind content when open) */
     .panel-fill {
@@ -228,29 +385,35 @@
       transition: opacity .15s;
       pointer-events: none;
     }
-    .panel.open .panel-spine { opacity: 0; }
+
+    .panel.open .panel-spine {
+      opacity: 0;
+    }
 
     .spine-code {
       font-family: 'Space Mono', monospace;
       font-size: 0.48rem;
       letter-spacing: 0.1em;
-      color: rgba(255,255,255,.5);
+      color: rgba(255, 255, 255, .5);
       writing-mode: vertical-rl;
       transform: rotate(180deg);
     }
+
     .spine-title {
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.05em;
-      color: rgba(255,255,255,.92);
+      color: rgba(255, 255, 255, .92);
       writing-mode: vertical-rl;
       transform: rotate(180deg);
       white-space: nowrap;
     }
+
     .spine-dot {
-      width: 5px; height: 5px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      background: rgba(255,255,255,.3);
+      background: rgba(255, 255, 255, .3);
     }
 
     /* ── CONTENT (expanded) ── */
@@ -266,15 +429,27 @@
       overflow-x: hidden;
       background: var(--surface);
       background-image:
-        linear-gradient(rgba(0,0,0,.038) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,.038) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, .038) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, .038) 1px, transparent 1px);
       background-size: 20px 20px;
     }
-    .panel.open .panel-content { opacity: 1; pointer-events: all; }
 
-    .panel-content::-webkit-scrollbar { width: 3px; }
-    .panel-content::-webkit-scrollbar-track { background: transparent; }
-    .panel-content::-webkit-scrollbar-thumb { background: var(--border); }
+    .panel.open .panel-content {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .panel-content::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .panel-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .panel-content::-webkit-scrollbar-thumb {
+      background: var(--border);
+    }
 
     .c-header {
       display: flex;
@@ -285,6 +460,7 @@
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--border);
     }
+
     .c-code {
       font-family: 'Space Mono', monospace;
       font-size: 0.56rem;
@@ -293,12 +469,14 @@
       color: var(--ink-3);
       margin-bottom: 0.3rem;
     }
+
     .c-title {
       font-size: 1.45rem;
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.1;
     }
+
     .c-role {
       font-family: 'Space Mono', monospace;
       font-size: 0.58rem;
@@ -306,7 +484,12 @@
       color: var(--ink-2);
       margin-top: 0.4rem;
     }
-    .c-right { text-align: right; flex-shrink: 0; }
+
+    .c-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
     .c-date {
       font-family: 'Space Mono', monospace;
       font-size: 0.56rem;
@@ -314,6 +497,7 @@
       color: var(--ink-3);
       white-space: nowrap;
     }
+
     .c-status {
       font-family: 'Space Mono', monospace;
       font-size: 0.5rem;
@@ -332,6 +516,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .c-img-lbl {
       font-family: 'Space Mono', monospace;
       font-size: 0.52rem;
@@ -348,7 +533,11 @@
       margin-bottom: 0.85rem;
     }
 
-    .c-bullets { list-style: none; margin-bottom: 1.2rem; }
+    .c-bullets {
+      list-style: none;
+      margin-bottom: 1.2rem;
+    }
+
     .c-bullets li {
       display: flex;
       gap: 0.55rem;
@@ -358,6 +547,7 @@
       padding: 0.42rem 0;
       border-bottom: 1px solid var(--border);
     }
+
     .c-bullets li::before {
       content: '—';
       color: var(--ink-3);
@@ -367,18 +557,36 @@
       margin-top: 0.07em;
     }
 
-    .c-skills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .c-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
     .skill-tag {
       font-family: 'Space Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 1rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-3);
+      /* background: var(--soft-bg); */
       border: 1px solid var(--border);
-      padding: 0.18rem 0.52rem;
+      padding: 0.28rem 0.7rem;
       transition: color .15s, border-color .15s;
     }
-    .skill-tag:hover { color: var(--ink); border-color: var(--ink-3); }
+
+    .skill-tag.soft {
+      border-color: var(--soft-bd);
+    }
+
+    .skill-tag.hard {
+      border-color: var(--hard-bd);
+    }
+
+    .skill-tag:hover {
+      color: var(--ink);
+      border-color: var(--ink-3);
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -389,6 +597,7 @@
       align-items: center;
       gap: 2rem;
     }
+
     .footer-name {
       font-family: 'Space Mono', monospace;
       font-size: 0.56rem;
@@ -396,7 +605,12 @@
       text-transform: uppercase;
       color: var(--ink-3);
     }
-    .footer-links { display: flex; gap: 1.5rem; }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
     .footer-links a {
       font-family: 'Space Mono', monospace;
       font-size: 0.56rem;
@@ -405,256 +619,338 @@
       text-decoration: none;
       transition: color .15s;
     }
-    .footer-links a:hover { color: var(--ink); }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
 
     /* ── MOBILE ── */
     @media (max-width: 767px) {
-      header { padding: 1.5rem 1.5rem 1rem; }
-      .header-cols { grid-template-columns: 1fr; gap: 1.25rem; }
-      .header-center { justify-content: flex-start; padding-top: 0; }
-      h1 { font-size: 2rem; }
-      .filter-bar, .sec-label, .accordion-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .hero { padding: 1.5rem; }
-      .photo-clip { width: 120px; transform: rotate(-2deg); }
+      header {
+        padding: 1.5rem 1.5rem 1rem;
+      }
+
+      .header-cols {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .header-center {
+        justify-content: flex-start;
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .filter-bar,
+      .sec-label,
+      .accordion-wrap {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .hero {
+        padding: 1.5rem;
+      }
+
+      .photo-clip {
+        width: 120px;
+        transform: rotate(-2deg);
+      }
 
       .accordion {
         flex-direction: column;
-        height: auto; max-height: none; min-height: auto;
+        height: auto;
+        max-height: none;
+        min-height: auto;
         gap: 8px;
       }
-      .panel { flex: none !important; height: auto; cursor: default; border-right: none; }
-      .panel-spine { display: none; }
-      .panel-fill { height: 3px; bottom: auto; }
+
+      .panel {
+        flex: none !important;
+        height: auto;
+        cursor: default;
+        border-right: none;
+      }
+
+      .panel-spine {
+        display: none;
+      }
+
+      .panel-fill {
+        height: 3px;
+        bottom: auto;
+      }
+
       .panel-content {
         position: static;
         opacity: 1 !important;
         pointer-events: all !important;
         transition: none;
       }
-      footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+
+      footer {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-cols">
-    <div class="header-left">
-      <div class="eyebrow">Portfolio Archive // 2024–2026</div>
-      <h1>Aleksandra<br>Pavlova-Verevkina</h1>
-      <div class="header-role">Junior PM · Producer · Game Development</div>
-    </div>
-    <div class="header-center">
-      <div class="photo-clip" id="photo-clip">
-        <div class="paperclip">
-          <svg width="22" height="54" viewBox="0 0 16 40" fill="none">
-            <path d="M8.5 3 C5 3 2.5 5 2.5 8.5 L2.5 31 C2.5 35 5 37 8.5 37 C12 37 14.5 35 14.5 31 L14.5 10.5 C14.5 7.5 12.5 6 10 6 C7.5 6 6 7.5 6 10.5 L6 29 C6 31.5 7 32.5 8.5 32.5"
-                  stroke="rgba(0,0,0,0.15)" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M8 2.5 C4.5 2.5 2 4.5 2 8 L2 30.5 C2 34.5 4.5 36.5 8 36.5 C11.5 36.5 14 34.5 14 30.5 L14 10 C14 7 12 5.5 9.5 5.5 C7 5.5 5.5 7 5.5 10 L5.5 28.5 C5.5 31 6.5 32 8 32"
-                  stroke="#b8b2aa" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M7.5 2.5 C4 2.5 1.5 4.5 1.5 8"
-                  stroke="rgba(255,255,255,0.55)" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
+  <header>
+    <div class="header-cols">
+      <div class="header-left">
+        <div class="eyebrow">Portfolio Archive // 2024–2026</div>
+        <h1>Aleksandra<br>Pavlova-Verevkina</h1>
+        <div class="header-role">Junior PM · Producer · Game Development</div>
+      </div>
+      <div class="header-center">
+        <div class="photo-clip" id="photo-clip">
+          <button class="photo-flip" id="photo-flip" type="button" aria-pressed="false"
+            aria-label="Flip photo to read note">
+            <span class="photo-card">
+              <span class="paperclip">
+                <svg width="22" height="54" viewBox="0 0 16 40" fill="none">
+                  <path
+                    d="M8.5 3 C5 3 2.5 5 2.5 8.5 L2.5 31 C2.5 35 5 37 8.5 37 C12 37 14.5 35 14.5 31 L14.5 10.5 C14.5 7.5 12.5 6 10 6 C7.5 6 6 7.5 6 10.5 L6 29 C6 31.5 7 32.5 8.5 32.5"
+                    stroke="rgba(0,0,0,0.15)" stroke-width="2.2" stroke-linecap="round" />
+                  <path
+                    d="M8 2.5 C4.5 2.5 2 4.5 2 8 L2 30.5 C2 34.5 4.5 36.5 8 36.5 C11.5 36.5 14 34.5 14 30.5 L14 10 C14 7 12 5.5 9.5 5.5 C7 5.5 5.5 7 5.5 10 L5.5 28.5 C5.5 31 6.5 32 8 32"
+                    stroke="#b8b2aa" stroke-width="1.8" stroke-linecap="round" />
+                  <path d="M7.5 2.5 C4 2.5 1.5 4.5 1.5 8" stroke="rgba(255,255,255,0.55)" stroke-width="1.2"
+                    stroke-linecap="round" />
+                </svg>
+              </span>
+              <span class="photo-face photo-front">
+                <img src="photo.jpg" alt="Aleksandra Pavlova-Verevkina">
+              </span>
+              <span class="photo-face photo-back">
+                <span class="note">
+                  <span class="note-title">Hello!</span>
+                  <span class="note-text">Composed and organized, I keep plans clear but stay flexible when reality
+                    shifts. I can explain my choices and tradeoffs, and I aim to be a calming, steady presence for the
+                    team. Let's talk!</span>
+                  <span class="note-sign">— Aleksandra</span>
+                </span>
+              </span>
+            </span>
+          </button>
         </div>
-        <img src="photo.jpg" alt="Aleksandra Pavlova-Verevkina">
+      </div>
+      <div class="header-right">
+        <div class="c-skills js-header-skills"></div>
+        <nav>
+          <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank"
+            rel="noopener">LinkedIn</a>
+          <a href="mailto:alexpavlovaverevkina@gmail.com">Email</a>
+        </nav>
       </div>
     </div>
-    <div class="header-right">
-      <div class="c-skills js-header-skills"></div>
-      <nav>
-        <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="mailto:alexpavlovaverevkina@gmail.com">Email</a>
-      </nav>
+  </header>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
+    <button class="filter-btn" data-filter="tech">PM in Tech</button>
+  </div>
+
+  <div class="hero">
+    <p class="bio" id="hero-bio"></p>
+    <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
+  </div>
+
+  <div class="sec-label">Archive Log // 4 Projects</div>
+
+  <div class="accordion-wrap">
+    <div class="accordion" id="accordion"></div>
+  </div>
+
+  <footer>
+    <div class="footer-name">© Aleksandra Pavlova-Verevkina · 2026</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alexpavlovaverevkina@gmail.com">alexpavlovaverevkina@gmail.com</a>
+      <a href="tel:+46764443361">+46 76 444 33 61</a>
     </div>
-  </div>
-</header>
+  </footer>
 
-<div class="filter-bar">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
-  <button class="filter-btn" data-filter="tech">PM in Tech</button>
-</div>
+  <script>
+    // ── DATA ─────────────────────────────────────────────────────
 
-<div class="hero">
-  <p class="bio" id="hero-bio"></p>
-  <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
-</div>
+    const HERO = {
+      all: 'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 8 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
+      games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 8 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
+      tech: 'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
+    };
 
-<div class="sec-label">Archive Log // 4 Projects</div>
+    const PROJECTS = [
+      {
+        code: 'PROJ_001',
+        title: 'Life is a Highway',
+        subtitle: 'Thesis Game Project',
+        org: 'Uppsala University',
+        date: 'Jan 2026 — Present',
+        status: 'In Production',
+        color: '#b5a38e',
+        roles: {
+          games: 'Project Manager & Researcher',
+          tech: 'Solo Producer & PM'
+        },
+        bullets: {
+          games: [
+            'Single-player stylized PC driving game built in Unity — core mechanic: a hyperbolized hand extending from the window to pick up and deliver items between moving cars.',
+            'Managing full production cycle independently from pre-production through current alpha builds, under remote academic supervision.',
+            'Conducting structured playtesting sessions; collecting quantitative and qualitative data to validate design hypotheses.',
+            'Analyzing playtest data for frustration, comedic impact, and session length — applying ROTI methodology to impediment prioritization.'
+          ],
+          tech: [
+            'Solo-producing a software product end-to-end — full ownership of scope, timeline, and delivery in a remote-supervised environment.',
+            'Designing and executing structured user research sessions; collecting mixed-method data to validate product hypotheses iteratively.',
+            'Applying data analysis to measure user engagement and task friction — using ROTI to prioritize blockers by output impact.',
+            'Managing the complete development lifecycle: scoping, sprint planning, iterative builds, and milestone reporting.'
+          ]
+        },
+        skills: ['Unity', 'User Research', 'Data Analysis', 'Project Management', 'Game Design']
+      },
+      {
+        code: 'PROJ_002',
+        title: 'Hauntel Management',
+        subtitle: 'Cooperative Management Game',
+        org: 'Uppsala University · Gotland Game Conference 2025',
+        date: 'Jan 2025 — Jul 2025',
+        status: 'Released',
+        color: '#5c7591',
+        roles: {
+          games: 'Producer, Sound Designer & Game Designer',
+          tech: 'Producer & Project Manager'
+        },
+        bullets: {
+          games: [
+            'Led a cross-functional team through full alpha-to-beta production for a cooperative management game shown at Gotland Game Conference 2025.',
+            'Set sprint goals, managed production timelines, and tracked tasks in Jira across remote and on-site workflows.',
+            'Drove design decisions from playtesting and analytics to refine gameplay loops, player retention mechanics, and in-game economy.',
+            'Developed commercial strategy: market positioning, competitive analysis, and financial projections for Early Access launch and long-term monetization.',
+            'Coordinated integration of sound design, level mapping, AI behavior, and networked multiplayer — QA enforced at every milestone.'
+          ],
+          tech: [
+            'Led a cross-functional software team through a full product cycle — from scoping and sprint planning through beta and public release.',
+            'Owned the Jira backlog: sprint goals, task prioritization, milestone tracking, and blocker management across a hybrid remote/on-site team.',
+            'Made data-driven product decisions using user testing and analytics to optimize core loops, retention, and feature priority.',
+            'Built go-to-market strategy: competitive analysis, market positioning, and financial projections structured for launch and long-term growth.',
+            'Coordinated cross-disciplinary integration (audio, systems, AI, networking) — owned quality control from feature delivery to milestone sign-off.'
+          ]
+        },
+        skills: ['Jira', 'Agile', 'Team Leadership', 'Game Design', 'Sound Design', 'Market Analysis']
+      },
+      {
+        code: 'PROJ_003',
+        title: 'The Antiquarian',
+        subtitle: '3-Year Production Plan',
+        org: 'Uppsala University',
+        date: 'Sep 2024 — Jan 2025',
+        status: 'Completed',
+        color: '#8a6e4a',
+        roles: {
+          games: 'Producer',
+          tech: 'Producer & Business Analyst'
+        },
+        bullets: {
+          games: [
+            'Created a full 3-year business plan for a cozy shopkeeping game: sales projections, DLC revenue strategies, financial forecasting — break-even modeled at 71,000 units.',
+            'Managed production timelines and coordinated an interdisciplinary team using Jira and Agile — all milestones met.',
+            'Conducted competitive analysis, market research, and player persona development to inform marketing and monetization strategy.',
+            'Presented production plan and financial forecasts to a simulated investor audience — strong feedback for clarity and analytical depth.'
+          ],
+          tech: [
+            'Authored a 3-year product roadmap and financial model: revenue projections, monetization strategy, and break-even analysis (71,000 units).',
+            'Coordinated an interdisciplinary team through milestone delivery using Jira and Agile — on time and to scope.',
+            'Conducted market research, competitive landscape analysis, and user persona development to ground product strategy in evidence.',
+            'Delivered an investor-facing pitch with full financial forecasts — recognized for analytical depth and presentation clarity.'
+          ]
+        },
+        skills: ['Business Planning', 'Financial Analysis', 'Market Research', 'Jira', 'Stakeholder Communication']
+      },
+      {
+        code: 'PROJ_004',
+        title: 'Splish-Splash Submarine',
+        subtitle: "Retro Shoot 'em Up",
+        org: 'Uppsala University · Published on itch.io',
+        date: 'Jan 2024 — Mar 2024',
+        status: 'Published',
+        color: '#3c4a5a',
+        roles: {
+          games: 'Project Manager & Sound Designer',
+          tech: 'Project Manager'
+        },
+        bullets: {
+          games: [
+            'Managed a 7-person cross-functional team through full production in 10 weeks: planning, prototyping, playtesting, and release using Jira.',
+            'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve retention, and balance gameplay.',
+            'Introduced and taught Agile practices to the team — facilitated daily stand-ups, sprint planning, and retrospectives.',
+            'Owned the itch.io project page, market positioning, and progress presentations to faculty stakeholders.'
+          ],
+          tech: [
+            'Managed a 7-person cross-functional software team through a 10-week end-to-end release cycle using Scrum in Jira.',
+            'Gathered and synthesized feedback from 50+ user testing sessions to drive iterative product improvements and feature prioritization.',
+            'Onboarded and mentored team members on Agile methodology — introduced stand-ups, sprint reviews, and retros for a team with no prior Agile experience.',
+            'Owned the product page, release communication, and stakeholder progress presentations throughout the lifecycle.'
+          ]
+        },
+        skills: ['Scrum', 'Jira', 'Team Leadership', 'Agile', 'Game Production', 'Sound Design']
+      }
+    ];
 
-<div class="accordion-wrap">
-  <div class="accordion" id="accordion"></div>
-</div>
+    const HEADER_SKILLS = {
+      all: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
+      games: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
+      tech: ['Scrum', 'Kanban', 'LEAN', 'Jira', 'Sprint Planning', 'Risk Management', 'Stakeholder Comm.', 'KPI Tracking', 'Financial Analysis', 'Data Analysis']
+    };
 
-<footer>
-  <div class="footer-name">© Aleksandra Pavlova-Verevkina · 2026</div>
-  <div class="footer-links">
-    <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:alexpavlovaverevkina@gmail.com">alexpavlovaverevkina@gmail.com</a>
-    <a href="tel:+46764443361">+46 76 444 33 61</a>
-  </div>
-</footer>
+    const SOFT_SKILLS = new Set([
+      'Team Leadership',
+      'Stakeholder Communication',
+      'Stakeholder Comm.'
+    ]);
 
-<script>
-// ── DATA ─────────────────────────────────────────────────────
+    // ── HELPERS ──────────────────────────────────────────────────
 
-const HERO = {
-  all:   'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 8 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
-  games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 8 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
-  tech:  'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
-};
+    function getParam() {
+      const v = new URLSearchParams(location.search).get('view');
+      return ['games', 'tech'].includes(v) ? v : 'all';
+    }
 
-const PROJECTS = [
-  {
-    code:     'PROJ_001',
-    title:    'Life is a Highway',
-    subtitle: 'Thesis Game Project',
-    org:      'Uppsala University',
-    date:     'Jan 2026 — Present',
-    status:   'In Production',
-    color:    '#b5a38e',
-    roles: {
-      games: 'Project Manager & Researcher',
-      tech:  'Solo Producer & PM'
-    },
-    bullets: {
-      games: [
-        'Single-player stylized PC driving game built in Unity — core mechanic: a hyperbolized hand extending from the window to pick up and deliver items between moving cars.',
-        'Managing full production cycle independently from pre-production through current alpha builds, under remote academic supervision.',
-        'Conducting structured playtesting sessions; collecting quantitative and qualitative data to validate design hypotheses.',
-        'Analyzing playtest data for frustration, comedic impact, and session length — applying ROTI methodology to impediment prioritization.'
-      ],
-      tech: [
-        'Solo-producing a software product end-to-end — full ownership of scope, timeline, and delivery in a remote-supervised environment.',
-        'Designing and executing structured user research sessions; collecting mixed-method data to validate product hypotheses iteratively.',
-        'Applying data analysis to measure user engagement and task friction — using ROTI to prioritize blockers by output impact.',
-        'Managing the complete development lifecycle: scoping, sprint planning, iterative builds, and milestone reporting.'
-      ]
-    },
-    skills: ['Unity', 'User Research', 'Data Analysis', 'Project Management', 'Game Design']
-  },
-  {
-    code:     'PROJ_002',
-    title:    'Hauntel Management',
-    subtitle: 'Cooperative Management Game',
-    org:      'Uppsala University · Gotland Game Conference 2025',
-    date:     'Jan 2025 — Jul 2025',
-    status:   'Released',
-    color:    '#5c7591',
-    roles: {
-      games: 'Producer, Sound Designer & Game Designer',
-      tech:  'Producer & Project Manager'
-    },
-    bullets: {
-      games: [
-        'Led a cross-functional team through full alpha-to-beta production for a cooperative management game shown at Gotland Game Conference 2025.',
-        'Set sprint goals, managed production timelines, and tracked tasks in Jira across remote and on-site workflows.',
-        'Drove design decisions from playtesting and analytics to refine gameplay loops, player retention mechanics, and in-game economy.',
-        'Developed commercial strategy: market positioning, competitive analysis, and financial projections for Early Access launch and long-term monetization.',
-        'Coordinated integration of sound design, level mapping, AI behavior, and networked multiplayer — QA enforced at every milestone.'
-      ],
-      tech: [
-        'Led a cross-functional software team through a full product cycle — from scoping and sprint planning through beta and public release.',
-        'Owned the Jira backlog: sprint goals, task prioritization, milestone tracking, and blocker management across a hybrid remote/on-site team.',
-        'Made data-driven product decisions using user testing and analytics to optimize core loops, retention, and feature priority.',
-        'Built go-to-market strategy: competitive analysis, market positioning, and financial projections structured for launch and long-term growth.',
-        'Coordinated cross-disciplinary integration (audio, systems, AI, networking) — owned quality control from feature delivery to milestone sign-off.'
-      ]
-    },
-    skills: ['Jira', 'Agile', 'Team Leadership', 'Game Design', 'Sound Design', 'Market Analysis']
-  },
-  {
-    code:     'PROJ_003',
-    title:    'The Antiquarian',
-    subtitle: '3-Year Production Plan',
-    org:      'Uppsala University',
-    date:     'Sep 2024 — Jan 2025',
-    status:   'Completed',
-    color:    '#8a6e4a',
-    roles: {
-      games: 'Producer',
-      tech:  'Producer & Business Analyst'
-    },
-    bullets: {
-      games: [
-        'Created a full 3-year business plan for a cozy shopkeeping game: sales projections, DLC revenue strategies, financial forecasting — break-even modeled at 71,000 units.',
-        'Managed production timelines and coordinated an interdisciplinary team using Jira and Agile — all milestones met.',
-        'Conducted competitive analysis, market research, and player persona development to inform marketing and monetization strategy.',
-        'Presented production plan and financial forecasts to a simulated investor audience — strong feedback for clarity and analytical depth.'
-      ],
-      tech: [
-        'Authored a 3-year product roadmap and financial model: revenue projections, monetization strategy, and break-even analysis (71,000 units).',
-        'Coordinated an interdisciplinary team through milestone delivery using Jira and Agile — on time and to scope.',
-        'Conducted market research, competitive landscape analysis, and user persona development to ground product strategy in evidence.',
-        'Delivered an investor-facing pitch with full financial forecasts — recognized for analytical depth and presentation clarity.'
-      ]
-    },
-    skills: ['Business Planning', 'Financial Analysis', 'Market Research', 'Jira', 'Stakeholder Communication']
-  },
-  {
-    code:     'PROJ_004',
-    title:    'Splish-Splash Submarine',
-    subtitle: "Retro Shoot 'em Up",
-    org:      'Uppsala University · Published on itch.io',
-    date:     'Jan 2024 — Mar 2024',
-    status:   'Published',
-    color:    '#3c4a5a',
-    roles: {
-      games: 'Project Manager & Sound Designer',
-      tech:  'Project Manager'
-    },
-    bullets: {
-      games: [
-        'Managed a 7-person cross-functional team through full production in 10 weeks: planning, prototyping, playtesting, and release using Jira.',
-        'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve retention, and balance gameplay.',
-        'Introduced and taught Agile practices to the team — facilitated daily stand-ups, sprint planning, and retrospectives.',
-        'Owned the itch.io project page, market positioning, and progress presentations to faculty stakeholders.'
-      ],
-      tech: [
-        'Managed a 7-person cross-functional software team through a 10-week end-to-end release cycle using Scrum in Jira.',
-        'Gathered and synthesized feedback from 50+ user testing sessions to drive iterative product improvements and feature prioritization.',
-        'Onboarded and mentored team members on Agile methodology — introduced stand-ups, sprint reviews, and retros for a team with no prior Agile experience.',
-        'Owned the product page, release communication, and stakeholder progress presentations throughout the lifecycle.'
-      ]
-    },
-    skills: ['Scrum', 'Jira', 'Team Leadership', 'Agile', 'Game Production', 'Sound Design']
-  }
-];
+    function pushParam(f) {
+      const u = new URL(location.href);
+      if (f === 'all') u.searchParams.delete('view');
+      else u.searchParams.set('view', f);
+      history.pushState({}, '', u);
+    }
 
-const HEADER_SKILLS = {
-  all:   ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
-  games: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
-  tech:  ['Scrum', 'Kanban', 'LEAN', 'Jira', 'Sprint Planning', 'Risk Management', 'Stakeholder Comm.', 'KPI Tracking', 'Financial Analysis', 'Data Analysis']
-};
+    function resolveKey(f) {
+      return f === 'tech' ? 'tech' : 'games';
+    }
 
-// ── HELPERS ──────────────────────────────────────────────────
+    function renderSkillTag(skill) {
+      const type = SOFT_SKILLS.has(skill) ? 'soft' : 'hard';
+      return `<span class="skill-tag ${type}">${skill}</span>`;
+    }
 
-function getParam() {
-  const v = new URLSearchParams(location.search).get('view');
-  return ['games', 'tech'].includes(v) ? v : 'all';
-}
+    // ── BUILD ACCORDION ──────────────────────────────────────────
 
-function pushParam(f) {
-  const u = new URL(location.href);
-  if (f === 'all') u.searchParams.delete('view');
-  else u.searchParams.set('view', f);
-  history.pushState({}, '', u);
-}
+    function buildAccordion() {
+      const root = document.getElementById('accordion');
+      PROJECTS.forEach((p, i) => {
+        const panel = document.createElement('div');
+        panel.className = 'panel' + (i === 0 ? ' open' : '');
+        panel.id = 'p' + i;
 
-function resolveKey(f) {
-  return f === 'tech' ? 'tech' : 'games';
-}
-
-// ── BUILD ACCORDION ──────────────────────────────────────────
-
-function buildAccordion() {
-  const root = document.getElementById('accordion');
-  PROJECTS.forEach((p, i) => {
-    const panel = document.createElement('div');
-    panel.className = 'panel' + (i === 0 ? ' open' : '');
-    panel.id = 'p' + i;
-
-    panel.innerHTML = `
+        panel.innerHTML = `
       <div class="panel-fill" style="background:${p.color}"></div>
 
       <div class="panel-spine">
@@ -683,68 +979,70 @@ function buildAccordion() {
         <div class="c-org">${p.org}</div>
         <ul class="c-bullets js-bullets"></ul>
         <div class="c-skills">
-          ${p.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+          ${p.skills.map(s => renderSkillTag(s)).join('')}
         </div>
       </div>
     `;
 
-    panel.addEventListener('click', () => {
-      if (!panel.classList.contains('open')) openPanel(i);
-    });
+        panel.addEventListener('click', () => {
+          if (!panel.classList.contains('open')) openPanel(i);
+        });
 
-    root.appendChild(panel);
-  });
-}
+        root.appendChild(panel);
+      });
+    }
 
-function openPanel(idx) {
-  document.querySelectorAll('.panel').forEach((p, i) =>
-    p.classList.toggle('open', i === idx)
-  );
-  const clip = document.getElementById('photo-clip');
-  if (clip) {
-    clip.classList.remove('swaying');
-    void clip.offsetWidth;
-    clip.classList.add('swaying');
-  }
-}
+    function openPanel(idx) {
+      document.querySelectorAll('.panel').forEach((p, i) =>
+        p.classList.toggle('open', i === idx)
+      );
+      const clip = document.getElementById('photo-clip');
+      if (clip) {
+        clip.classList.remove('swaying');
+        void clip.offsetWidth;
+        clip.classList.add('swaying');
+      }
+    }
 
-// ── APPLY FILTER ─────────────────────────────────────────────
+    // ── APPLY FILTER ─────────────────────────────────────────────
 
-function applyFilter(f, push = true) {
-  document.querySelectorAll('.filter-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.filter === f)
-  );
+    function applyFilter(f, push = true) {
+      document.querySelectorAll('.filter-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.filter === f)
+      );
 
-  document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
+      document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
 
-  const headerSkills = document.querySelector('.js-header-skills');
-  if (headerSkills) {
-    headerSkills.innerHTML = (HEADER_SKILLS[f] || HEADER_SKILLS.all)
-      .map(s => `<span class="skill-tag">${s}</span>`).join('');
-  }
+      const headerSkills = document.querySelector('.js-header-skills');
+      if (headerSkills) {
+        headerSkills.innerHTML = (HEADER_SKILLS[f] || HEADER_SKILLS.all)
+          .map(s => renderSkillTag(s)).join('');
+      }
 
-  const key = resolveKey(f);
-  PROJECTS.forEach((p, i) => {
-    const panel = document.getElementById('p' + i);
-    if (!panel) return;
-    panel.querySelector('.js-role').textContent = p.roles[key];
-    panel.querySelector('.js-bullets').innerHTML =
-      p.bullets[key].map(b => `<li>${b}</li>`).join('');
-  });
+      const key = resolveKey(f);
+      PROJECTS.forEach((p, i) => {
+        const panel = document.getElementById('p' + i);
+        if (!panel) return;
+        panel.querySelector('.js-role').textContent = p.roles[key];
+        panel.querySelector('.js-bullets').innerHTML =
+          p.bullets[key].map(b => `<li>${b}</li>`).join('');
+      });
 
-  if (push) pushParam(f);
-}
+      if (push) pushParam(f);
+    }
 
-// ── INIT ─────────────────────────────────────────────────────
+    // ── INIT ─────────────────────────────────────────────────────
 
-buildAccordion();
-applyFilter(getParam(), false);
+    buildAccordion();
+    applyFilter(getParam(), false);
 
-document.querySelectorAll('.filter-btn').forEach(b =>
-  b.addEventListener('click', () => applyFilter(b.dataset.filter))
-);
+    document.querySelectorAll('.filter-btn').forEach(b =>
+      b.addEventListener('click', () => applyFilter(b.dataset.filter))
+    );
 
-window.addEventListener('popstate', () => applyFilter(getParam(), false));
-</script>
+    window.addEventListener('popstate', () => applyFilter(getParam(), false));
+
+  </script>
 </body>
+
 </html>
