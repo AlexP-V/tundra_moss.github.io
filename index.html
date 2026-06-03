@@ -96,10 +96,23 @@
 
     .header-role {
       font-family: 'Space Mono', monospace;
-      font-size: 0.66rem;
+      font-size: 0.79rem;
       letter-spacing: 0.06em;
-      color: var(--ink-2);
+      color: var(--ink);
       margin-top: 0.6rem;
+      display: inline-block;
+      background: linear-gradient(
+        103deg,
+        transparent 1.8%,
+        rgba(255, 228, 25, 0.497) 2.4%,
+        rgba(255, 224, 15, 0.72) 38%,
+        rgba(255, 231, 28, 0.83) 63%,
+        rgba(255, 223, 18, 0.354) 96.5%,
+        transparent 97.5%
+      );
+      padding: 0.08em 0.22em 0.06em;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
     }
 
     nav {
@@ -134,7 +147,7 @@
 
     .filter-btn {
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.72rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--ink-3);
@@ -624,6 +637,154 @@
       color: var(--ink);
     }
 
+    /* ── MILESTONES FULL VIEW ── */
+    .hero-milestones-full:not([hidden]) {
+      display: grid;
+      grid-template-columns: calc((100vw - 11rem - 224px) / 2) 705px;
+      gap: 2.5rem;
+      position: relative;
+      align-items: start;
+    }
+
+    .ms-carousel-outer {
+      width: 705px;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .ms-carousel-outer:active {
+      cursor: grabbing;
+    }
+
+    .ms-track {
+      display: flex;
+      gap: 80px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .ms-item {
+      flex: 0 0 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      opacity: 0.3;
+      transition: opacity 0.4s ease;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .ms-item.ms-active {
+      opacity: 1;
+      cursor: default;
+    }
+
+    .ms-stamp {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .ms-stamp-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .ms-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      color: var(--ink-2);
+      text-align: center;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .ms-info {
+      min-width: 0;
+    }
+
+    .hero--milestones {
+      max-width: none;
+    }
+
+    .ms-info-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 0.5rem;
+      transition: opacity 0.2s;
+    }
+
+    .ms-info-title {
+      font-size: 0.88rem;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+      transition: opacity 0.2s;
+    }
+
+    .ms-info-title.ms-fade,
+    .ms-info-date.ms-fade {
+      opacity: 0;
+    }
+
+    .ms-nav {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ms-nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.25s, transform 0.2s;
+    }
+
+    .ms-nav-dot.ms-nav-dot--active {
+      background: #7B2340;
+      transform: scale(1.25);
+    }
+
+    /* ── MILESTONES FILTER BTN ── */
+    .filter-btn--milestones {
+      color: #7B2340;
+      opacity: 0.55;
+    }
+
+    .filter-btn--milestones:hover {
+      color: #7B2340;
+      opacity: 1;
+    }
+
+    .filter-btn--milestones.active {
+      color: #7B2340;
+      opacity: 1;
+      border-bottom-color: #7B2340;
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 767px) {
       header {
@@ -653,6 +814,23 @@
 
       .hero {
         padding: 1.5rem;
+      }
+
+      .hero-milestones-full:not([hidden]) {
+        display: flex;
+        flex-wrap: wrap;
+        grid-template-columns: none;
+        position: static;
+        gap: 1.25rem;
+      }
+
+      .ms-nav {
+        position: static;
+      }
+
+      .ms-carousel-outer {
+        width: 100%;
+        max-width: 470px;
       }
 
       .photo-clip {
@@ -758,11 +936,24 @@
     <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
     <button class="filter-btn" data-filter="tech">PM in Tech</button>
+    <button class="filter-btn filter-btn--milestones" data-filter="milestones">Milestones</button>
   </div>
 
   <div class="hero">
-    <p class="bio" id="hero-bio"></p>
-    <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
+    <div id="hero-content">
+      <p class="bio" id="hero-bio"></p>
+      <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
+    </div>
+    <div class="hero-milestones-full" id="hero-milestones-full" hidden>
+      <div class="ms-info" id="ms-info">
+        <div class="ms-info-date" id="ms-info-date"></div>
+        <div class="ms-info-title" id="ms-info-title"></div>
+      </div>
+      <div class="ms-carousel-outer" id="ms-carousel-outer">
+        <div class="ms-track" id="ms-track"></div>
+      </div>
+      <nav class="ms-nav" id="ms-nav" aria-label="Milestone navigation"></nav>
+    </div>
   </div>
 
   <div class="sec-label">Archive Log // 4 Projects</div>
@@ -781,6 +972,186 @@
   </footer>
 
   <script>
+    // ── MILESTONES ───────────────────────────────────────────────
+
+    const MS_PLACEHOLDER = 'Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text.';
+
+    const MILESTONES = [
+      { title: "Bachelor's in Game Design and Project Management", date: "June 2026",  body: MS_PLACEHOLDER },
+      { title: "Untitled Driving Game Prototype",                   date: "May 2026",   body: MS_PLACEHOLDER },
+      { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025", body: MS_PLACEHOLDER },
+      { title: 'Published "Splish-Splash Submarine" on itch.io',   date: "March 2024", body: MS_PLACEHOLDER },
+      { title: "Enrolled at Uppsala University",                    date: "September 2022", body: MS_PLACEHOLDER }
+    ];
+
+    const MS_STAMP_W = 130;
+    const MS_GAP = 80;
+    const MS_STEP = MS_STAMP_W + MS_GAP; // 210
+    const MS_CONTAINER_W = 705;
+    const MS_OFFSET = Math.round((MS_CONTAINER_W - MS_STAMP_W) / 2); // 288
+
+    // Infinite loop: render several repeated copies of the milestones and keep
+    // the active slot inside the middle copy, snapping back invisibly at the edges.
+    const MS_N = MILESTONES.length;
+    const MS_COPIES = 9;                 // odd, so there is a true middle copy
+    const MS_TOTAL = MS_N * MS_COPIES;
+    const MS_BASE = Math.floor(MS_COPIES / 2) * MS_N; // first index of middle copy
+    const MS_INITIAL = 2;               // milestone centred on load
+
+    // `pos` is the rendered-item index currently centred; data index = pos mod N.
+    const MS_STATE = { pos: MS_BASE + MS_INITIAL };
+    let msNavToken = 0;
+
+    function msData(pos) { return ((pos % MS_N) + MS_N) % MS_N; }
+
+    function msSetStyling(pos) {
+      const track = document.getElementById('ms-track');
+      const nav = document.getElementById('ms-nav');
+      if (!track || !nav) return;
+      track.querySelectorAll('.ms-item').forEach((item, i) =>
+        item.classList.toggle('ms-active', i === pos)
+      );
+      const di = msData(pos);
+      nav.querySelectorAll('.ms-nav-dot').forEach((dot, i) =>
+        dot.classList.toggle('ms-nav-dot--active', i === di)
+      );
+    }
+
+    function buildMilestonesView() {
+      const track = document.getElementById('ms-track');
+      const nav = document.getElementById('ms-nav');
+      if (!track || !nav) return;
+
+      // Repeated milestone copies for seamless looping
+      for (let i = 0; i < MS_TOTAL; i++) {
+        const m = MILESTONES[msData(i)];
+        const item = document.createElement('div');
+        item.className = 'ms-item' + (i === MS_STATE.pos ? ' ms-active' : '');
+        item.innerHTML = `
+          <div class="ms-stamp">
+            <img src="Uppsala_University_logo.svg.png" alt="Uppsala University seal" class="ms-stamp-img" draggable="false"/>
+          </div>
+          <div class="ms-label">${m.title}</div>
+        `;
+        item.addEventListener('click', () => msGoTo(i));
+        track.appendChild(item);
+      }
+
+      // One nav dot per real milestone
+      MILESTONES.forEach((m, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'ms-nav-dot' + (i === MS_INITIAL ? ' ms-nav-dot--active' : '');
+        dot.setAttribute('aria-label', `Milestone ${i + 1}: ${m.title}`);
+        dot.addEventListener('click', () => msGoToData(i));
+        nav.appendChild(dot);
+      });
+
+      // Initial position: centre active item
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${MS_OFFSET - MS_STATE.pos * MS_STEP}px)`;
+      track.offsetHeight; // force reflow
+      track.style.transition = '';
+
+      const titleEl = document.getElementById('ms-info-title');
+      const dateEl = document.getElementById('ms-info-date');
+      if (titleEl) titleEl.textContent = MILESTONES[msData(MS_STATE.pos)].body;
+      if (dateEl) dateEl.textContent = MILESTONES[msData(MS_STATE.pos)].date;
+
+      // Wheel scroll
+      const outer = document.getElementById('ms-carousel-outer');
+      let wheelLock = false;
+      outer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (wheelLock) return;
+        wheelLock = true;
+        setTimeout(() => { wheelLock = false; }, 620);
+        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (d > 0) msGoTo(MS_STATE.pos + 1);
+        else if (d < 0) msGoTo(MS_STATE.pos - 1);
+      }, { passive: false });
+
+      // Pointer drag
+      let dragStartX = null;
+      outer.addEventListener('pointerdown', (e) => {
+        dragStartX = e.clientX;
+        outer.setPointerCapture(e.pointerId);
+      });
+      outer.addEventListener('pointerup', (e) => {
+        if (dragStartX === null) return;
+        const dx = e.clientX - dragStartX;
+        dragStartX = null;
+        if (dx < -40) msGoTo(MS_STATE.pos + 1);
+        else if (dx > 40) msGoTo(MS_STATE.pos - 1);
+      });
+
+      // Arrow keys (only when milestones view visible)
+      document.addEventListener('keydown', (e) => {
+        const view = document.getElementById('hero-milestones-full');
+        if (!view || view.hidden) return;
+        if (e.key === 'ArrowRight') msGoTo(MS_STATE.pos + 1);
+        if (e.key === 'ArrowLeft') msGoTo(MS_STATE.pos - 1);
+      });
+    }
+
+    // Navigate to a milestone by its data index, taking the shortest looped path.
+    function msGoToData(dataIdx) {
+      let diff = dataIdx - msData(MS_STATE.pos);
+      while (diff > MS_N / 2) diff -= MS_N;
+      while (diff < -MS_N / 2) diff += MS_N;
+      msGoTo(MS_STATE.pos + diff);
+    }
+
+    // After the slide settles, jump (without transition) back to the middle copy.
+    // The rendered content repeats with period N, so the jump is visually invisible.
+    function msRecenter() {
+      const np = MS_BASE + msData(MS_STATE.pos);
+      if (np === MS_STATE.pos) return;
+      MS_STATE.pos = np;
+      const track = document.getElementById('ms-track');
+      if (!track) return;
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${MS_OFFSET - np * MS_STEP}px)`;
+      track.offsetHeight; // force reflow
+      track.style.transition = '';
+      msSetStyling(np);
+    }
+
+    function msGoTo(pos) {
+      if (pos === MS_STATE.pos) return;
+
+      MS_STATE.pos = pos;
+      const token = ++msNavToken;
+
+      const track = document.getElementById('ms-track');
+      if (!track) return;
+
+      track.style.transform = `translateX(${MS_OFFSET - pos * MS_STEP}px)`;
+
+      const titleEl = document.getElementById('ms-info-title');
+      const dateEl = document.getElementById('ms-info-date');
+      if (titleEl) titleEl.classList.add('ms-fade');
+      if (dateEl) dateEl.classList.add('ms-fade');
+
+      // Brighten the incoming stamp and reveal its paragraph at the same moment
+      setTimeout(() => {
+        if (token !== msNavToken) return;
+        msSetStyling(pos);
+        if (titleEl) {
+          titleEl.textContent = MILESTONES[msData(pos)].body;
+          titleEl.classList.remove('ms-fade');
+        }
+        if (dateEl) {
+          dateEl.textContent = MILESTONES[msData(pos)].date;
+          dateEl.classList.remove('ms-fade');
+        }
+      }, 200);
+
+      // Once the slide has finished, snap back to the middle copy
+      setTimeout(() => {
+        if (token === msNavToken) msRecenter();
+      }, 560);
+    }
+
     // ── DATA ─────────────────────────────────────────────────────
 
     const HERO = {
@@ -922,7 +1293,7 @@
 
     function getParam() {
       const v = new URLSearchParams(location.search).get('view');
-      return ['games', 'tech'].includes(v) ? v : 'all';
+      return ['games', 'tech', 'milestones'].includes(v) ? v : 'all';
     }
 
     function pushParam(f) {
@@ -1011,22 +1382,36 @@
         b.classList.toggle('active', b.dataset.filter === f)
       );
 
-      document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
+      const heroContent = document.getElementById('hero-content');
+      const heroMilestones = document.getElementById('hero-milestones-full');
 
-      const headerSkills = document.querySelector('.js-header-skills');
-      if (headerSkills) {
-        headerSkills.innerHTML = (HEADER_SKILLS[f] || HEADER_SKILLS.all)
-          .map(s => renderSkillTag(s)).join('');
+      const heroEl = document.querySelector('.hero');
+      if (f === 'milestones') {
+        if (heroContent) heroContent.hidden = true;
+        if (heroMilestones) heroMilestones.hidden = false;
+        heroEl?.classList.add('hero--milestones');
+      } else {
+        if (heroContent) heroContent.hidden = false;
+        if (heroMilestones) heroMilestones.hidden = true;
+        heroEl?.classList.remove('hero--milestones');
+
+        document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
+
+        const headerSkills = document.querySelector('.js-header-skills');
+        if (headerSkills) {
+          headerSkills.innerHTML = (HEADER_SKILLS[f] || HEADER_SKILLS.all)
+            .map(s => renderSkillTag(s)).join('');
+        }
+
+        const key = resolveKey(f);
+        PROJECTS.forEach((p, i) => {
+          const panel = document.getElementById('p' + i);
+          if (!panel) return;
+          panel.querySelector('.js-role').textContent = p.roles[key];
+          panel.querySelector('.js-bullets').innerHTML =
+            p.bullets[key].map(b => `<li>${b}</li>`).join('');
+        });
       }
-
-      const key = resolveKey(f);
-      PROJECTS.forEach((p, i) => {
-        const panel = document.getElementById('p' + i);
-        if (!panel) return;
-        panel.querySelector('.js-role').textContent = p.roles[key];
-        panel.querySelector('.js-bullets').innerHTML =
-          p.bullets[key].map(b => `<li>${b}</li>`).join('');
-      });
 
       if (push) pushParam(f);
     }
@@ -1034,6 +1419,7 @@
     // ── INIT ─────────────────────────────────────────────────────
 
     buildAccordion();
+    buildMilestonesView();
     applyFilter(getParam(), false);
 
     document.querySelectorAll('.filter-btn').forEach(b =>
