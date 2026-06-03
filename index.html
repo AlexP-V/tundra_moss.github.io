@@ -670,7 +670,6 @@
       align-items: center;
       gap: 0.65rem;
       opacity: 0.3;
-      transition: opacity 0.4s ease;
       cursor: pointer;
       user-select: none;
       -webkit-user-drag: none;
@@ -1004,6 +1003,59 @@
 
     function msData(pos) { return ((pos % MS_N) + MS_N) % MS_N; }
 
+    // ── OPACITY ENGINE ───────────────────────────────────────────
+    // Each stamp's opacity tracks how much of it sits inside the carousel
+    // area: 0 when fully outside, up to 0.3 when fully inside; the active
+    // stamp goes to 1. Driven per-frame so it eases as stamps slide in/out.
+
+    function msTargetOpacity(item, oRect) {
+      const r = item.getBoundingClientRect();
+      if (!r.width) return item.classList.contains('ms-active') ? 1 : 0;
+      const visible = Math.min(r.right, oRect.right) - Math.max(r.left, oRect.left);
+      const f = Math.max(0, Math.min(1, visible / r.width));
+      return item.classList.contains('ms-active') ? 1 : 0.3 * f;
+    }
+
+    // Snap every stamp straight to its target (no easing) — used on first
+    // layout and after the invisible recenter jump, to avoid a fade flash.
+    function msSnapOpacity() {
+      const outer = document.getElementById('ms-carousel-outer');
+      const track = document.getElementById('ms-track');
+      if (!outer || !track) return;
+      const oRect = outer.getBoundingClientRect();
+      track.querySelectorAll('.ms-item').forEach(item => {
+        const t = msTargetOpacity(item, oRect);
+        item._op = t;
+        item.style.opacity = t.toFixed(3);
+      });
+    }
+
+    let msRafId = 0;
+    let msAnimUntil = 0;
+
+    function msTick() {
+      const outer = document.getElementById('ms-carousel-outer');
+      const track = document.getElementById('ms-track');
+      if (!outer || !track) { msRafId = 0; return; }
+      const oRect = outer.getBoundingClientRect();
+      let moving = false;
+      track.querySelectorAll('.ms-item').forEach(item => {
+        const t = msTargetOpacity(item, oRect);
+        const cur = item._op === undefined ? t : item._op;
+        const next = cur + (t - cur) * 0.22;
+        if (Math.abs(t - cur) > 0.003) moving = true;
+        item._op = next;
+        item.style.opacity = next.toFixed(3);
+      });
+      msRafId = (moving || performance.now() < msAnimUntil)
+        ? requestAnimationFrame(msTick) : 0;
+    }
+
+    function msRunOpacity() {
+      msAnimUntil = performance.now() + 680; // cover the full slide
+      if (!msRafId) msRafId = requestAnimationFrame(msTick);
+    }
+
     function msSetStyling(pos) {
       const track = document.getElementById('ms-track');
       const nav = document.getElementById('ms-nav');
@@ -1051,6 +1103,7 @@
       track.style.transform = `translateX(${MS_OFFSET - MS_STATE.pos * MS_STEP}px)`;
       track.offsetHeight; // force reflow
       track.style.transition = '';
+      msSnapOpacity();
 
       const titleEl = document.getElementById('ms-info-title');
       const dateEl = document.getElementById('ms-info-date');
@@ -1114,6 +1167,7 @@
       track.offsetHeight; // force reflow
       track.style.transition = '';
       msSetStyling(np);
+      msSnapOpacity();
     }
 
     function msGoTo(pos) {
@@ -1126,6 +1180,7 @@
       if (!track) return;
 
       track.style.transform = `translateX(${MS_OFFSET - pos * MS_STEP}px)`;
+      msRunOpacity();
 
       const titleEl = document.getElementById('ms-info-title');
       const dateEl = document.getElementById('ms-info-date');
@@ -1390,6 +1445,7 @@
         if (heroContent) heroContent.hidden = true;
         if (heroMilestones) heroMilestones.hidden = false;
         heroEl?.classList.add('hero--milestones');
+        msSnapOpacity();
       } else {
         if (heroContent) heroContent.hidden = false;
         if (heroMilestones) heroMilestones.hidden = true;
