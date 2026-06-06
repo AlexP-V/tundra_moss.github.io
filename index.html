@@ -1670,6 +1670,48 @@
         skills: ['Unity', 'User Research', 'ROTI', 'Feature Prioritization', 'Team Leadership']
       },
       {
+        code: 'RSRCH_01',
+        title: 'Return on Time Invested',
+        subtitle: 'Identifying Obstacles That Yield Diminishing Returns',
+        org: 'Uppsala University · Bachelor Thesis in Game Design',
+        date: 'Jan 2026 — Jun 2026',
+        status: 'Research',
+        color: '#4f6457',
+        image: 'roti_bg.png',
+        cover: true,
+        pdf: 'ROTI_in_Game_Production.pdf',
+        btnLabel: 'View Article',
+        hideIn: ['loc'],
+        roles: {
+          games: 'Researcher & Producer',
+          tech: 'Researcher & Data Analyst',
+          loc: 'Researcher'
+        },
+        bullets: {
+          games: [
+            'Adapted Return on Time Invested (ROTI) — a concept borrowed from agile meeting evaluation — into a lightweight method for judging which game features actually justify their production cost.',
+            'Ran the study as Research through Design on a comedic 3D driving game built by a team of 3, with obstacles designed to amuse rather than alienate the player.',
+            'Across two iterations, coded semi-structured interviews from six playtesters each into a normalized experiential value per obstacle, cross-referenced with development hours tracked in Jira.',
+            'Found experiential value and development cost poorly correlated: the most expensive obstacle landed no better than one costing 40% less time, while the cheapest stayed net-negative across both iterations.',
+            'Showed that comedic framing which sharpened visual and audio clarity acted as an efficiency multiplier — raising player payoff while suppressing frustration.'
+          ],
+          tech: [
+            'Translated an agile concept (Return on Time Invested) into a repeatable, data-informed method for evaluating feature efficiency under real production constraints.',
+            'Designed and ran a two-iteration mixed-methods study: thematic coding of 12 playtester interviews normalized into a value metric, cross-referenced against Jira time-tracking data.',
+            'Surfaced a weak correlation between cost and value — the priciest feature returned no more than one built in 40% less time — quantifying where effort yielded diminishing returns.',
+            'Isolated an efficiency multiplier (clarity-enhancing framing) that raised perceived value without added build cost.',
+            'Concluded with a lightweight scoping framework giving small teams a shared, production-data-grounded basis for prioritization decisions instead of intuition.'
+          ],
+          loc: [
+            'Researched how comedic framing and audiovisual clarity shape whether a game obstacle lands or frustrates the player.',
+            'Coded playtester interviews into a normalized experiential-value metric per obstacle across two iterations.',
+            'Cross-referenced player response with development time to flag features with diminishing returns.',
+            'Authored the study as a Bachelor thesis in Game Design.'
+          ]
+        },
+        skills: ['User Research', 'ROTI', 'Data Analysis', 'Lean Project Management', 'Scope Management', 'Playtesting']
+      },
+      {
         code: 'PROJ_002',
         title: 'Experimental Game Design',
         subtitle: 'Four Prototype Sprints',
@@ -1756,6 +1798,7 @@
         image: 'proj_hauntel.png',
         cover: true,
         clip: 'hauntel_trailer.mp4',
+        canva: ['https://www.canva.com/design/DAGjZfe16-E/iZzWAS7NKQqlIqydwopIpA/view?embed'],
         roles: {
           games: 'Producer, Sound Designer & Game Designer',
           tech: 'Producer & Project Manager',
@@ -1793,7 +1836,7 @@
         date: 'Jan 2025 — Mar 2025',
         status: 'Completed',
         color: '#6e4a5c',
-        image: 'proj_theatre.png',
+        image: 'level_design_bg.png',
         canva: ['https://docs.google.com/presentation/d/1UVkRSQhICkizg_bXueST-Lt_I-KanHN-UR-pQHYfhPg/embed?start=false&loop=false&delayms=3000'],
         roles: {
           games: 'Project Manager',
@@ -1908,7 +1951,7 @@
         date: 'Jan 2024 — Mar 2024',
         status: 'Published',
         color: '#3c4a5a',
-        image: 'proj_splish.png',
+        image: 'splish_splash_bg.png',
         cover: true,
         clip: 'splish_trailer.mp4',
         roles: {
@@ -1940,13 +1983,13 @@
       },
       {
         code: 'PROJ_009',
-        title: 'Mini-Games for Dementia',
+        title: 'Mini-Games About Dementia',
         subtitle: 'Awareness Game Compilation',
         org: 'Uppsala University',
         date: 'Oct 2023 — Nov 2023',
         status: 'Completed',
         color: '#7a7060',
-        image: 'proj_dementia.png',
+        image: 'dementia_bg.png',
         cover: true,
         roles: {
           games: 'Project Manager & Game Designer',
@@ -2050,7 +2093,7 @@
             ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo c-img-cover">` : ''}
                <button class="c-img-deck" onclick="openCanva(event, ${i})">
                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-                 ${p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations'}
+                 ${p.btnLabel || (p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations')}
                </button>`
             : p.image
               ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo${p.cover ? ' c-img-cover' : ''}">`
