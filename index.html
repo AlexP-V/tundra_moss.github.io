@@ -645,6 +645,33 @@
       border: 0;
     }
 
+    .pdf-scroll {
+      display: none;
+      max-height: 82vh;
+      overflow-y: auto;
+      border-radius: 6px;
+      background: #1c1814;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      padding: 0.6rem;
+    }
+
+    .pdf-page {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .pdf-page + .pdf-page { margin-top: 0.6rem; }
+
+    .pdf-msg {
+      color: #cbb89c;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
     .canva-nav {
       display: flex;
       align-items: center;
@@ -690,6 +717,19 @@
       height: 100%;
       object-fit: contain;
       display: block;
+    }
+
+    .c-img-cover { object-fit: cover; }
+
+    .ms-info-media:empty { display: none; }
+    .ms-media { margin-top: 0.25rem; }
+
+    .c-clip {
+      width: 100%;
+      display: block;
+      margin-bottom: 1rem;
+      border-radius: 2px;
+      background: #000;
     }
 
     .c-img-lbl {
@@ -919,35 +959,6 @@
       box-decoration-break: clone;
     }
 
-    .ms-nav {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .ms-nav-dot {
-      width: 7px;
-      height: 7px;
-      flex: 0 0 7px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.25s, transform 0.2s;
-    }
-
-    .ms-nav-dot.ms-nav-dot--active {
-      background: #7B2340;
-      transform: scale(1.25);
-    }
-
     /* ── MILESTONES MOBILE STACK ── (hidden on desktop) */
     .ms-mobile-list {
       display: none;
@@ -1037,9 +1048,8 @@
         position: static;
       }
 
-      /* Carousel, nav dots and the single-item info panel are desktop-only. */
+      /* Carousel and the single-item info panel are desktop-only. */
       .ms-carousel-outer,
-      .ms-nav,
       .ms-info {
         display: none;
       }
@@ -1240,12 +1250,12 @@
     <div class="hero-milestones-full" id="hero-milestones-full" hidden>
       <div class="ms-info" id="ms-info">
         <div class="ms-info-date" id="ms-info-date"></div>
+        <div class="ms-info-media" id="ms-info-media"></div>
         <div class="ms-info-title" id="ms-info-title"></div>
       </div>
       <div class="ms-carousel-outer" id="ms-carousel-outer">
         <div class="ms-track" id="ms-track"></div>
       </div>
-      <nav class="ms-nav" id="ms-nav" aria-label="Achievement navigation"></nav>
       <div class="ms-mobile-list" id="ms-mobile-list"></div>
     </div>
   </div>
@@ -1268,9 +1278,10 @@
   <div id="canva-modal" class="canva-modal" onclick="if(event.target===this)closeCanva()">
     <div class="canva-box">
       <button class="canva-close" onclick="closeCanva()" aria-label="Close">&times;</button>
-      <div class="canva-frame-wrap">
+      <div class="canva-frame-wrap" id="canva-frame-wrap">
         <iframe id="canva-frame" allowfullscreen allow="fullscreen"></iframe>
       </div>
+      <div class="pdf-scroll" id="pdf-scroll"></div>
       <div class="canva-nav">
         <button class="canva-arrow" onclick="cycleCanva(-1, true)" aria-label="Previous deck">&#8249;</button>
         <div class="canva-dots"></div>
@@ -1279,6 +1290,7 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     // ── MILESTONES ───────────────────────────────────────────────
 
@@ -1289,25 +1301,30 @@
         body: `Graduated from Uppsala University (Campus Gotland) with a <span class="hl">bachelor's in Game Design and Project Management</span>.` },
       { title: "Thesis Driving Game — Prototype Completed", date: "May 2026",
         body: `Delivered a finished <span class="hl">research prototype</span> of an untitled driving game with a <span class="hl">complete game loop</span>, alongside two accompanying research papers.` },
-      { title: "Ran a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+      { title: "Completed a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+        image: 'mocap_bg.png',
+        canva: 'https://docs.google.com/presentation/d/1IE_sAJAuTb8D-W81A1Lt99QymGl9KQuaM0qzqIAvMtI/embed?start=false&loop=false&delayms=3000',
         body: `Planned, pitched, storyboarded and ran a <span class="hl">3-minute mocap cinematic</span> — managing a <span class="hl">team of 5</span>, the lab setup, room bookings, and all logistics.` },
       { title: "Advanced Interactive Storytelling — Two Narrative Board Games", date: "November 2025",
         body: `Kept <span class="hl">two narrative board games</span> (two teams of 4) <span class="hl">consistent in theme, pace, and voice</span> across a high volume of writing and editing.` },
       { title: "Produced a Concept-Art Artbook", date: "November 2025",
+        image: 'concept_art_bg.png',
+        pdf: 'One_Hundred_Years_Of_Unemployment_Artbook_By_Alex_P-V.pdf',
         body: `Created a full <span class="hl">concept-art artbook</span> for a fictional game across an 8-week studio course.` },
       { title: 'Published "My Roommate\'s Tentacles" on itch.io', date: "October 2025",
+        image: 'tentacles_bg.png',
         body: `Managed a <span class="hl">team of 7</span> across <span class="hl">three intense days</span> to build and <span class="hl">publish</span> a game-jam title on itch.io, including a recorded video pitch for submission.` },
       { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025",
+        image: 'ggc_nomination_bg.png',
         body: `Hauntel Management was shown at <span class="hl">Gotland Game Conference 2025</span> and <span class="hl">nominated for an award</span>.` },
       { title: 'Research Paper — Fairness in Turn-Based Strategy Games', date: "December 2024",
+        image: 'strategy_bg.png',
         body: `Authored "Ensuring Fairness in Turn-Based Territorial Strategy Games" — designed a board game and studied <span class="hl">fairness perception through playtesting</span>.` },
-      { title: '"Stick Together" — Heading to Steam', date: "2024 → Present",
-        body: `Co-pitched and prototyped in a 3-day game jam with a team of 6; the title is now being <span class="hl">prepared for a Steam release</span>, with <span class="hl">ongoing consulting</span> from me on feature cost and playtests.` },
       { title: "Four Game Projects in Eight Weeks, Rotating Roles", date: "2024",
         body: `Completed <span class="hl">four short game projects in eight weeks</span> while <span class="hl">rotating through different team roles</span> — deepening hands-on Agile practice.` },
       { title: 'Published "Splish-Splash Submarine" on itch.io', date: "March 2024",
         body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way.` },
-      { title: "Enrolled at Uppsala University", date: "September 2022",
+      { title: "Enrolled at Uppsala University", date: "September 2023",
         body: `Began the Game Design and Project Management programme at <span class="hl">Uppsala University</span>, Campus Gotland.` }
     ];
 
@@ -1386,21 +1403,34 @@
 
     function msSetStyling(pos) {
       const track = document.getElementById('ms-track');
-      const nav = document.getElementById('ms-nav');
-      if (!track || !nav) return;
+      if (!track) return;
       track.querySelectorAll('.ms-item').forEach((item, i) =>
         item.classList.toggle('ms-active', i === pos)
       );
-      const di = msData(pos);
-      nav.querySelectorAll('.ms-nav-dot').forEach((dot, i) =>
-        dot.classList.toggle('ms-nav-dot--active', i === di)
-      );
+    }
+
+    function msMediaHTML(m) {
+      if (!m.image && !m.pdf && !m.canva) return '';
+      const img = m.image ? `<img src="${m.image}" alt="${m.title}" class="c-img-photo c-img-cover">` : '';
+      let btn = '';
+      if (m.pdf) {
+        btn = `<button class="c-img-deck" onclick="event.stopPropagation(); openModalDecks(['${m.pdf}'])">
+             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
+             View Artbook
+           </button>`;
+      } else if (m.canva) {
+        const decks = Array.isArray(m.canva) ? m.canva : [m.canva];
+        btn = `<button class="c-img-deck" onclick='event.stopPropagation(); openModalDecks(${JSON.stringify(decks)})'>
+             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
+             View Presentation
+           </button>`;
+      }
+      return `<div class="c-img ms-media">${img}${btn}</div>`;
     }
 
     function buildMilestonesView() {
       const track = document.getElementById('ms-track');
-      const nav = document.getElementById('ms-nav');
-      if (!track || !nav) return;
+      if (!track) return;
 
       // Repeated milestone copies for seamless looping
       for (let i = 0; i < MS_TOTAL; i++) {
@@ -1431,19 +1461,11 @@
             <div class="ms-card-seal">
               <img src="Uppsala_University_logo.svg.png" alt="Uppsala University seal" draggable="false"/>
             </div>
+            ${msMediaHTML(m)}
             <div class="ms-card-body">${m.body}</div>
           </div>
         `).join('');
       }
-
-      // One nav dot per real milestone
-      MILESTONES.forEach((m, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'ms-nav-dot' + (i === MS_INITIAL ? ' ms-nav-dot--active' : '');
-        dot.setAttribute('aria-label', `Achievement ${i + 1}: ${m.title}`);
-        dot.addEventListener('click', () => msGoToData(i));
-        nav.appendChild(dot);
-      });
 
       // Initial position: centre active item
       track.style.transition = 'none';
@@ -1454,8 +1476,10 @@
 
       const titleEl = document.getElementById('ms-info-title');
       const dateEl = document.getElementById('ms-info-date');
+      const mediaEl = document.getElementById('ms-info-media');
       if (titleEl) titleEl.innerHTML = MILESTONES[msData(MS_STATE.pos)].body;
       if (dateEl) dateEl.textContent = MILESTONES[msData(MS_STATE.pos)].date;
+      if (mediaEl) mediaEl.innerHTML = msMediaHTML(MILESTONES[msData(MS_STATE.pos)]);
 
       // Wheel scroll
       const outer = document.getElementById('ms-carousel-outer');
@@ -1551,6 +1575,8 @@
           dateEl.textContent = MILESTONES[msData(pos)].date;
           dateEl.classList.remove('ms-fade');
         }
+        const mediaEl = document.getElementById('ms-info-media');
+        if (mediaEl) mediaEl.innerHTML = msMediaHTML(MILESTONES[msData(pos)]);
       }, 200);
 
       // Once the slide has finished, snap back to the middle copy
@@ -1571,13 +1597,15 @@
     const PROJECTS = [
       {
         code: 'PROJ_001',
-        title: 'Life is a Highway',
+        title: 'Untitled Driving Game',
         subtitle: 'Thesis Game Project',
         org: 'Uppsala University',
         date: 'Jan 2026 — Jun 2026',
         status: 'Completed',
         color: '#b5a38e',
         image: 'proj_highway.png',
+        pdf: 'Ventilation_Final_Presentation.pdf',
+        clip: 'Untitled-Driving-Game.mp4',
         roles: {
           games: 'Project Manager & Researcher',
           tech: 'Project Manager & Researcher',
@@ -1614,6 +1642,8 @@
         status: 'Completed',
         color: '#7a8a94',
         image: 'proj_experimental.png',
+        cover: true,
+        clip: 'experimental_penguin.mp4',
         roles: {
           games: 'Project Manager',
           tech: 'Project Manager',
@@ -1650,6 +1680,7 @@
         status: 'Completed',
         color: '#b08442',
         image: 'proj_playful.png',
+        pdf: 'playful_pm_design.pdf',
         hideIn: ['loc'],
         roles: {
           games: 'Project Manager',
@@ -1687,7 +1718,8 @@
         status: 'Released',
         color: '#5c7591',
         image: 'proj_hauntel.png',
-        video: 'https://www.youtube.com/embed/ypROuwjNuqY?start=33',
+        cover: true,
+        clip: 'hauntel_trailer.mp4',
         roles: {
           games: 'Producer, Sound Designer & Game Designer',
           tech: 'Producer & Project Manager',
@@ -1726,6 +1758,7 @@
         status: 'Completed',
         color: '#6e4a5c',
         image: 'proj_theatre.png',
+        canva: ['https://docs.google.com/presentation/d/1UVkRSQhICkizg_bXueST-Lt_I-KanHN-UR-pQHYfhPg/embed?start=false&loop=false&delayms=3000'],
         roles: {
           games: 'Project Manager',
           tech: 'Project Manager',
@@ -1762,6 +1795,7 @@
         status: 'Completed',
         color: '#8a6e4a',
         hideIn: ['loc'],
+        image: 'proj_antiquarian_bg.png',
         canva: [
           'https://www.canva.com/design/DAGV6ScOJh8/bf8h1dc3kMoGcgUfZtAAEg/view?embed',
           'https://www.canva.com/design/DAGYLX8BuJU/vVywxO16NnXM93EdOw-NJg/view?embed'
@@ -1801,7 +1835,8 @@
         date: 'Mar 2024 — May 2024',
         status: 'Completed',
         color: '#9a5a4a',
-        image: 'proj_pose.png',
+        image: 'proj_pose_bg.png',
+        pdf: 'POSE_STRIKE_portfolio.pdf',
         roles: {
           games: 'Project Manager',
           tech: 'Project Manager',
@@ -1838,6 +1873,8 @@
         status: 'Published',
         color: '#3c4a5a',
         image: 'proj_splish.png',
+        cover: true,
+        clip: 'splish_trailer.mp4',
         roles: {
           games: 'Project Manager & Sound Designer',
           tech: 'Project Manager',
@@ -1874,6 +1911,7 @@
         status: 'Completed',
         color: '#7a7060',
         image: 'proj_dementia.png',
+        cover: true,
         roles: {
           games: 'Project Manager & Game Designer',
           tech: 'Project Manager',
@@ -1972,21 +2010,18 @@
         </div>
 
         <div class="c-img" style="background:${p.color}18; border: 1px solid ${p.color}35">
-          ${p.canva
-            ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo">` : ''}
+          ${(p.canva || p.pdf)
+            ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo c-img-cover">` : ''}
                <button class="c-img-deck" onclick="openCanva(event, ${i})">
                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-                 View Presentations
+                 ${p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations'}
                </button>`
-            : p.video
-              ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo">
-                 <button class="c-img-play" aria-label="Play video" onclick="playVideo(event, '${p.video}')">
-                   <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                 </button>`
-              : p.image
-                ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo">`
-                : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
+            : p.image
+              ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo${p.cover ? ' c-img-cover' : ''}">`
+              : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
         </div>
+
+        ${p.clip ? `<video class="c-clip" src="${p.clip}" autoplay muted loop playsinline preload="metadata"></video>` : ''}
 
         <div class="c-org">${p.org}</div>
         <ul class="c-bullets js-bullets"></ul>
@@ -2016,10 +2051,48 @@
     let canvaIdx = 0;
     let canvaDecks = [];
 
+    const PDF_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    function renderPdf(url) {
+      const wrap = document.getElementById('canva-frame-wrap');
+      const scroll = document.getElementById('pdf-scroll');
+      wrap.style.display = 'none';
+      scroll.style.display = 'block';
+      scroll.innerHTML = '';
+      scroll.scrollTop = 0;
+      if (!window.pdfjsLib) {
+        scroll.innerHTML = '<p class="pdf-msg">PDF viewer failed to load.</p>';
+        return;
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER;
+      pdfjsLib.getDocument(url).promise.then(pdf => {
+        for (let n = 1; n <= pdf.numPages; n++) {
+          const canvas = document.createElement('canvas');
+          canvas.className = 'pdf-page';
+          scroll.appendChild(canvas);
+          pdf.getPage(n).then(page => {
+            const vp = page.getViewport({ scale: 2 });
+            canvas.width = vp.width;
+            canvas.height = vp.height;
+            page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
+          });
+        }
+      }).catch(() => {
+        scroll.innerHTML = '<p class="pdf-msg">Could not load PDF.</p>';
+      });
+    }
+
     function showCanvaDeck(n) {
       canvaIdx = (n + canvaDecks.length) % canvaDecks.length;
-      const frame = document.getElementById('canva-frame');
-      frame.src = canvaDecks[canvaIdx];
+      const url = canvaDecks[canvaIdx];
+      if (/\.pdf($|\?|#)/i.test(url)) {
+        renderPdf(url);
+      } else {
+        document.getElementById('pdf-scroll').style.display = 'none';
+        const wrap = document.getElementById('canva-frame-wrap');
+        wrap.style.display = 'block';
+        document.getElementById('canva-frame').src = url;
+      }
       document.querySelectorAll('.canva-dot').forEach((d, i) =>
         d.classList.toggle('active', i === canvaIdx)
       );
@@ -2037,9 +2110,8 @@
       }
     }
 
-    function openCanva(e, projIdx) {
-      e.stopPropagation();
-      canvaDecks = PROJECTS[projIdx].canva;
+    function openModalDecks(decks) {
+      canvaDecks = decks;
       canvaIdx = 0;
       const modal = document.getElementById('canva-modal');
       const dots = modal.querySelector('.canva-dots');
@@ -2053,11 +2125,18 @@
       startCanvaAuto();
     }
 
+    function openCanva(e, projIdx) {
+      e.stopPropagation();
+      const proj = PROJECTS[projIdx];
+      openModalDecks(proj.canva || [proj.pdf]);
+    }
+
     function closeCanva() {
       clearInterval(canvaTimer);
       const modal = document.getElementById('canva-modal');
       modal.classList.remove('open');
       document.getElementById('canva-frame').src = 'about:blank';
+      document.getElementById('pdf-scroll').innerHTML = '';
       document.body.style.overflow = '';
     }
 
