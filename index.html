@@ -227,14 +227,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0.9rem;
+      padding: 0.7rem;
+      overflow: hidden;
     }
 
     .note {
       width: 100%;
       height: 100%;
       border: none;
-      padding: 0.8rem;
+      padding: 0.6rem;
       background: repeating-linear-gradient(0deg,
           rgba(0, 0, 0, 0.04) 0,
           rgba(0, 0, 0, 0.04) 1px,
@@ -244,23 +245,24 @@
       color: var(--ink-2);
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.25rem;
+      overflow: hidden;
     }
 
     .note-title {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
 
     .note-text {
-      font-size: 0.95rem;
-      line-height: 1.25;
+      font-size: 0.82rem;
+      line-height: 1.2;
     }
 
     .note-sign {
       margin-top: auto;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       text-align: right;
     }
 
@@ -786,6 +788,11 @@
       transform: scale(1.25);
     }
 
+    /* ── MILESTONES MOBILE STACK ── (hidden on desktop) */
+    .ms-mobile-list {
+      display: none;
+    }
+
     /* ── MILESTONES FILTER BTN ── */
     .filter-btn--milestones {
       color: #7B2340;
@@ -805,6 +812,17 @@
 
     /* ── MOBILE ── */
     @media (max-width: 767px) {
+      /* Drop the 110% zoom and clip any stray horizontal overflow so the page
+         opens at true device width with no empty gutter on the right. */
+      html {
+        font-size: 100%;
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
       header {
         padding: 1.5rem 1.5rem 1rem;
       }
@@ -830,30 +848,117 @@
         padding-right: 1.5rem;
       }
 
+      /* Filters don't fit on one row — let them scroll sideways instead of
+         spilling off-screen, so every tab (incl. Achievements) is reachable. */
+      .filter-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .filter-bar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .filter-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
       .hero {
         padding: 1.5rem;
       }
 
+      /* Achievements becomes a plain vertical stack of folder cards. */
       .hero-milestones-full:not([hidden]) {
-        display: flex;
-        flex-wrap: wrap;
+        display: block;
         grid-template-columns: none;
         position: static;
-        gap: 1.25rem;
       }
 
-      .ms-nav {
-        position: static;
+      /* Carousel, nav dots and the single-item info panel are desktop-only. */
+      .ms-carousel-outer,
+      .ms-nav,
+      .ms-info {
+        display: none;
       }
 
-      .ms-carousel-outer {
+      .ms-mobile-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .ms-card {
+        border: 1px solid var(--border);
+        border-top: 3px solid #7B2340;
+        background: var(--surface);
+        background-image:
+          linear-gradient(rgba(0, 0, 0, .038) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 0, 0, .038) 1px, transparent 1px);
+        background-size: 20px 20px;
+        padding: 1.25rem 1.25rem 1.4rem;
+      }
+
+      .ms-card-head {
+        margin-bottom: 1rem;
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .ms-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+      }
+
+      .ms-card-date {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.56rem;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        margin-top: 0.4rem;
+      }
+
+      .ms-card-seal {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 0 1rem;
+      }
+
+      .ms-card-seal img {
         width: 100%;
-        max-width: 470px;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .ms-card-body {
+        font-size: 0.82rem;
+        line-height: 1.6;
+        color: var(--ink-2);
       }
 
       .photo-clip {
-        width: 120px;
+        width: 150px;
         transform: rotate(-2deg);
+      }
+
+      .note-title {
+        font-size: 0.82rem;
+      }
+
+      .note-text {
+        font-size: 0.72rem;
+        line-height: 1.18;
+      }
+
+      .note-sign {
+        font-size: 0.74rem;
       }
 
       .accordion {
@@ -892,6 +997,16 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+      }
+
+      /* Keep LinkedIn + email on the first line, push the phone number below. */
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 0.6rem 1.5rem;
+      }
+
+      .footer-links a[href^="tel:"] {
+        flex-basis: 100%;
       }
     }
   </style>
@@ -971,6 +1086,7 @@
         <div class="ms-track" id="ms-track"></div>
       </div>
       <nav class="ms-nav" id="ms-nav" aria-label="Achievement navigation"></nav>
+      <div class="ms-mobile-list" id="ms-mobile-list"></div>
     </div>
   </div>
 
@@ -1126,6 +1242,24 @@
         item.dataset.idx = i;
         item.addEventListener('click', () => msGoTo(i));
         track.appendChild(item);
+      }
+
+      // Mobile: a plain vertical stack of "folder" cards — title + date on top,
+      // then the seal, then the description. No carousel, no nav dots.
+      const mobileList = document.getElementById('ms-mobile-list');
+      if (mobileList) {
+        mobileList.innerHTML = MILESTONES.map(m => `
+          <div class="ms-card">
+            <div class="ms-card-head">
+              <div class="ms-card-title">${m.title}</div>
+              <div class="ms-card-date">${m.date}</div>
+            </div>
+            <div class="ms-card-seal">
+              <img src="Uppsala_University_logo.svg.png" alt="Uppsala University seal" draggable="false"/>
+            </div>
+            <div class="ms-card-body">${m.body}</div>
+          </div>
+        `).join('');
       }
 
       // One nav dot per real milestone
