@@ -658,7 +658,7 @@
 
     .ms-track {
       display: flex;
-      gap: 80px;
+      gap: 96px;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
     }
@@ -764,13 +764,15 @@
       bottom: 0;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      gap: 9px;
     }
 
     .ms-nav-dot {
       width: 7px;
       height: 7px;
+      flex: 0 0 7px;
       border-radius: 50%;
       background: var(--border);
       border: none;
@@ -900,7 +902,7 @@
   <header>
     <div class="header-cols">
       <div class="header-left">
-        <div class="eyebrow">Portfolio Archive // 2022–2026</div>
+        <div class="eyebrow">Portfolio // 2022–2026</div>
         <h1>Aleksandra<br>Pavlova-Verevkina</h1>
         <div class="header-role">PM · Producer · Localization · GameDev</div>
       </div>
@@ -949,9 +951,9 @@
   </header>
 
   <div class="filter-bar">
-    <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
+    <button class="filter-btn active" data-filter="games">Game PM &amp; Producer</button>
     <button class="filter-btn" data-filter="tech">PM in Tech</button>
-    <button class="filter-btn active" data-filter="loc">Localization &amp; Sound</button>
+    <button class="filter-btn" data-filter="loc">Localization &amp; Sound</button>
     <button class="filter-btn filter-btn--milestones" data-filter="achievements">Achievements</button>
   </div>
 
@@ -1020,8 +1022,8 @@
     ];
 
     const MS_STAMP_W = 130;
-    const MS_GAP = 80;
-    const MS_STEP = MS_STAMP_W + MS_GAP; // 210
+    const MS_GAP = 96;
+    const MS_STEP = MS_STAMP_W + MS_GAP; // 226
     const MS_CONTAINER_W = 705;
     const MS_OFFSET = Math.round((MS_CONTAINER_W - MS_STAMP_W) / 2); // 288
 
@@ -1031,7 +1033,7 @@
     const MS_COPIES = 9;                 // odd, so there is a true middle copy
     const MS_TOTAL = MS_N * MS_COPIES;
     const MS_BASE = Math.floor(MS_COPIES / 2) * MS_N; // first index of middle copy
-    const MS_INITIAL = 2;               // milestone centred on load
+    const MS_INITIAL = 1;               // milestone centred on load (Thesis Driving Game — Prototype Completed)
 
     // `pos` is the rendered-item index currently centred; data index = pos mod N.
     const MS_STATE = { pos: MS_BASE + MS_INITIAL };
@@ -1121,6 +1123,7 @@
           </div>
           <div class="ms-label">${m.title}</div>
         `;
+        item.dataset.idx = i;
         item.addEventListener('click', () => msGoTo(i));
         track.appendChild(item);
       }
@@ -1169,8 +1172,13 @@
         if (dragStartX === null) return;
         const dx = e.clientX - dragStartX;
         dragStartX = null;
-        if (dx < -40) msGoTo(MS_STATE.pos + 1);
-        else if (dx > 40) msGoTo(MS_STATE.pos - 1);
+        if (dx < -40) { msGoTo(MS_STATE.pos + 1); return; }
+        if (dx > 40) { msGoTo(MS_STATE.pos - 1); return; }
+        // A tap (not a drag): jump to whichever seal/title was clicked. Pointer
+        // capture can swallow the per-item click, so resolve the target here too.
+        const el = document.elementFromPoint(e.clientX, e.clientY);
+        const item = el && el.closest('.ms-item');
+        if (item && item.dataset.idx != null) msGoTo(parseInt(item.dataset.idx, 10));
       });
 
       // Arrow keys (only when milestones view visible)
@@ -1591,13 +1599,12 @@
 
     function getParam() {
       const v = new URLSearchParams(location.search).get('view');
-      return ['games', 'tech', 'achievements', 'loc'].includes(v) ? v : 'loc';
+      return ['games', 'tech', 'achievements', 'loc'].includes(v) ? v : 'games';
     }
 
     function pushParam(f) {
       const u = new URL(location.href);
-      if (f === 'loc') u.searchParams.delete('view');
-      else u.searchParams.set('view', f);
+      u.searchParams.set('view', f);
       history.pushState({}, '', u);
     }
 
@@ -1686,22 +1693,22 @@
       const heroMilestones = document.getElementById('hero-milestones-full');
 
       const heroEl = document.querySelector('.hero');
+      const secLabel = document.getElementById('sec-label');
+      const archiveWrap = document.querySelector('.accordion-wrap');
       if (f === 'achievements') {
         if (heroContent) heroContent.hidden = true;
         if (heroMilestones) heroMilestones.hidden = false;
         heroEl?.classList.add('hero--milestones');
         msSnapOpacity();
-        // Keep the archive below fully visible regardless of prior view filtering.
-        PROJECTS.forEach((p, i) => {
-          const panel = document.getElementById('p' + i);
-          if (panel) panel.hidden = false;
-        });
-        const secLabel = document.getElementById('sec-label');
-        if (secLabel) secLabel.textContent = `Archive Log // ${PROJECTS.length} Projects`;
+        // Achievements view stands on its own — hide the project archive below.
+        if (secLabel) secLabel.hidden = true;
+        if (archiveWrap) archiveWrap.hidden = true;
       } else {
         if (heroContent) heroContent.hidden = false;
         if (heroMilestones) heroMilestones.hidden = true;
         heroEl?.classList.remove('hero--milestones');
+        if (secLabel) secLabel.hidden = false;
+        if (archiveWrap) archiveWrap.hidden = false;
 
         document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
 
@@ -1727,7 +1734,6 @@
             p.bullets[key].map(b => `<li>${b}</li>`).join('');
         });
 
-        const secLabel = document.getElementById('sec-label');
         if (secLabel) secLabel.textContent = `Archive Log // ${visibleCount} Projects`;
 
         // If the currently open panel was hidden in this view, open the first visible one.
