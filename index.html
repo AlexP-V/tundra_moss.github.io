@@ -721,13 +721,34 @@
 
     .c-img-cover { object-fit: cover; }
 
+    /* Project covers match the clips: capped at 40vh tall, sized to their own
+       aspect and centred. Landscape covers end up wider than portrait clips. */
+    .panel-content .c-img {
+      height: auto;
+      max-height: 40vh;
+      width: fit-content;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .panel-content .c-img-photo {
+      width: auto;
+      height: auto;
+      max-height: 40vh;
+      max-width: 100%;
+    }
+
     .ms-info-media:empty { display: none; }
     .ms-media { margin-top: 0.25rem; }
 
     .c-clip {
-      width: 100%;
       display: block;
-      margin-bottom: 1rem;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 40vh;       /* cap portrait clips at 40% of viewport height */
+      margin: 0 auto 1rem;    /* centre the (often narrow) portrait video */
       border-radius: 2px;
       background: #000;
     }
@@ -776,6 +797,25 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.35rem;
+    }
+
+    /* Video projects: narrow portrait clip on the left, skills filling the
+       void to its right instead of sitting at the bottom of the panel. */
+    .c-media-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .c-media-row .c-clip {
+      flex: 0 0 auto;
+      margin: 0;
+    }
+
+    .c-media-row .c-skills {
+      flex: 1;
+      align-content: flex-start;
     }
 
     .skill-tag {
@@ -1160,6 +1200,11 @@
         opacity: 1 !important;
         pointer-events: all !important;
         transition: none;
+      }
+
+      /* Stack the clip + skills vertically on narrow screens. */
+      .c-media-row {
+        flex-direction: column;
       }
 
       footer {
@@ -2021,13 +2066,19 @@
               : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
         </div>
 
-        ${p.clip ? `<video class="c-clip" src="${p.clip}" autoplay muted loop playsinline preload="metadata"></video>` : ''}
+        ${p.clip ? `
+        <div class="c-media-row">
+          <video class="c-clip" src="${p.clip}" autoplay muted loop playsinline preload="metadata"></video>
+          <div class="c-skills">
+            ${p.skills.map(s => renderSkillTag(s)).join('')}
+          </div>
+        </div>` : ''}
 
         <div class="c-org">${p.org}</div>
         <ul class="c-bullets js-bullets"></ul>
-        <div class="c-skills">
+        ${p.clip ? '' : `<div class="c-skills">
           ${p.skills.map(s => renderSkillTag(s)).join('')}
-        </div>
+        </div>`}
       </div>
     `;
 
