@@ -740,6 +740,23 @@
       opacity: 0;
     }
 
+    /* lavender highlighter — same marker treatment as .header-role */
+    .hl {
+      color: var(--ink);
+      background: linear-gradient(
+        103deg,
+        transparent 1.8%,
+        rgba(187, 160, 240, 0.244) 2.4%,
+        rgba(175, 146, 234, 0.295) 38%,
+        rgba(185, 157, 240, 0.355) 63%,
+        rgba(179, 150, 236, 0.258) 96.5%,
+        transparent 97.5%
+      );
+      padding: 0.06em 0.2em 0.04em;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+
     .ms-nav {
       position: absolute;
       right: 0;
@@ -883,9 +900,9 @@
   <header>
     <div class="header-cols">
       <div class="header-left">
-        <div class="eyebrow">Portfolio Archive // 2024–2026</div>
+        <div class="eyebrow">Portfolio Archive // 2022–2026</div>
         <h1>Aleksandra<br>Pavlova-Verevkina</h1>
-        <div class="header-role">Junior PM · Producer · Game Development</div>
+        <div class="header-role">PM · Producer · Localization · GameDev</div>
       </div>
       <div class="header-center">
         <div class="photo-clip" id="photo-clip">
@@ -932,10 +949,10 @@
   </header>
 
   <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="games">Game PM &amp; Producer</button>
     <button class="filter-btn" data-filter="tech">PM in Tech</button>
-    <button class="filter-btn filter-btn--milestones" data-filter="milestones">Milestones</button>
+    <button class="filter-btn active" data-filter="loc">Localization &amp; Sound</button>
+    <button class="filter-btn filter-btn--milestones" data-filter="achievements">Achievements</button>
   </div>
 
   <div class="hero">
@@ -951,11 +968,11 @@
       <div class="ms-carousel-outer" id="ms-carousel-outer">
         <div class="ms-track" id="ms-track"></div>
       </div>
-      <nav class="ms-nav" id="ms-nav" aria-label="Milestone navigation"></nav>
+      <nav class="ms-nav" id="ms-nav" aria-label="Achievement navigation"></nav>
     </div>
   </div>
 
-  <div class="sec-label">Archive Log // 4 Projects</div>
+  <div class="sec-label" id="sec-label">Archive Log // 9 Projects</div>
 
   <div class="accordion-wrap">
     <div class="accordion" id="accordion"></div>
@@ -976,11 +993,30 @@
     const MS_PLACEHOLDER = 'Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text.';
 
     const MILESTONES = [
-      { title: "Bachelor's in Game Design and Project Management", date: "June 2026",  body: MS_PLACEHOLDER },
-      { title: "Untitled Driving Game Prototype",                   date: "May 2026",   body: MS_PLACEHOLDER },
-      { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025", body: MS_PLACEHOLDER },
-      { title: 'Published "Splish-Splash Submarine" on itch.io',   date: "March 2024", body: MS_PLACEHOLDER },
-      { title: "Enrolled at Uppsala University",                    date: "September 2022", body: MS_PLACEHOLDER }
+      { title: "Bachelor's in Game Design and Project Management", date: "June 2026",
+        body: `Graduated from Uppsala University (Campus Gotland) with a <span class="hl">bachelor's in Game Design and Project Management</span>.` },
+      { title: "Thesis Driving Game — Prototype Completed", date: "May 2026",
+        body: `Delivered a finished <span class="hl">research prototype</span> of an untitled driving game with a <span class="hl">complete game loop</span>, alongside two accompanying research papers.` },
+      { title: "Ran a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+        body: `Planned, pitched, storyboarded and ran a <span class="hl">3-minute mocap cinematic</span> — managing a <span class="hl">team of 5</span>, the lab setup, room bookings, and all logistics.` },
+      { title: "Advanced Interactive Storytelling — Two Narrative Board Games", date: "November 2025",
+        body: `Kept <span class="hl">two narrative board games</span> (two teams of 4) <span class="hl">consistent in theme, pace, and voice</span> across a high volume of writing and editing.` },
+      { title: "Produced a Concept-Art Artbook", date: "November 2025",
+        body: `Created a full <span class="hl">concept-art artbook</span> for a fictional game across an 8-week studio course.` },
+      { title: 'Published "My Roommate\'s Tentacles" on itch.io', date: "October 2025",
+        body: `Managed a <span class="hl">team of 7</span> across <span class="hl">three intense days</span> to build and <span class="hl">publish</span> a game-jam title on itch.io, including a recorded video pitch for submission.` },
+      { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025",
+        body: `Hauntel Management was shown at <span class="hl">Gotland Game Conference 2025</span> and <span class="hl">nominated for an award</span>.` },
+      { title: 'Research Paper — Fairness in Turn-Based Strategy Games', date: "December 2024",
+        body: `Authored "Ensuring Fairness in Turn-Based Territorial Strategy Games" — designed a board game and studied <span class="hl">fairness perception through playtesting</span>.` },
+      { title: '"Stick Together" — Heading to Steam', date: "2024 → Present",
+        body: `Co-pitched and prototyped in a 3-day game jam with a team of 6; the title is now being <span class="hl">prepared for a Steam release</span>, with <span class="hl">ongoing consulting</span> from me on feature cost and playtests.` },
+      { title: "Four Game Projects in Eight Weeks, Rotating Roles", date: "2024",
+        body: `Completed <span class="hl">four short game projects in eight weeks</span> while <span class="hl">rotating through different team roles</span> — deepening hands-on Agile practice.` },
+      { title: 'Published "Splish-Splash Submarine" on itch.io', date: "March 2024",
+        body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way.` },
+      { title: "Enrolled at Uppsala University", date: "September 2022",
+        body: `Began the Game Design and Project Management programme at <span class="hl">Uppsala University</span>, Campus Gotland.` }
     ];
 
     const MS_STAMP_W = 130;
@@ -1093,7 +1129,7 @@
       MILESTONES.forEach((m, i) => {
         const dot = document.createElement('button');
         dot.className = 'ms-nav-dot' + (i === MS_INITIAL ? ' ms-nav-dot--active' : '');
-        dot.setAttribute('aria-label', `Milestone ${i + 1}: ${m.title}`);
+        dot.setAttribute('aria-label', `Achievement ${i + 1}: ${m.title}`);
         dot.addEventListener('click', () => msGoToData(i));
         nav.appendChild(dot);
       });
@@ -1107,7 +1143,7 @@
 
       const titleEl = document.getElementById('ms-info-title');
       const dateEl = document.getElementById('ms-info-date');
-      if (titleEl) titleEl.textContent = MILESTONES[msData(MS_STATE.pos)].body;
+      if (titleEl) titleEl.innerHTML = MILESTONES[msData(MS_STATE.pos)].body;
       if (dateEl) dateEl.textContent = MILESTONES[msData(MS_STATE.pos)].date;
 
       // Wheel scroll
@@ -1192,7 +1228,7 @@
         if (token !== msNavToken) return;
         msSetStyling(pos);
         if (titleEl) {
-          titleEl.textContent = MILESTONES[msData(pos)].body;
+          titleEl.innerHTML = MILESTONES[msData(pos)].body;
           titleEl.classList.remove('ms-fade');
         }
         if (dateEl) {
@@ -1210,8 +1246,9 @@
     // ── DATA ─────────────────────────────────────────────────────
 
     const HERO = {
-      all: 'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 8 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
-      games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 8 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
+      loc: 'Russian-native game localization specialist who pairs sharp editorial Russian with hands-on game production. Across 9 projects I worked as a sound designer while running Agile pipelines (Jira, Unity, Unreal, FMOD) and shaping interactive, time-delimited narratives — so I understand how text, voice, and audio actually come together in a shipped game.',
+      all: 'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 9 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
+      games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 9 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
       tech: 'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
     };
 
@@ -1221,31 +1258,109 @@
         title: 'Life is a Highway',
         subtitle: 'Thesis Game Project',
         org: 'Uppsala University',
-        date: 'Jan 2026 — Present',
-        status: 'In Production',
+        date: 'Jan 2026 — Jun 2026',
+        status: 'Completed',
         color: '#b5a38e',
         roles: {
           games: 'Project Manager & Researcher',
-          tech: 'Solo Producer & PM'
+          tech: 'Project Manager & Researcher',
+          loc: 'Sound Designer'
         },
         bullets: {
+          loc: [
+            "Designed the audio identity of a stylized PC driving game in Unity — engine layers, traffic ambience, and the tactile feedback of the hand grabbing and delivering items between moving cars.",
+            "Worked directly in Unity, wiring audio events to gameplay so sound reacted to speed, collisions, and successful deliveries in real time.",
+            "Used playtesting and ROTI analysis to tune which audio cues actually sharpened the comedic timing of obstacles versus those with diminishing returns.",
+            "Delivered audio as part of the final research prototype, presented at the program's public showcase."
+          ],
           games: [
-            'Single-player stylized PC driving game built in Unity — core mechanic: a hyperbolized hand extending from the window to pick up and deliver items between moving cars.',
-            'Managing full production cycle independently from pre-production through current alpha builds, under remote academic supervision.',
-            'Conducting structured playtesting sessions; collecting quantitative and qualitative data to validate design hypotheses.',
-            'Analyzing playtest data for frustration, comedic impact, and session length — applying ROTI methodology to impediment prioritization.'
+            "Led a team of 3 through a 12-week thesis project: a single-player stylized PC driving game in Unity, controller-played, with a complete core loop — a hyperbolized hand reaching from the car window to grab and deliver items between moving traffic.",
+            "Owned scoping and feature prioritization end-to-end, protecting team morale and work–life balance while keeping the prototype on schedule.",
+            "Ran structured playtesting and contributed to two studies: a team paper on what makes a comedic obstacle land, and an individual study applying Return on Time Invested (ROTI) to flag obstacles with diminishing returns.",
+            "Delivered the final research prototype as a playable build and repository, presented at the program's public showcase."
           ],
           tech: [
-            'Solo-producing a software product end-to-end — full ownership of scope, timeline, and delivery in a remote-supervised environment.',
-            'Designing and executing structured user research sessions; collecting mixed-method data to validate product hypotheses iteratively.',
-            'Applying data analysis to measure user engagement and task friction — using ROTI to prioritize blockers by output impact.',
-            'Managing the complete development lifecycle: scoping, sprint planning, iterative builds, and milestone reporting.'
+            "Led a 3-person team through a 12-week capstone, shipping a research prototype with a complete, validated core loop — on time and to scope.",
+            "Owned scope and feature prioritization, balancing delivery against team capacity, morale, and a sustainable pace.",
+            "Designed and ran structured user-research sessions; co-authored a qualitative study and an individual analysis applying ROTI to prioritize work by output impact.",
+            "Delivered final artifacts — build, repository, and a public presentation — to an academic stakeholder audience."
           ]
         },
-        skills: ['Unity', 'User Research', 'Data Analysis', 'Project Management', 'Game Design']
+        skills: ['Unity', 'User Research', 'ROTI', 'Feature Prioritization', 'Team Leadership']
       },
       {
         code: 'PROJ_002',
+        title: 'Experimental Game Design',
+        subtitle: 'Four Prototype Sprints',
+        org: 'Uppsala University',
+        date: 'Jan 2026 — Mar 2026',
+        status: 'Completed',
+        color: '#7a8a94',
+        roles: {
+          games: 'Project Manager',
+          tech: 'Project Manager',
+          loc: 'Sound Designer'
+        },
+        bullets: {
+          loc: [
+            "Built distinct soundscapes for four experimental prototypes in eight weeks, each shaped around a different design constraint.",
+            "Standout build — a social trust-and-trickery game set in a whiteout snowstorm — leaned on audio to sell isolation and tension as the lone penguin decides who to believe.",
+            "Iterated sound fast across short, self-contained sprints, matching each prototype's tone without overscoping.",
+            "Delivered audio for every playable build alongside supporting screenshots and documentation."
+          ],
+          games: [
+            "Managed a team of 3 to deliver four experimental game prototypes in eight weeks, each built around a deliberate constraint set by the module.",
+            "Standout build: a social trust-and-trickery game following a lone penguin through a whiteout snowstorm, where progress depends on who the player chooses to believe.",
+            "Structured the work as four short, self-contained sprints so the team could explore distinct concepts without overscoping any single one.",
+            "Delivered each prototype as a playable build with supporting screenshots and documentation."
+          ],
+          tech: [
+            "Managed a 3-person team to deliver four prototypes in eight weeks, each scoped around a fixed constraint — a deliberate exercise in rapid, disciplined iteration.",
+            "Broke an open-ended brief into four self-contained sprints, keeping scope tight and output shippable at each checkpoint.",
+            "Prioritized concepts under time pressure and protected the team from overcommitting to any single direction.",
+            "Delivered four working builds with documentation; the strongest, a social-trust mechanic, was carried furthest."
+          ]
+        },
+        skills: ['Rapid Prototyping', 'Scrum', 'Scoping', 'Team Leadership', 'Game Design']
+      },
+      {
+        code: 'PROJ_003',
+        title: 'Playful PM Design',
+        subtitle: 'Client Gamification Project',
+        org: 'Uppsala University · Gotlands Förenade Besöksnäring',
+        date: 'Sep 2025 — Nov 2025',
+        status: 'Completed',
+        color: '#b08442',
+        hideIn: ['loc'],
+        roles: {
+          games: 'Project Manager',
+          tech: 'Project Manager & Consultant',
+          loc: 'Sound Designer'
+        },
+        bullets: {
+          loc: [
+            "Reworked a dry strategic Vision document into a playful, interactive seminar — in effect localizing institutional language into content members would actually engage with.",
+            "Tuned tone, pacing, and voice for a specific audience at the client's annual conference, including the spoken delivery and audio cues of the live experience.",
+            "Applied neuroscience-backed motivation and behavioural principles to hold attention from start to finish.",
+            "Produced and presented a full client-facing proposal for Gotlands Förenade Besöksnäring (Gotland's regional tourism association)."
+          ],
+          games: [
+            "Led a team of 4 in a neuroscience-backed gamification course to design a real solution for Gotlands Förenade Besöksnäring (Gotland's regional tourism association).",
+            "Tackled a concrete client problem: their strategic Vision document was too dry to actually be read by members.",
+            "Designed a playful, interactive seminar to deliver the document's content live at the association's annual conference.",
+            "Produced and presented a full client-facing proposal applying behavioural and motivation principles to a genuine engagement problem."
+          ],
+          tech: [
+            "Led a 4-person team through an 8-week engagement for a real external client — the Gotland tourism association — applying neuroscience-backed gamification.",
+            "Reframed a stakeholder problem (an unread strategic Vision document) as an engagement and behaviour-design challenge.",
+            "Designed an interactive seminar format to surface the document's content at the client's annual conference.",
+            "Delivered a polished client-facing proposal and presentation grounded in motivation and behavioural-design principles."
+          ]
+        },
+        skills: ['Gamification', 'Stakeholder Communication', 'Client Management', 'Behavioural Design', 'Team Leadership']
+      },
+      {
+        code: 'PROJ_004',
         title: 'Hauntel Management',
         subtitle: 'Cooperative Management Game',
         org: 'Uppsala University · Gotland Game Conference 2025',
@@ -1254,9 +1369,16 @@
         color: '#5c7591',
         roles: {
           games: 'Producer, Sound Designer & Game Designer',
-          tech: 'Producer & Project Manager'
+          tech: 'Producer & Project Manager',
+          loc: 'Sound Designer'
         },
         bullets: {
+          loc: [
+            'Owned sound design for a cooperative management game shown at Gotland Game Conference 2025 — from ambience and UI to event audio.',
+            'Integrated audio with level mapping, AI behaviour, and networked multiplayer, with QA enforced at every milestone.',
+            'Tuned audio from playtesting and analytics to support gameplay loops, player retention, and the readability of in-game events.',
+            'Delivered audio inside a full Jira/Agile production pipeline spanning remote and on-site workflows — first-hand exposure to how a real game gets built.'
+          ],
           games: [
             'Led a cross-functional team through full alpha-to-beta production for a cooperative management game shown at Gotland Game Conference 2025.',
             'Set sprint goals, managed production timelines, and tracked tasks in Jira across remote and on-site workflows.',
@@ -1275,18 +1397,61 @@
         skills: ['Jira', 'Agile', 'Team Leadership', 'Game Design', 'Sound Design', 'Market Analysis']
       },
       {
-        code: 'PROJ_003',
+        code: 'PROJ_005',
+        title: 'Theatre',
+        subtitle: 'Collaborative Level Design',
+        org: 'Uppsala University',
+        date: 'Jan 2025 — Mar 2025',
+        status: 'Completed',
+        color: '#6e4a5c',
+        roles: {
+          games: 'Project Manager',
+          tech: 'Project Manager',
+          loc: 'Sound Designer'
+        },
+        bullets: {
+          loc: [
+            "Crafted the audio atmosphere for a cohesive 3D level in Unreal Engine 5, keeping sound consistent across areas built by six different people.",
+            "Matched audio tone, scale, and player flow across hand-offs so independently-built sections felt like one continuous space.",
+            "Worked hands-on in Unreal Engine 5, placing and balancing spatial audio across the level.",
+            "Coordinated audio integration as part of assembling the modular level into one whole."
+          ],
+          games: [
+            "Led a team of 6 through a 7-week 3D level-design project built in Unreal Engine 5.",
+            "Coordinated a single cohesive level split into distinct areas, each designed and built by a different team member.",
+            "Made sure every area carried its own special mechanic while staying consistent in tone, scale, and player flow across hand-offs.",
+            "Managed dependencies and integration so independently-built sections assembled into one continuous space."
+          ],
+          tech: [
+            "Led a 6-person team through a 7-week build in Unreal Engine 5, coordinating parallel work on a shared deliverable.",
+            "Owned integration of independently-developed modules into one consistent whole — managing interfaces, tone, and hand-offs.",
+            "Balanced individual ownership (each member owning an area and a mechanic) against overall coherence.",
+            "Kept distributed work aligned to a single spec across a tight timeline."
+          ]
+        },
+        skills: ['Unreal Engine 5', 'Level Design', 'Team Leadership', 'Integration', 'Project Management']
+      },
+      {
+        code: 'PROJ_006',
         title: 'The Antiquarian',
         subtitle: '3-Year Production Plan',
         org: 'Uppsala University',
         date: 'Sep 2024 — Jan 2025',
         status: 'Completed',
         color: '#8a6e4a',
+        hideIn: ['loc'],
         roles: {
           games: 'Producer',
-          tech: 'Producer & Business Analyst'
+          tech: 'Producer & Business Analyst',
+          loc: 'Sound Designer'
         },
         bullets: {
+          loc: [
+            'Defined the audio direction for a cozy shopkeeping game — the warm, low-stress soundscape that genre lives or dies on.',
+            'Folded audio scope and cost into a full 3-year production plan and financial model (break-even at 71,000 units) — understanding sound as part of a real budget.',
+            'Researched the competitive landscape and player personas to ground the game\'s tone and sound identity in the market.',
+            'Presented the production plan, including audio and content scope, to a simulated investor audience.'
+          ],
           games: [
             'Created a full 3-year business plan for a cozy shopkeeping game: sales projections, DLC revenue strategies, financial forecasting — break-even modeled at 71,000 units.',
             'Managed production timelines and coordinated an interdisciplinary team using Jira and Agile — all milestones met.',
@@ -1303,7 +1468,42 @@
         skills: ['Business Planning', 'Financial Analysis', 'Market Research', 'Jira', 'Stakeholder Communication']
       },
       {
-        code: 'PROJ_004',
+        code: 'PROJ_007',
+        title: 'POSE STRIKE',
+        subtitle: 'Hand-Built Arcade Booth',
+        org: 'Uppsala University',
+        date: 'Mar 2024 — May 2024',
+        status: 'Completed',
+        color: '#9a5a4a',
+        roles: {
+          games: 'Project Manager',
+          tech: 'Project Manager',
+          loc: 'Sound Designer'
+        },
+        bullets: {
+          loc: [
+            "Designed the arcade audio for a hand-built pose-matching booth — punchy feedback sounds built to read instantly in a noisy arcade setting.",
+            "Synced audio with custom hardware and software so sound responded to player poses in real time.",
+            "Delivered audio through formal milestone gates (pitch, green-light, playable) within an 8-week build.",
+            "Coordinated audio alongside the physical fabrication of the booth."
+          ],
+          games: [
+            "Led a team of 6 to take an original arcade game from pitch through green-light to a fully playable build in 8 weeks.",
+            "Delivered a hand-built physical game booth — a pose-matching arcade experience combining custom hardware and software.",
+            "Steered the project through formal milestone gates (pitch, green-light, playable), keeping scope realistic for the timeline.",
+            "Coordinated physical fabrication of the booth alongside game development."
+          ],
+          tech: [
+            "Led a 6-person team from pitch through formal green-light to a working product in 8 weeks.",
+            "Managed a project spanning both hardware (a hand-built arcade booth) and software, coordinating across disciplines.",
+            "Navigated milestone approval gates, scoping deliverables to fit each checkpoint.",
+            "Owned timeline and integration of the physical build with the interactive experience."
+          ]
+        },
+        skills: ['Hardware Integration', 'Milestone Planning', 'Team Leadership', 'Game Production', 'Project Management']
+      },
+      {
+        code: 'PROJ_008',
         title: 'Splish-Splash Submarine',
         subtitle: "Retro Shoot 'em Up",
         org: 'Uppsala University · Published on itch.io',
@@ -1312,9 +1512,16 @@
         color: '#3c4a5a',
         roles: {
           games: 'Project Manager & Sound Designer',
-          tech: 'Project Manager'
+          tech: 'Project Manager',
+          loc: 'Sound Designer'
         },
         bullets: {
+          loc: [
+            'Designed retro-styled audio for a published shoot \'em up — chiptune-flavoured SFX and feedback matched to the era and genre.',
+            'Iterated audio from feedback across 50+ playtesters to improve game feel, balance, and retention.',
+            'Delivered sound inside a 10-week Scrum/Jira production cycle with a 7-person team.',
+            'Shipped audio in the released build, published on itch.io.'
+          ],
           games: [
             'Managed a 7-person cross-functional team through full production in 10 weeks: planning, prototyping, playtesting, and release using Jira.',
             'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve retention, and balance gameplay.',
@@ -1329,10 +1536,46 @@
           ]
         },
         skills: ['Scrum', 'Jira', 'Team Leadership', 'Agile', 'Game Production', 'Sound Design']
+      },
+      {
+        code: 'PROJ_009',
+        title: 'Mini-Games for Dementia',
+        subtitle: 'Awareness Game Compilation',
+        org: 'Uppsala University',
+        date: 'Oct 2023 — Nov 2023',
+        status: 'Completed',
+        color: '#7a7060',
+        roles: {
+          games: 'Project Manager & Game Designer',
+          tech: 'Project Manager',
+          loc: 'Sound Designer'
+        },
+        bullets: {
+          loc: [
+            "Designed sound for an awareness compilation about dementia, using audio to deepen the felt sense of disorientation.",
+            "Built the opening mini-game's audio to reinforce the fading, losing-direction mechanic — turning a symptom into something the player hears and feels.",
+            "Set the emotional and sonic tone for the whole compilation as the first experience in the sequence.",
+            "Delivered audio across multiple mini-games coordinated into one coherent release."
+          ],
+          games: [
+            "Led a team of 7 to build a compilation of mini-games raising awareness of dementia, delivered in 5 weeks.",
+            "Designed the opening mini-game myself: a pixel-art piece dramatizing the disorientation and loss of direction that dementia causes.",
+            "Built the mechanic around side-to-side movement where the avatar fades and disappears if too many falling items are caught — turning a symptom into felt gameplay.",
+            "Set the tone for the whole compilation as the first experience in the sequence."
+          ],
+          tech: [
+            "Led a 7-person team to deliver a themed product compilation in a tight 5-week cycle.",
+            "Owned both coordination and hands-on contribution — designing and specifying the opening module myself.",
+            "Translated a sensitive real-world subject (dementia) into a clear, empathetic interactive experience.",
+            "Coordinated multiple independent mini-games into one coherent release."
+          ]
+        },
+        skills: ['Game Design', 'Pixel Art', 'Team Leadership', 'Project Management', 'Empathy-Driven Design']
       }
     ];
 
     const HEADER_SKILLS = {
+      loc: ['Russian (Native)', 'English C1', 'Localization', 'Interactive Storytelling', 'Style & Tone', 'Game Production', 'Sound Design', 'FMOD', 'Unity', 'Jira'],
       all: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
       games: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Sprint Planning', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
       tech: ['Scrum', 'Kanban', 'LEAN', 'Jira', 'Sprint Planning', 'Risk Management', 'Stakeholder Comm.', 'KPI Tracking', 'Financial Analysis', 'Data Analysis']
@@ -1348,18 +1591,20 @@
 
     function getParam() {
       const v = new URLSearchParams(location.search).get('view');
-      return ['games', 'tech', 'milestones'].includes(v) ? v : 'all';
+      return ['games', 'tech', 'achievements', 'loc'].includes(v) ? v : 'loc';
     }
 
     function pushParam(f) {
       const u = new URL(location.href);
-      if (f === 'all') u.searchParams.delete('view');
+      if (f === 'loc') u.searchParams.delete('view');
       else u.searchParams.set('view', f);
       history.pushState({}, '', u);
     }
 
     function resolveKey(f) {
-      return f === 'tech' ? 'tech' : 'games';
+      if (f === 'tech') return 'tech';
+      if (f === 'loc') return 'loc';
+      return 'games';
     }
 
     function renderSkillTag(skill) {
@@ -1441,11 +1686,18 @@
       const heroMilestones = document.getElementById('hero-milestones-full');
 
       const heroEl = document.querySelector('.hero');
-      if (f === 'milestones') {
+      if (f === 'achievements') {
         if (heroContent) heroContent.hidden = true;
         if (heroMilestones) heroMilestones.hidden = false;
         heroEl?.classList.add('hero--milestones');
         msSnapOpacity();
+        // Keep the archive below fully visible regardless of prior view filtering.
+        PROJECTS.forEach((p, i) => {
+          const panel = document.getElementById('p' + i);
+          if (panel) panel.hidden = false;
+        });
+        const secLabel = document.getElementById('sec-label');
+        if (secLabel) secLabel.textContent = `Archive Log // ${PROJECTS.length} Projects`;
       } else {
         if (heroContent) heroContent.hidden = false;
         if (heroMilestones) heroMilestones.hidden = true;
@@ -1460,13 +1712,27 @@
         }
 
         const key = resolveKey(f);
+        let visibleCount = 0;
+        let firstVisible = -1;
         PROJECTS.forEach((p, i) => {
           const panel = document.getElementById('p' + i);
           if (!panel) return;
+          const hide = Array.isArray(p.hideIn) && p.hideIn.includes(f);
+          panel.hidden = hide;
+          if (hide) return;
+          if (firstVisible === -1) firstVisible = i;
+          visibleCount++;
           panel.querySelector('.js-role').textContent = p.roles[key];
           panel.querySelector('.js-bullets').innerHTML =
             p.bullets[key].map(b => `<li>${b}</li>`).join('');
         });
+
+        const secLabel = document.getElementById('sec-label');
+        if (secLabel) secLabel.textContent = `Archive Log // ${visibleCount} Projects`;
+
+        // If the currently open panel was hidden in this view, open the first visible one.
+        const openEl = document.querySelector('.panel.open');
+        if ((!openEl || openEl.hidden) && firstVisible !== -1) openPanel(firstVisible);
       }
 
       if (push) pushParam(f);
