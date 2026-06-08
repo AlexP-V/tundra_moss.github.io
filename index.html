@@ -1275,7 +1275,7 @@
     <button class="filter-btn active" data-filter="games">Game PM &amp; Producer</button>
     <button class="filter-btn" data-filter="tech">PM in Tech</button>
     <button class="filter-btn" data-filter="loc">Localization &amp; Sound</button>
-    <button class="filter-btn filter-btn--milestones" data-filter="achievements">Achievements</button>
+    <button class="filter-btn filter-btn--milestones" data-filter="achievements">Milestones</button>
   </div>
 
   <div class="hero">
@@ -1336,32 +1336,38 @@
       { title: "Bachelor's in Game Design and Project Management", date: "June 2026",
         body: `Graduated from Uppsala University (Campus Gotland) with a <span class="hl">bachelor's in Game Design and Project Management</span>.` },
       { title: "Thesis Driving Game — Prototype Completed", date: "May 2026",
+        seal: 'cropped_thesis.png',
         body: `Delivered a finished <span class="hl">research prototype</span> of an untitled driving game with a <span class="hl">complete game loop</span>, alongside two accompanying research papers.` },
       { title: "Completed a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+        seal: 'cropped_mocap.png',
         image: 'mocap_bg.png',
         canva: 'https://docs.google.com/presentation/d/1IE_sAJAuTb8D-W81A1Lt99QymGl9KQuaM0qzqIAvMtI/embed?start=false&loop=false&delayms=3000',
         body: `Planned, pitched, storyboarded and ran a <span class="hl">3-minute mocap cinematic</span> — managing a <span class="hl">team of 5</span>, the lab setup, room bookings, and all logistics.` },
       { title: "Advanced Interactive Storytelling — Two Narrative Board Games", date: "November 2025",
+        seal: 'cropped_stirytelling.png',
         body: `Kept <span class="hl">two narrative board games</span> (two teams of 4) <span class="hl">consistent in theme, pace, and voice</span> across a high volume of writing and editing.` },
       { title: "Produced a Concept-Art Artbook", date: "November 2025",
+        seal: 'cropped_conceptart.png',
         image: 'concept_art_bg.png',
         pdf: 'One_Hundred_Years_Of_Unemployment_Artbook_By_Alex_P-V.pdf',
         body: `Created a full <span class="hl">concept-art artbook</span> for a fictional game across an 8-week studio course.` },
       { title: 'Published "My Roommate\'s Tentacles" on itch.io', date: "October 2025",
+        seal: 'cropped_gjPlus.png',
         image: 'tentacles_bg.png',
         body: `Managed a <span class="hl">team of 7</span> across <span class="hl">three intense days</span> to build and <span class="hl">publish</span> a game-jam title on itch.io, including a recorded video pitch for submission.` },
       { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025",
+        seal: 'cropped_ggc.png',
         image: 'ggc_nomination_bg.png',
         body: `Hauntel Management was shown at <span class="hl">Gotland Game Conference 2025</span> and <span class="hl">nominated for an award</span>.` },
       { title: 'Research Paper — Fairness in Turn-Based Strategy Games', date: "December 2024",
+        seal: 'cropped_fairness.png',
         image: 'strategy_bg.png',
         body: `Authored "Ensuring Fairness in Turn-Based Territorial Strategy Games" — designed a board game and studied <span class="hl">fairness perception through playtesting</span>.` },
       { title: "Four Game Projects in Eight Weeks, Rotating Roles", date: "2024",
         body: `Completed <span class="hl">four short game projects in eight weeks</span> while <span class="hl">rotating through different team roles</span> — deepening hands-on Agile practice.` },
       { title: 'Published "Splish-Splash Submarine" on itch.io', date: "March 2024",
-        body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way.` },
-      { title: "Enrolled at Uppsala University", date: "September 2023",
-        body: `Began the Game Design and Project Management programme at <span class="hl">Uppsala University</span>, Campus Gotland.` }
+        seal: 'cropped_splish.png',
+        body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way.` }
     ];
 
     const MS_STAMP_W = 130;
@@ -1475,7 +1481,7 @@
         item.className = 'ms-item' + (i === MS_STATE.pos ? ' ms-active' : '');
         item.innerHTML = `
           <div class="ms-stamp">
-            <img src="Uppsala_University_logo.svg.png" alt="Uppsala University seal" class="ms-stamp-img" draggable="false"/>
+            <img src="${m.seal || 'Uppsala_University_logo.svg.png'}" alt="${m.title} seal" class="ms-stamp-img" draggable="false"/>
           </div>
           <div class="ms-label">${m.title}</div>
         `;
@@ -1495,7 +1501,7 @@
               <div class="ms-card-date">${m.date}</div>
             </div>
             <div class="ms-card-seal">
-              <img src="Uppsala_University_logo.svg.png" alt="Uppsala University seal" draggable="false"/>
+              <img src="${m.seal || 'Uppsala_University_logo.svg.png'}" alt="${m.title} seal" draggable="false"/>
             </div>
             ${msMediaHTML(m)}
             <div class="ms-card-body">${m.body}</div>
