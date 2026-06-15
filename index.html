@@ -873,14 +873,44 @@
     /* ── MILESTONES FULL VIEW ── */
     .hero-milestones-full:not([hidden]) {
       display: grid;
-      grid-template-columns: calc((100vw - 11rem - 224px) / 2) 705px;
+      grid-template-columns: calc((100vw - 11rem - 224px) / 2 + 130px) 705px;
       gap: 2.5rem;
       position: relative;
       align-items: start;
     }
 
+    .ms-carousel-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    /* Bare prev/next arrows, vertically centred on the 130px stamp. */
+    .ms-nav {
+      flex: 0 0 auto;
+      width: 36px;
+      margin-top: 53px;
+      padding: 0;
+      border: none;
+      background: none;
+      color: var(--ink-3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .ms-nav:hover {
+      color: var(--ink);
+    }
+
+    #ms-nav-prev svg {
+      transform: scaleX(-1);
+    }
+
     .ms-carousel-outer {
-      width: 705px;
+      width: 609px;
       overflow: hidden;
       cursor: grab;
     }
@@ -1079,8 +1109,9 @@
         position: static;
       }
 
-      /* Carousel and the single-item info panel are desktop-only. */
-      .ms-carousel-outer,
+      /* Carousel (with its nav arrows) and the single-item info panel are
+         desktop-only. */
+      .ms-carousel-wrap,
       .ms-info {
         display: none;
       }
@@ -1250,9 +1281,7 @@
               <span class="photo-face photo-back">
                 <span class="note">
                   <span class="note-title">Hello!</span>
-                  <span class="note-text">Composed and organized, I keep plans clear but stay flexible when reality
-                    shifts. I can explain my choices and tradeoffs, and I aim to be a calming, steady presence for the
-                    team. Let's talk!</span>
+                  <span class="note-text"> I'm Alex, a PM and producer in games with quite a bunch of non-pm skills. People I asked told me I'm a pleasure to work with :D The reasons they mention: I'm optimistic, composed, organized and agile, adapting the workflow to the team, not to my own preferences (tho I have preferences too, of course). Let's talk and you can for yourself if they're right!</span>
                   <span class="note-sign">— Aleksandra</span>
                 </span>
               </span>
@@ -1281,7 +1310,7 @@
   <div class="hero">
     <div id="hero-content">
       <p class="bio" id="hero-bio"></p>
-      <div class="bio-meta">Visby, Sweden · Remote-ready · EN C1 · RU Native</div>
+      <div class="bio-meta">Uppsala, Sweden · Remote-ready · EN C1 · RU Native</div>
     </div>
     <div class="hero-milestones-full" id="hero-milestones-full" hidden>
       <div class="ms-info" id="ms-info">
@@ -1289,8 +1318,16 @@
         <div class="ms-info-media" id="ms-info-media"></div>
         <div class="ms-info-title" id="ms-info-title"></div>
       </div>
-      <div class="ms-carousel-outer" id="ms-carousel-outer">
-        <div class="ms-track" id="ms-track"></div>
+      <div class="ms-carousel-wrap">
+        <button class="ms-nav" id="ms-nav-prev" aria-label="Previous milestone">
+          <svg viewBox="0 0 44 28" width="36" height="23" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14 H40"/><path d="M22 3 C36 5 41 14 42 14"/><path d="M22 25 C36 23 41 14 42 14"/></svg>
+        </button>
+        <div class="ms-carousel-outer" id="ms-carousel-outer">
+          <div class="ms-track" id="ms-track"></div>
+        </div>
+        <button class="ms-nav" id="ms-nav-next" aria-label="Next milestone">
+          <svg viewBox="0 0 44 28" width="36" height="23" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14 H40"/><path d="M22 3 C36 5 41 14 42 14"/><path d="M22 25 C36 23 41 14 42 14"/></svg>
+        </button>
       </div>
       <div class="ms-mobile-list" id="ms-mobile-list"></div>
     </div>
@@ -1303,7 +1340,7 @@
   </div>
 
   <footer>
-    <div class="footer-name">© Aleksandra Pavlova-Verevkina · 2026</div>
+    <div class="footer-name">© Made with html by Aleksandra Pavlova-Verevkina · 2026</div>
     <div class="footer-links">
       <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:alexpavlovaverevkina@gmail.com">alexpavlovaverevkina@gmail.com</a>
@@ -1333,47 +1370,47 @@
     const MS_PLACEHOLDER = 'Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text.';
 
     const MILESTONES = [
-      { title: "Bachelor's in Game Design and Project Management", date: "June 2026",
-        body: `Graduated from Uppsala University (Campus Gotland) with a <span class="hl">bachelor's in Game Design and Project Management</span>.` },
-      { title: "Thesis Driving Game — Prototype Completed", date: "May 2026",
+      { title: "BA in Game Design and Project Management", date: "June 2026",
+        body: `Uppsala University <span class="hl">BA done</span>! Time for a new chapter...` },
+      { title: "Untitled Driving Game — Prototype", date: "May 2026",
         seal: 'cropped_thesis.png',
-        body: `Delivered a finished <span class="hl">research prototype</span> of an untitled driving game with a <span class="hl">complete game loop</span>, alongside two accompanying research papers.` },
-      { title: "Completed a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+        body: `Delivered a full <span class="hl">research prototype</span> of an Untitled Driving Game with a <span class="hl">complete game loop</span>, wrote 2 accompanying research papers: 1 in game design and 1 in production` },
+      { title: "Directed a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
         seal: 'cropped_mocap.png',
         image: 'mocap_bg.png',
         canva: 'https://docs.google.com/presentation/d/1IE_sAJAuTb8D-W81A1Lt99QymGl9KQuaM0qzqIAvMtI/embed?start=false&loop=false&delayms=3000',
-        body: `Planned, pitched, storyboarded and ran a <span class="hl">3-minute mocap cinematic</span> — managing a <span class="hl">team of 5</span>, the lab setup, room bookings, and all logistics.` },
+        body: `Planned, pitched, storyboarded and ran a <span class="hl">3-minute mocap cinematic for a fictional game</span>. <br> Contribution: managed a <span class="hl">team of 5</span>, the mocap lab setup, room bookings, and all logistics. <br> Result: disctinction grade and a understanding of mocap technology and caveats.` },
       { title: "Advanced Interactive Storytelling — Two Narrative Board Games", date: "November 2025",
         seal: 'cropped_stirytelling.png',
-        body: `Kept <span class="hl">two narrative board games</span> (two teams of 4) <span class="hl">consistent in theme, pace, and voice</span> across a high volume of writing and editing.` },
+        body: `Project: 2 narrative board games, 1 rural thriller and 1 spooky fantasy. <br> Teams: <span class="hl">2 teams of 4 people each (1 per game)</span>. <br> Contribution: kept <span class="hl">two narrative board games consistent</span> across a high volume of writing and editing (200+ cards).` },
       { title: "Produced a Concept-Art Artbook", date: "November 2025",
         seal: 'cropped_conceptart.png',
         image: 'concept_art_bg.png',
         pdf: 'One_Hundred_Years_Of_Unemployment_Artbook_By_Alex_P-V.pdf',
-        body: `Created a full <span class="hl">concept-art artbook</span> for a fictional game across an 8-week studio course.` },
+        body: `Created a full <span class="hl">concept-art artbook</span> for a fictional game across an 8-week course. Worked in Procreate, managed to overcome own perfectionism and focus on iterations and rough skecthes opposed to polished illustrations` },
       { title: 'Published "My Roommate\'s Tentacles" on itch.io', date: "October 2025",
         seal: 'cropped_gjPlus.png',
         image: 'tentacles_bg.png',
-        body: `Managed a <span class="hl">team of 7</span> across <span class="hl">three intense days</span> to build and <span class="hl">publish</span> a game-jam title on itch.io, including a recorded video pitch for submission.` },
+        body: `Managed a <span class="hl">team of 7</span> across <span class="hl">3 intense days</span> to build and <span class="hl">publish</span> a game-jam title on itch.io, including a recorded video pitch for submission.` },
       { title: 'Exhibited "Hauntel Management" at Gotland Game Conference', date: "June 2025",
         seal: 'cropped_ggc.png',
         image: 'ggc_nomination_bg.png',
-        body: `Hauntel Management was shown at <span class="hl">Gotland Game Conference 2025</span> and <span class="hl">nominated for an award</span>.` },
+        body: `Hauntel Management was exibited at <span class="hl">Gotland Game Conference 2025</span> and <span class="hl">nominated for an award</span>. Removed impediments for the teammates to allow full speed of development, took over level design and audio to give the team creative freedom with code and art` },
       { title: 'Research Paper — Fairness in Turn-Based Strategy Games', date: "December 2024",
         seal: 'cropped_fairness.png',
         image: 'strategy_bg.png',
-        body: `Authored "Ensuring Fairness in Turn-Based Territorial Strategy Games" — designed a board game and studied <span class="hl">fairness perception through playtesting</span>.` },
+        body: `Authored "Ensuring Fairness in Turn-Based Territorial Strategy Games" — designed a board game and studied <span class="hl">fairness perception through playtesting</span>. The arcticle focuses on how the rules and turns order affect players' subjective impression of the balance.` },
       { title: "Four Game Projects in Eight Weeks, Rotating Roles", date: "2024",
-        body: `Completed <span class="hl">four short game projects in eight weeks</span> while <span class="hl">rotating through different team roles</span> — deepening hands-on Agile practice.` },
+        body: `Completed <span class="hl">4 short game projects in 8 weeks</span> while <span class="hl">rotating through different team roles: Scrum Master, Developer (artist), Developer (programmer), Product Owner</span> — quite a training camp for Agile practice.` },
       { title: 'Published "Splish-Splash Submarine" on itch.io', date: "March 2024",
         seal: 'cropped_splish.png',
-        body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way.` }
+        body: `Managed a 7-person team through a <span class="hl">10-week production cycle</span> to a public itch.io release, <span class="hl">teaching the team Scrum from scratch</span> along the way. I was prohibited from becoming a Product Owner so I made sure our PO knows everything about Scrum and manages Jira efficiently. It was actualy team's first encounter of Scrum and I'm proud of them!` }
     ];
 
     const MS_STAMP_W = 130;
     const MS_GAP = 96;
     const MS_STEP = MS_STAMP_W + MS_GAP; // 226
-    const MS_CONTAINER_W = 705;
+    const MS_CONTAINER_W = 609;
     const MS_OFFSET = Math.round((MS_CONTAINER_W - MS_STAMP_W) / 2); // 288
 
     // Infinite loop: render several repeated copies of the milestones and keep
@@ -1555,6 +1592,12 @@
         if (item && item.dataset.idx != null) msGoTo(parseInt(item.dataset.idx, 10));
       });
 
+      // Prev / next arrow buttons flanking the carousel
+      const prevBtn = document.getElementById('ms-nav-prev');
+      const nextBtn = document.getElementById('ms-nav-next');
+      if (prevBtn) prevBtn.addEventListener('click', () => msGoTo(MS_STATE.pos - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => msGoTo(MS_STATE.pos + 1));
+
       // Arrow keys (only when milestones view visible)
       document.addEventListener('keydown', (e) => {
         const view = document.getElementById('hero-milestones-full');
@@ -1630,9 +1673,9 @@
     // ── DATA ─────────────────────────────────────────────────────
 
     const HERO = {
-      loc: 'Russian-native game localization specialist who pairs sharp editorial Russian with hands-on game production. Across 9 projects I worked as a sound designer while running Agile pipelines (Jira, Unity, Unreal, FMOD) and shaping interactive, time-delimited narratives — so I understand how text, voice, and audio actually come together in a shipped game.',
-      all: 'Project Manager with hands-on experience leading cross-functional teams through full production cycles. 9 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
-      games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 9 full production cycles — from concept and prototyping to release — using Agile and data-driven decision making.',
+      loc: 'Russian-native game localization manager. <br> Me-USP: sharp editorial Russian with explicit game production experience. Across 9 projects, I worked as a manager and sound designer while running Agile pipelines (Jira, Unity, Unreal, FMOD). I understand how text, voice, and audio actually come together in a shipped game thanks to much exposion to writing of all kinds and flavours :D',
+      all: 'Project Manager with diverse experience leading cross-functional teams through full production cycles. 9 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
+      games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 9 full production cycles — from concept and prototyping to release — using Agile and team-centered approach.',
       tech: 'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
     };
 
@@ -1648,6 +1691,7 @@
         image: 'proj_highway.png',
         pdf: 'Ventilation_Final_Presentation.pdf',
         clip: 'Untitled-Driving-Game.mp4',
+        hideIn: ['loc'],
         roles: {
           games: 'Project Manager & Researcher',
           tech: 'Project Manager & Researcher',
@@ -1661,10 +1705,10 @@
             "Delivered audio as part of the final research prototype, presented at the program's public showcase."
           ],
           games: [
-            "Led a team of 3 through a 12-week thesis project: a single-player stylized PC driving game in Unity, controller-played, with a complete core loop — a hyperbolized hand reaching from the car window to grab and deliver items between moving traffic.",
+            "Led a team of 3 through a 12-week thesis project: a single-player stylized PC driving game (Unity), controller-played, with a complete core loop — a hyperbolized hand reaching from the car window to grab and deliver items between moving traffic.",
             "Owned scoping and feature prioritization end-to-end, protecting team morale and work–life balance while keeping the prototype on schedule.",
-            "Ran structured playtesting and contributed to two studies: a team paper on what makes a comedic obstacle land, and an individual study applying Return on Time Invested (ROTI) to flag obstacles with diminishing returns.",
-            "Delivered the final research prototype as a playable build and repository, presented at the program's public showcase."
+            "Ran structured playtesting (4 sessions) and contributed to 2 studies: a team paper on what makes a comedic obstacle land, and an individual study applying Return on Time Invested (ROTI) to flag obstacles with diminishing returns.",
+            "Distinction grade. Delivered the final research prototype as a playable build and repository, presented at the program's public showcase."
           ],
           tech: [
             "Led a 3-person team through a 12-week capstone, shipping a research prototype with a complete, validated core loop — on time and to scope.",
@@ -1696,14 +1740,14 @@
         bullets: {
           games: [
             'Adapted Return on Time Invested (ROTI) — a concept borrowed from agile meeting evaluation — into a lightweight method for judging which game features actually justify their production cost.',
-            'Ran the study as Research through Design on a comedic 3D driving game built by a team of 3, with obstacles designed to amuse rather than alienate the player.',
-            'Across two iterations, coded semi-structured interviews from six playtesters each into a normalized experiential value per obstacle, cross-referenced with development hours tracked in Jira.',
+            'Ran the study as Research through Design on a comedic 3D driving game built by a team of 3, with comedic obstacles as the study object.',
+            'Across 2 iterations, coded semi-structured interviews from 5-6 playtesters each into a normalized experiential value per obstacle, cross-referenced with development hours tracked in Jira.',
             'Found experiential value and development cost poorly correlated: the most expensive obstacle landed no better than one costing 40% less time, while the cheapest stayed net-negative across both iterations.',
             'Showed that comedic framing which sharpened visual and audio clarity acted as an efficiency multiplier — raising player payoff while suppressing frustration.'
           ],
           tech: [
             'Translated an agile concept (Return on Time Invested) into a repeatable, data-informed method for evaluating feature efficiency under real production constraints.',
-            'Designed and ran a two-iteration mixed-methods study: thematic coding of 12 playtester interviews normalized into a value metric, cross-referenced against Jira time-tracking data.',
+            'Designed and ran a 2-iteration mixed-methods study: thematic coding of 12 playtester interviews normalized into a value metric, cross-referenced against Jira time-tracking data.',
             'Surfaced a weak correlation between cost and value — the priciest feature returned no more than one built in 40% less time — quantifying where effort yielded diminishing returns.',
             'Isolated an efficiency multiplier (clarity-enhancing framing) that raised perceived value without added build cost.',
             'Concluded with a lightweight scoping framework giving small teams a shared, production-data-grounded basis for prioritization decisions instead of intuition.'
@@ -1735,22 +1779,22 @@
         },
         bullets: {
           loc: [
-            "Built distinct soundscapes for four experimental prototypes in eight weeks, each shaped around a different design constraint.",
-            "Standout build — a social trust-and-trickery game set in a whiteout snowstorm — leaned on audio to sell isolation and tension as the lone penguin decides who to believe.",
+            "Built minimalistic soundscapes for 4 experimental prototypes in 8 weeks, each shaped around a different design constraint.",
+            "Favourite build — a social trust-and-trickery game set in a whiteout snowstorm — leaned on audio to sell isolation and tension as the lone penguin decides who to believe.",
             "Iterated sound fast across short, self-contained sprints, matching each prototype's tone without overscoping.",
             "Delivered audio for every playable build alongside supporting screenshots and documentation."
           ],
           games: [
-            "Managed a team of 3 to deliver four experimental game prototypes in eight weeks, each built around a deliberate constraint set by the module.",
+            "Managed a team of 3 to deliver 4 experimental game prototypes in 8 weeks, each built around a deliberate constraint set by the module.",
             "Standout build: a social trust-and-trickery game following a lone penguin through a whiteout snowstorm, where progress depends on who the player chooses to believe.",
-            "Structured the work as four short, self-contained sprints so the team could explore distinct concepts without overscoping any single one.",
+            "Structured the work as 4 short, self-contained sprints so the team could explore distinct concepts without overscoping any single one.",
             "Delivered each prototype as a playable build with supporting screenshots and documentation."
           ],
           tech: [
-            "Managed a 3-person team to deliver four prototypes in eight weeks, each scoped around a fixed constraint — a deliberate exercise in rapid, disciplined iteration.",
-            "Broke an open-ended brief into four self-contained sprints, keeping scope tight and output shippable at each checkpoint.",
+            "Managed a 3-person team to deliver 4 prototypes in 8 weeks, each scoped around a fixed constraint — a deliberate exercise in rapid, disciplined iteration.",
+            "Broke an open-ended brief into 4 self-contained sprints, keeping scope tight and output shippable at each checkpoint.",
             "Prioritized concepts under time pressure and protected the team from overcommitting to any single direction.",
-            "Delivered four working builds with documentation; the strongest, a social-trust mechanic, was carried furthest."
+            "Delivered 4 working builds with documentation; the strongest, a social-trust mechanic, was carried furthest."
           ]
         },
         skills: ['Rapid Prototyping', 'Scrum', 'Scoping', 'Team Leadership', 'Game Design']
@@ -1773,7 +1817,7 @@
         },
         bullets: {
           loc: [
-            "Reworked a dry strategic Vision document into a playful, interactive seminar — in effect localizing institutional language into content members would actually engage with.",
+            "Reworked a dry strategic Vision document into a playful, interactive seminar — resulted in switching from dry, formal text file to playful content members would actually engage with.",
             "Tuned tone, pacing, and voice for a specific audience at the client's annual conference, including the spoken delivery and audio cues of the live experience.",
             "Applied neuroscience-backed motivation and behavioural principles to hold attention from start to finish.",
             "Produced and presented a full client-facing proposal for Gotlands Förenade Besöksnäring (Gotland's regional tourism association)."
@@ -1812,24 +1856,24 @@
         },
         bullets: {
           loc: [
-            'Owned sound design for a cooperative management game shown at Gotland Game Conference 2025 — from ambience and UI to event audio.',
-            'Integrated audio with level mapping, AI behaviour, and networked multiplayer, with QA enforced at every milestone.',
-            'Tuned audio from playtesting and analytics to support gameplay loops, player retention, and the readability of in-game events.',
-            'Delivered audio inside a full Jira/Agile production pipeline spanning remote and on-site workflows — first-hand exposure to how a real game gets built.'
+            'Owned sound design for a cooperative management game shown at Gotland Game Conference 2025 — from ambience and UI to gameplay audio.',
+            'Mathed audio to level mapping, AI behaviour, and networked multiplayer, with QA done at every milestone.',
+            'Tuned audio from playtesting to support gameplay loops, player retention, and the readability of in-game events.',
+            'Delivered ~70 audio assets inside a full Jira/Agile production pipeline spanning remote and on-site workflows — another game built!'
           ],
           games: [
             'Led a cross-functional team through full alpha-to-beta production for a cooperative management game shown at Gotland Game Conference 2025.',
             'Set sprint goals, managed production timelines, and tracked tasks in Jira across remote and on-site workflows.',
             'Drove design decisions from playtesting and analytics to refine gameplay loops, player retention mechanics, and in-game economy.',
-            'Developed commercial strategy: market positioning, competitive analysis, and financial projections for Early Access launch and long-term monetization.',
+            'Developed commercial strategy: market positioning, competitive analysis, and financial projections for Early Access launch and long-term monetization. Pitched to Gotland Incubator',
             'Coordinated integration of sound design, level mapping, AI behavior, and networked multiplayer — QA enforced at every milestone.'
           ],
           tech: [
             'Led a cross-functional software team through a full product cycle — from scoping and sprint planning through beta and public release.',
             'Owned the Jira backlog: sprint goals, task prioritization, milestone tracking, and blocker management across a hybrid remote/on-site team.',
             'Made data-driven product decisions using user testing and analytics to optimize core loops, retention, and feature priority.',
-            'Built go-to-market strategy: competitive analysis, market positioning, and financial projections structured for launch and long-term growth.',
-            'Coordinated cross-disciplinary integration (audio, systems, AI, networking) — owned quality control from feature delivery to milestone sign-off.'
+            'Built market release strategy: competitor analysis, market positioning, and financial projections structured for launch and long-term growth.',
+            'Coordinated cross-disciplinary integration (audio, systems, AI, networking) — owned quality control from feature delivery to milestone pass.'
           ]
         },
         skills: ['Jira', 'Agile', 'Team Leadership', 'Game Design', 'Sound Design', 'Market Analysis']
@@ -1837,7 +1881,7 @@
       {
         code: 'PROJ_005',
         title: 'Theatre',
-        subtitle: 'Collaborative Level Design',
+        subtitle: 'Unreal Engine 5 Level Design',
         org: 'Uppsala University',
         date: 'Jan 2025 — Mar 2025',
         status: 'Completed',
@@ -1851,9 +1895,9 @@
         },
         bullets: {
           loc: [
-            "Crafted the audio atmosphere for a cohesive 3D level in Unreal Engine 5, keeping sound consistent across areas built by six different people.",
+            "Crafted the audio atmosphere for a large 3D level in Unreal Engine 5, keeping sound consistent across areas built by 6 different people.",
             "Matched audio tone, scale, and player flow across hand-offs so independently-built sections felt like one continuous space.",
-            "Worked hands-on in Unreal Engine 5, placing and balancing spatial audio across the level.",
+            "Worked hands-on in Unreal Engine 5, placing and balancing spatial audio across the level in addition to own's area building.",
             "Coordinated audio integration as part of assembling the modular level into one whole."
           ],
           games: [
@@ -1863,7 +1907,7 @@
             "Managed dependencies and integration so independently-built sections assembled into one continuous space."
           ],
           tech: [
-            "Led a 6-person team through a 7-week build in Unreal Engine 5, coordinating parallel work on a shared deliverable.",
+            "Led a 6-person team through a 7-week build in Unreal Engine 5, coordinating parallel work on a shared build.",
             "Owned integration of independently-developed modules into one consistent whole — managing interfaces, tone, and hand-offs.",
             "Balanced individual ownership (each member owning an area and a mechanic) against overall coherence.",
             "Kept distributed work aligned to a single spec across a tight timeline."
@@ -1895,12 +1939,12 @@
             'Defined the audio direction for a cozy shopkeeping game — the warm, low-stress soundscape that genre lives or dies on.',
             'Folded audio scope and cost into a full 3-year production plan and financial model (break-even at 71,000 units) — understanding sound as part of a real budget.',
             'Researched the competitive landscape and player personas to ground the game\'s tone and sound identity in the market.',
-            'Presented the production plan, including audio and content scope, to a simulated investor audience.'
+            'Presented the production plan, including audio and content scope, to an investor audience.'
           ],
           games: [
             'Created a full 3-year business plan for a cozy shopkeeping game: sales projections, DLC revenue strategies, financial forecasting — break-even modeled at 71,000 units.',
             'Managed production timelines and coordinated an interdisciplinary team using Jira and Agile — all milestones met.',
-            'Conducted competitive analysis, market research, and player persona development to inform marketing and monetization strategy.',
+            'Conducted competitor analysis, market research, and player analysis to inform marketing and monetization strategy.',
             'Presented production plan and financial forecasts to a simulated investor audience — strong feedback for clarity and analytical depth.'
           ],
           tech: [
@@ -1932,13 +1976,13 @@
             "Designed the arcade audio for a hand-built pose-matching booth — punchy feedback sounds built to read instantly in a noisy arcade setting.",
             "Synced audio with custom hardware and software so sound responded to player poses in real time.",
             "Delivered audio through formal milestone gates (pitch, green-light, playable) within an 8-week build.",
-            "Coordinated audio alongside the physical fabrication of the booth."
+            "Coordinated audio alongside the physical making of the booth."
           ],
           games: [
             "Led a team of 6 to take an original arcade game from pitch through green-light to a fully playable build in 8 weeks.",
             "Delivered a hand-built physical game booth — a pose-matching arcade experience combining custom hardware and software.",
             "Steered the project through formal milestone gates (pitch, green-light, playable), keeping scope realistic for the timeline.",
-            "Coordinated physical fabrication of the booth alongside game development."
+            "Coordinated physical making of the booth alongside game development."
           ],
           tech: [
             "Led a 6-person team from pitch through formal green-light to a working product in 8 weeks.",
@@ -1974,7 +2018,7 @@
           ],
           games: [
             'Managed a 7-person cross-functional team through full production in 10 weeks: planning, prototyping, playtesting, and release using Jira.',
-            'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve retention, and balance gameplay.',
+            'Analyzed player feedback and playtesting data from 50+ players to iterate on mechanics, improve replayability, and balance gameplay.',
             'Introduced and taught Agile practices to the team — facilitated daily stand-ups, sprint planning, and retrospectives.',
             'Owned the itch.io project page, market positioning, and progress presentations to faculty stakeholders.'
           ],
@@ -2005,9 +2049,9 @@
         bullets: {
           loc: [
             "Designed sound for an awareness compilation about dementia, using audio to deepen the felt sense of disorientation.",
-            "Built the opening mini-game's audio to reinforce the fading, losing-direction mechanic — turning a symptom into something the player hears and feels.",
+            "Built the opening mini-game's audio to reinforce the fading, losing-direction mechanic.",
             "Set the emotional and sonic tone for the whole compilation as the first experience in the sequence.",
-            "Delivered audio across multiple mini-games coordinated into one coherent release."
+            "Delivered audio across 7 mini-games coordinated into one continuous release."
           ],
           games: [
             "Led a team of 7 to build a compilation of mini-games raising awareness of dementia, delivered in 5 weeks.",
@@ -2022,7 +2066,7 @@
             "Coordinated multiple independent mini-games into one coherent release."
           ]
         },
-        skills: ['Game Design', 'Pixel Art', 'Team Leadership', 'Project Management', 'Empathy-Driven Design']
+        skills: ['Game Design', 'Pixel Art', 'Team Leadership', 'Project Management', 'Serious Games' , 'Audio']
       }
     ];
 
@@ -2033,11 +2077,16 @@
       tech: ['Scrum', 'Kanban', 'LEAN', 'Jira', 'Sprint Planning', 'Risk Management', 'Stakeholder Comm.', 'KPI Tracking', 'Financial Analysis', 'Data Analysis']
     };
 
-    const SOFT_SKILLS = new Set([
+    // Soft skills shown on every tab, after that tab's hard skills.
+    const SOFT_SKILLS_LIST = [
       'Team Leadership',
-      'Stakeholder Communication',
-      'Stakeholder Comm.'
-    ]);
+      'Stakeholder Comm.',
+      'Non-Violent Comm.',
+      'Adapting',
+      'Structure',
+      'Presentation'
+    ];
+    const SOFT_SKILLS = new Set(SOFT_SKILLS_LIST);
 
     // ── HELPERS ──────────────────────────────────────────────────
 
@@ -2278,11 +2327,12 @@
         if (secLabel) secLabel.hidden = false;
         if (archiveWrap) archiveWrap.hidden = false;
 
-        document.getElementById('hero-bio').textContent = HERO[f] || HERO.all;
+        document.getElementById('hero-bio').innerHTML = HERO[f] || HERO.all;
 
         const headerSkills = document.querySelector('.js-header-skills');
         if (headerSkills) {
-          headerSkills.innerHTML = (HEADER_SKILLS[f] || HEADER_SKILLS.all)
+          const hard = (HEADER_SKILLS[f] || HEADER_SKILLS.all).filter(s => !SOFT_SKILLS.has(s));
+          headerSkills.innerHTML = [...hard, ...SOFT_SKILLS_LIST]
             .map(s => renderSkillTag(s)).join('');
         }
 
