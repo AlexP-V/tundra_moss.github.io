@@ -118,6 +118,7 @@
     nav {
       display: flex;
       gap: 1.5rem;
+      margin-top: 1rem;
       padding-bottom: 0.15rem;
     }
 
@@ -177,6 +178,51 @@
       transform-origin: top center;
       filter: drop-shadow(3px 6px 14px rgba(0, 0, 0, 0.14));
       perspective: 900px;
+      z-index: 1;
+    }
+
+    /* While focus mode is active the clip is lifted above the dim backdrop
+       (its centring transform is driven inline from JS). */
+    .photo-clip.focus-active {
+      z-index: 1000;
+    }
+
+    /* ── CLICK HINT ── cursor-click icon tucked at the photo's corner */
+    .photo-hint {
+      position: absolute;
+      right: -30px;
+      bottom: -26px;
+      z-index: 3;
+      pointer-events: none;
+      color: var(--mustard);
+      transform-origin: top left;
+      animation: hint-bob 1.7s ease-in-out infinite;
+      transition: opacity .35s;
+    }
+
+    .photo-hint-icon {
+      display: block;
+      filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.18));
+    }
+
+    @keyframes hint-bob {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-4px, -4px); }
+    }
+
+    /* Hide the cue while the note is open, and for good once it's been used. */
+    .photo-clip.focus-active .photo-hint,
+    .photo-clip.hint-dismissed .photo-hint {
+      opacity: 0;
+    }
+
+    .photo-clip.hint-dismissed .photo-hint {
+      pointer-events: none;
+      animation: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .photo-hint { animation: none; }
     }
 
     .photo-flip {
@@ -199,10 +245,32 @@
       transition: transform .55s cubic-bezier(.4, 0, .2, 1);
     }
 
-    .photo-clip:hover .photo-card,
-    .photo-flip:hover .photo-card,
-    .photo-flip:focus-visible .photo-card {
+    /* Card flips to the note only in focus mode (click to open). A subtle
+       hover cue hints it's interactive without committing the flip. */
+    .photo-clip:not(.focus-active):hover .photo-card {
+      transform: translateY(-3px);
+    }
+
+    .photo-clip.focus-active .photo-card {
       transform: rotateY(180deg);
+    }
+
+    /* ── FOCUS BACKDROP ── dims the rest of the site while the note is open */
+    .focus-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(20, 16, 12, 0.62);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .45s ease;
+    }
+
+    .focus-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .photo-face {
@@ -1257,6 +1325,11 @@
         <div class="eyebrow">Portfolio // 2022–2026</div>
         <h1>Aleksandra<br>Pavlova-Verevkina</h1>
         <div class="header-role">PM · Producer · Localization · GameDev</div>
+        <nav>
+          <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank"
+            rel="noopener">LinkedIn</a>
+          <a href="mailto:alexpavlovaverevkina@gmail.com">Email</a>
+        </nav>
       </div>
       <div class="header-center">
         <div class="photo-clip" id="photo-clip">
@@ -1287,15 +1360,26 @@
               </span>
             </span>
           </button>
+          <span class="photo-hint" aria-hidden="true">
+            <svg class="photo-hint-icon" width="46" height="46" viewBox="0 0 44 44" fill="none">
+              <!-- radiating "click" burst around the tip -->
+              <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                <line x1="19" y1="9"  x2="20" y2="3" />
+                <line x1="13" y1="11" x2="9"  y2="6" />
+                <line x1="11" y1="16" x2="4"  y2="15" />
+                <line x1="12" y1="22" x2="7"  y2="27" />
+                <line x1="26" y1="10" x2="30" y2="5" />
+                <line x1="28" y1="16" x2="35" y2="15" />
+              </g>
+              <!-- pointer cursor, tip at the burst -->
+              <path d="M20 18 L20 41 L25.6 35 L30.2 43.5 L34.4 41.4 L29.7 33 L37.4 32 Z"
+                fill="currentColor" stroke="var(--bg)" stroke-width="1.4" stroke-linejoin="round" />
+            </svg>
+          </span>
         </div>
       </div>
       <div class="header-right">
         <div class="c-skills js-header-skills"></div>
-        <nav>
-          <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank"
-            rel="noopener">LinkedIn</a>
-          <a href="mailto:alexpavlovaverevkina@gmail.com">Email</a>
-        </nav>
       </div>
     </div>
   </header>
@@ -1338,6 +1422,8 @@
   <div class="accordion-wrap">
     <div class="accordion" id="accordion"></div>
   </div>
+
+  <div id="focus-backdrop" class="focus-backdrop"></div>
 
   <footer>
     <div class="footer-name">© Made with html by Aleksandra Pavlova-Verevkina · 2026</div>
@@ -1685,7 +1771,7 @@
         title: 'Untitled Driving Game',
         subtitle: 'Thesis Game Project',
         org: 'Uppsala University',
-        date: 'Jan 2026 — Jun 2026',
+        date: 'Jan 2026 — May 2026',
         status: 'Completed',
         color: '#b5a38e',
         image: 'proj_highway.png',
@@ -1842,7 +1928,7 @@
         title: 'Hauntel Management',
         subtitle: 'Cooperative Management Game',
         org: 'Uppsala University · Gotland Game Conference 2025',
-        date: 'Jan 2025 — Jul 2025',
+        date: 'Mar 2025 — Jun 2025',
         status: 'Released',
         color: '#5c7591',
         image: 'proj_hauntel.png',
@@ -2373,6 +2459,77 @@
     );
 
     window.addEventListener('popstate', () => applyFilter(getParam(), false));
+
+    // ── PHOTO FOCUS MODE ─────────────────────────────────────────
+    // Click the photo to flip it to the note, float it to the centre of the
+    // screen, and dim the rest of the site. Click again / backdrop / Esc closes.
+    (function () {
+      const clip = document.getElementById('photo-clip');
+      const btn = document.getElementById('photo-flip');
+      const backdrop = document.getElementById('focus-backdrop');
+      if (!clip || !btn || !backdrop) return;
+
+      let open = false;
+
+      // Transform that flies the resting card to the viewport centre and scales
+      // it up. Measured against the *untransformed* layout box so the maths is
+      // independent of the card's resting tilt; keeps transform-origin at the
+      // CSS default (top center) so the open/close tween stays smooth.
+      function centerTransform() {
+        const prev = clip.style.transform;
+        const prevTrans = clip.style.transition;
+        clip.style.transition = 'none';
+        clip.style.transform = 'none';
+        const r = clip.getBoundingClientRect();
+        clip.style.transform = prev;
+        clip.style.transition = prevTrans;
+        const scale = Math.min(
+          2.0,
+          (window.innerHeight * 0.82) / r.height,
+          (window.innerWidth * 0.92) / r.width
+        );
+        const dx = window.innerWidth / 2 - (r.left + r.width / 2);
+        const dy = window.innerHeight / 2 - r.top - scale * r.height / 2;
+        return `translate(${dx}px, ${dy}px) scale(${scale})`;
+      }
+
+      function openFocus() {
+        if (open) return;
+        open = true;
+        clip.classList.add('hint-dismissed');   // retire the cue after first use
+        clip.classList.remove('swaying');
+        const target = centerTransform();
+        requestAnimationFrame(() => {
+          clip.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1)';
+          clip.classList.add('focus-active');   // flips the card
+          clip.style.transform = target;
+          backdrop.classList.add('show');
+          btn.setAttribute('aria-pressed', 'true');
+        });
+      }
+
+      function closeFocus() {
+        if (!open) return;
+        open = false;
+        clip.classList.remove('focus-active');   // flips back
+        clip.style.transform = '';               // eases home to the resting tilt
+        backdrop.classList.remove('show');
+        btn.setAttribute('aria-pressed', 'false');
+        setTimeout(() => { if (!open) clip.style.transition = ''; }, 520);
+      }
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        open ? closeFocus() : openFocus();
+      });
+      backdrop.addEventListener('click', closeFocus);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeFocus();
+      });
+      window.addEventListener('resize', () => {
+        if (open) clip.style.transform = centerTransform();
+      });
+    })();
 
   </script>
 </body>
