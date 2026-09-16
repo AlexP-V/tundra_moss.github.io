@@ -838,6 +838,17 @@
       margin-right: auto;
     }
 
+    .c-title-link {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.15em;
+    }
+
+    .c-title-link:hover {
+      color: var(--mustard);
+    }
+
     /* YouTube embeds have no intrinsic size: fill the width at 16:9,
        still capped at 40vh tall like the other covers. */
     .panel-content .c-img--yt {
@@ -1862,6 +1873,7 @@
         status: 'Client Work',
         color: '#2f4a6e',
         featured: true,
+        link: 'https://andreevatonya.ru/',
         youtube: 'https://www.youtube-nocookie.com/embed/0a92GLJ1bTw?list=PLL1e80wgud31xDiD3PUY_Guww18vZgRUE',
         roles: {
           games: 'Project Manager',
@@ -2292,7 +2304,7 @@
         <div class="c-header">
           <div>
             <div class="c-code">${p.code} // ${p.subtitle}</div>
-            <div class="c-title">${p.title}</div>
+            <div class="c-title">${p.link ? `<a class="c-title-link" href="${p.link}" target="_blank" rel="noopener">${p.title}</a>` : p.title}</div>
             <div class="c-role js-role"></div>
           </div>
           <div class="c-right">
