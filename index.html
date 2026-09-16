@@ -1455,8 +1455,8 @@
   </header>
 
   <div class="filter-bar">
-    <button class="filter-btn active" data-filter="games">Game PM &amp; Producer</button>
-    <button class="filter-btn" data-filter="tech">PM in Tech</button>
+    <button class="filter-btn active" data-filter="games">Projects</button>
+    <button class="filter-btn" data-filter="tech">Projects</button>
     <button class="filter-btn filter-btn--milestones" data-filter="achievements">Milestones</button>
   </div>
 
@@ -1860,7 +1860,7 @@
     const HERO = {
       all: 'Project Manager with diverse experience leading cross-functional teams through full production cycles. 9 projects across 3 years — from pre-production and prototyping to release, using Agile methodologies throughout.',
       games: 'Producer and Project Manager with 3 years of game development experience. Led cross-functional teams of 3–8 through 9 full production cycles — from concept and prototyping to release — using Agile and team-centered approach.',
-      tech: 'Project Manager with a track record of delivering software products end-to-end: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
+      tech: 'Project Manager with a track record of delivering software products and design projects: planning, cross-functional coordination, data-driven iteration, and stakeholder communication. Background in business analysis; consistent on-time delivery using Agile/Scrum.'
     };
 
     const PROJECTS = [
@@ -1879,28 +1879,17 @@
           games: 'Project Manager',
           tech: 'Project Manager'
         },
-        bullets: {
-          games: [
-            "Project Manager for a residential interior design practice (principal designer plus four junior designers), working remotely from Sweden on Moscow business hours as a contractor on paid commercial client work.",
-            "Ran a fixed delivery pipeline per client: brief call, measured floor plans, layout variants in Remplanner, mood and design variants including AI visualisation, revision rounds, then a purchase specification naming every material, furniture item, appliance and decor piece with where to buy it. One to two new projects opened per month, typically four to six weeks each, with slower cycles driven by client response time.",
-            "Allocated projects across the principal and four junior designers by capacity and client fit. Juniors took projects solo, or alongside the principal when her book was full and the client agreed to work with an assistant.",
-            "Ran a weekly Monday planning and status meeting for a team spread across several Russian time zones, with the principal on Moscow time and me in Sweden. Held one to two client calls per week per project stage, scheduled around client availability rather than a fixed slot.",
-            "Checked every purchase specification against the budget agreed between designer and client before release, and reported how spend split across materials, furniture, appliances and decor so the designer could rebalance ahead of sign-off. Tracked order status directly with store managers and consultants to keep assortment and availability current.",
-            "Coordinated designer and assistant site visits for clients on the optional renovation-supervision package, pacing visits against the crew's progress on site.",
-            "Tracked the principal's time spent coaching juniors against what the juniors were paid (her income included a percentage of it) and used that to set how many juniors the practice could carry. Her own throughput grew from one to two projects a month over the period.",
-            "Scheduled filming windows for the principal's YouTube channel around live project commitments."
-          ],
-          tech: [
-            "Project Manager for a residential interior design practice (principal designer plus four junior designers), working remotely from Sweden on Moscow business hours as a contractor on paid commercial client work.",
-            "Ran a fixed delivery pipeline per client: brief call, measured floor plans, layout variants in Remplanner, mood and design variants including AI visualisation, revision rounds, then a purchase specification naming every material, furniture item, appliance and decor piece with where to buy it. One to two new projects opened per month, typically four to six weeks each, with slower cycles driven by client response time.",
-            "Allocated projects across the principal and four junior designers by capacity and client fit. Juniors took projects solo, or alongside the principal when her book was full and the client agreed to work with an assistant.",
-            "Ran a weekly Monday planning and status meeting for a team spread across several Russian time zones, with the principal on Moscow time and me in Sweden. Held one to two client calls per week per project stage, scheduled around client availability rather than a fixed slot.",
-            "Checked every purchase specification against the budget agreed between designer and client before release, and reported how spend split across materials, furniture, appliances and decor so the designer could rebalance ahead of sign-off. Tracked order status directly with store managers and consultants to keep assortment and availability current.",
-            "Coordinated designer and assistant site visits for clients on the optional renovation-supervision package, pacing visits against the crew's progress on site.",
-            "Tracked the principal's time spent coaching juniors against what the juniors were paid (her income included a percentage of it) and used that to set how many juniors the practice could carry. Her own throughput grew from one to two projects a month over the period.",
-            "Scheduled filming windows for the principal's YouTube channel around live project commitments."
-          ]
-        },
+        // Same text in every view.
+        bullets: (b => ({ games: b, tech: b }))([
+          "Project Manager for a residential interior design practice (principal designer plus four junior designers), working remotely from Sweden on Moscow business hours as a contractor on paid commercial client work.",
+          "Ran a fixed delivery pipeline per client: brief call, measured floor plans, layout variants in Remplanner, mood and design variants including AI visualisation, revision rounds, then a purchase specification naming every material, furniture item, appliance and decor piece with where to buy it. One to two new projects opened per month, typically four to six weeks each, with slower cycles driven by client response time.",
+          "Allocated projects across the principal and four junior designers by capacity and client fit. Juniors took projects solo, or alongside the principal when her book was full and the client agreed to work with an assistant.",
+          "Ran a weekly Monday planning and status meeting for a team spread across several Russian time zones, with the principal on Moscow time and me in Sweden. Held one to two client calls per week per project stage, scheduled around client availability rather than a fixed slot.",
+          "Checked every purchase specification against the budget agreed between designer and client before release, and reported how spend split across materials, furniture, appliances and decor so the designer could rebalance ahead of sign-off. Tracked order status directly with store managers and consultants to keep assortment and availability current.",
+          "Coordinated designer and assistant site visits for clients on the optional renovation-supervision package, pacing visits against the crew's progress on site.",
+          "Tracked the principal's time spent coaching juniors against what the juniors were paid (her income included a percentage of it) and used that to set how many juniors the practice could carry. Her own throughput grew from one to two projects a month over the period.",
+          "Scheduled filming windows for the principal's YouTube channel around live project commitments."
+        ]),
         skills: ['Client Management', 'Capacity Planning', 'Budget Control', 'Vendor Coordination', 'Google Sheets', 'Stakeholder Comm.', 'Remote Teams']
       },
       {
@@ -2263,12 +2252,24 @@
 
     function getParam() {
       const v = new URLSearchParams(location.search).get('view');
-      return ['games', 'tech', 'achievements'].includes(v) ? v : 'games';
+      return ['games', 'tech', 'achievements'].includes(v) ? v : getHome();
+    }
+
+    // The role view (games / tech) a visitor arrived on. Visitors can only
+    // switch between it and Milestones; the other role view is reachable
+    // only by editing the URL. While on Milestones, `role` keeps the home view.
+    function getHome() {
+      const params = new URLSearchParams(location.search);
+      const v = params.get('view');
+      if (v === 'games' || v === 'tech') return v;
+      return params.get('role') === 'tech' ? 'tech' : 'games';
     }
 
     function pushParam(f) {
       const u = new URL(location.href);
       u.searchParams.set('view', f);
+      if (f === 'achievements' && HOME === 'tech') u.searchParams.set('role', 'tech');
+      else u.searchParams.delete('role');
       history.pushState({}, '', u);
     }
 
@@ -2319,14 +2320,14 @@
                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
             : (p.canva || p.pdf)
-            ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo c-img-cover">` : ''}
+              ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo c-img-cover">` : ''}
                <button class="c-img-deck" onclick="openCanva(event, ${i})">
                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
                  ${p.btnLabel || (p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations')}
                </button>`
-            : p.image
-              ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo${p.cover ? ' c-img-cover' : ''}">`
-              : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
+              : p.image
+                ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo${p.cover ? ' c-img-cover' : ''}">`
+                : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
         </div>
 
         ${p.clip ? `
@@ -2537,6 +2538,12 @@
     }
 
     // ── INIT ─────────────────────────────────────────────────────
+
+    const HOME = getHome();
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      const f = b.dataset.filter;
+      if ((f === 'games' || f === 'tech') && f !== HOME) b.remove();
+    });
 
     buildAccordion();
     buildMilestonesView();
