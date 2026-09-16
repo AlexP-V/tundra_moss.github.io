@@ -1477,6 +1477,56 @@
         transition: none;
       }
 
+      /* Collapsed entries: a solid coloured bar with the code + title.
+         Tap to expand; tap the entry's header to collapse again. */
+      .panel:not(.open) {
+        cursor: pointer;
+      }
+
+      .panel:not(.open) .panel-content {
+        display: none;
+      }
+
+      .panel:not(.open) .panel-fill {
+        bottom: 0;
+        height: auto;
+      }
+
+      .panel--featured:not(.open) .panel-fill {
+        background: #fff !important;
+        box-shadow: inset 0 0 0 2px #2f4a6e;
+      }
+
+      .panel:not(.open) .panel-spine {
+        display: flex;
+        position: relative;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.8rem;
+        padding: 1rem 1.1rem;
+      }
+
+      .panel:not(.open) .spine-code,
+      .panel:not(.open) .spine-title {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+
+      .panel:not(.open) .spine-title {
+        font-size: 0.85rem;
+        white-space: normal;
+      }
+
+      .panel:not(.open) .spine-dot {
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+
+      .panel.open .c-header {
+        cursor: pointer;
+      }
+
       /* Stack the clip + skills vertically on narrow screens. */
       .c-media-row {
         flex-direction: column;
@@ -2454,11 +2504,14 @@
 
     // ── BUILD ACCORDION ──────────────────────────────────────────
 
+    const MOBILE = window.matchMedia('(max-width: 767px)');
+
     function buildAccordion() {
       const root = document.getElementById('accordion');
       PROJECTS.forEach((p, i) => {
         const panel = document.createElement('div');
-        panel.className = 'panel' + (p.featured ? ' panel--featured' : '') + (i === 0 ? ' open' : '');
+        // On mobile every entry starts collapsed.
+        panel.className = 'panel' + (p.featured ? ' panel--featured' : '') + (i === 0 && !MOBILE.matches ? ' open' : '');
         panel.id = 'p' + i;
 
         panel.innerHTML = `
@@ -2515,8 +2568,16 @@
       </div>
     `;
 
-        panel.addEventListener('click', () => {
-          if (!panel.classList.contains('open')) openPanel(i);
+        panel.addEventListener('click', (e) => {
+          const open = panel.classList.contains('open');
+          if (MOBILE.matches) {
+            // Mobile: entries toggle independently. Collapse only via the
+            // header, so taps on links, videos and buttons don't close it.
+            if (!open) panel.classList.add('open');
+            else if (e.target.closest('.c-header') && !e.target.closest('a')) panel.classList.remove('open');
+            return;
+          }
+          if (!open) openPanel(i);
         });
 
         root.appendChild(panel);
@@ -2693,7 +2754,7 @@
 
         // If the currently open panel was hidden in this view, open the first visible one.
         const openEl = document.querySelector('.panel.open');
-        if ((!openEl || openEl.hidden) && firstVisible !== -1) openPanel(firstVisible);
+        if ((!openEl || openEl.hidden) && firstVisible !== -1 && !MOBILE.matches) openPanel(firstVisible);
       }
 
       if (push) pushParam(f);
