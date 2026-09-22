@@ -515,6 +515,128 @@
       max-width: 580px;
     }
 
+    /* ── WIP NOTE ── one long card: footage left, text right. Matches the
+       archive's gutters so it lines up with the project cards below. */
+    .wip-clip {
+      padding: 0.6rem 3rem 2.4rem;
+    }
+
+    /* An author `display` beats the UA rule for [hidden], so restate it;
+       the milestones view hides this card. */
+    .wip-clip[hidden] {
+      display: none;
+    }
+
+    .wip-note {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.1rem;
+      display: grid;
+      grid-template-columns: auto auto minmax(0, 1fr);
+      gap: 1.4rem;
+      min-height: 290px;
+      filter: drop-shadow(3px 6px 14px rgba(0, 0, 0, 0.14));
+      background-image: repeating-linear-gradient(0deg,
+          rgba(0, 0, 0, 0.035) 0,
+          rgba(0, 0, 0, 0.035) 1px,
+          transparent 1px,
+          transparent 15px);
+    }
+
+    /* Right padding keeps the copy clear of the sticker overhead. */
+    .wip-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      padding: 0.3rem 9rem 0 0;
+    }
+
+    /* Sits along the card's top edge, in from the right corner. */
+    .wip-star {
+      position: absolute;
+      top: -30px;
+      right: 40px;
+      width: 92px;
+      height: 92px;
+      transform: rotate(13deg);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .wip-star text {
+      font-family: 'Space Mono', monospace;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      fill: var(--bg);
+    }
+
+    .wip-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .wip-title {
+      font-size: 1.15rem;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .wip-status {
+      font-family: 'Caveat', 'Space Mono', monospace;
+      font-size: 0.98rem;
+      line-height: 1.2;
+      color: var(--ink-2);
+    }
+
+    /* 16:9 frame: fills its note, stays a tidy empty frame until there is
+       footage to put in it. */
+    .wip-media {
+      position: relative;
+      height: 100%;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
+      overflow: hidden;
+    }
+
+    .wip-media video,
+    .wip-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wip-media--empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--ink-3);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .wip-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.15rem;
+    }
+
+    .wip-tags .skill-tag {
+      font-size: 0.58rem;
+      padding: 0.2rem 0.45rem;
+    }
+
     /* ── SECTION LABEL ── */
     .sec-label {
       padding: 0.4rem 3rem;
@@ -1350,6 +1472,42 @@
         padding: 1.5rem;
       }
 
+      .wip-clip {
+        padding: 0 1.5rem 1.8rem;
+      }
+
+      /* One column: a single 16:9 frame, then the text under it. */
+      .wip-media--second {
+        display: none;
+      }
+
+      .wip-note {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+        min-height: 0;
+        transform: rotate(-0.8deg);
+      }
+
+      .wip-media {
+        width: 100%;
+        height: auto;
+      }
+
+      /* Room left under the frame for the description. */
+      .wip-text {
+        min-height: 92px;
+        padding: 0 0.2rem 0.3rem;
+      }
+
+      /* Kept inside the note's edge on narrow screens so it never lands
+         outside the viewport. */
+      .wip-star {
+        width: 64px;
+        height: 64px;
+        top: -22px;
+        right: 6px;
+      }
+
       /* Achievements becomes a plain vertical stack of folder cards. */
       .hero-milestones-full:not([hidden]) {
         display: block;
@@ -1646,6 +1804,7 @@
     <div id="hero-content">
       <p class="bio" id="hero-bio"></p>
     </div>
+
     <div class="hero-milestones-full" id="hero-milestones-full" hidden>
       <div class="ms-info" id="ms-info">
         <div class="ms-info-date" id="ms-info-date"></div>
@@ -1676,6 +1835,27 @@
       <div class="ms-mobile-list" id="ms-mobile-list"></div>
     </div>
   </div>
+
+    <!-- WIP: one long card, two footage frames and text. Spans the same
+         width as the archive below. Contents come from the WIP object. -->
+    <aside class="wip-clip" id="wip-clip" aria-label="Work in progress">
+      <div class="wip-note">
+        <svg class="wip-star" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            d="M50.0 1.0 L60.6 10.4 L74.5 7.6 L79.0 21.0 L92.4 25.5 L89.6 39.4 L99.0 50.0 L89.6 60.6 L92.4 74.5 L79.0 79.0 L74.5 92.4 L60.6 89.6 L50.0 99.0 L39.4 89.6 L25.5 92.4 L21.0 79.0 L7.6 74.5 L10.4 60.6 L1.0 50.0 L10.4 39.4 L7.6 25.5 L21.0 21.0 L25.5 7.6 L39.4 10.4 Z"
+            fill="var(--mustard)" stroke="var(--bg)" stroke-width="2" stroke-linejoin="round" />
+          <text x="50" y="59" text-anchor="middle">WIP</text>
+        </svg>
+        <div class="wip-media" id="wip-media"></div>
+        <div class="wip-media wip-media--second" id="wip-media-2"></div>
+        <div class="wip-text">
+          <div class="wip-eyebrow" id="wip-eyebrow"></div>
+          <div class="wip-title" id="wip-title"></div>
+          <div class="wip-status" id="wip-status"></div>
+          <div class="wip-tags" id="wip-tags"></div>
+        </div>
+      </div>
+    </aside>
 
   <div class="sec-label" id="sec-label">Archive Log // 9 Projects</div>
 
@@ -2042,6 +2222,25 @@
       all: "I've spent three years producing games and running a design practice remotely, my team on Moscow hours and me in Sweden. I plan the work, cut it when it stops fitting, and sit with whoever is stuck until they aren't. Two itch.io releases, one game exhibited and nominated. The WIP section has whatever I'm building right now.",
       games: "I produce games with teams of three to seven. I scope, I sit in on playtests, and I take on whatever is blocking someone else, usually level design or audio. I've taught Scrum to teams who had never used it, which is how two of these games reached itch.io. Have a look around.",
       tech: "I run delivery for teams that mix engineering, design and writing: I plan the work, chase the dependencies, and cut scope early enough that cutting still helps. I've also run a design practice remotely across several time zones, which taught me to plan around when people are actually available."
+    };
+
+    // ── WIP NOTE ──────────────────────────────────────────────
+    // One current project, shown next to the bio in the project views.
+    // `clip` takes an .mp4 and `image` a still; leave both empty and the
+    // media slot stays an empty frame.
+    // `media` holds the two frames: each takes a clip (.mp4) or an image, and
+    // stays an empty frame while both are blank. Only the first shows on
+    // phones. TODO(Alex): replace title, blurb and tags with the real project.
+    // TODO(Alex): drop gameplay .mp4s in the repo and name them here.
+    const WIP = {
+      eyebrow: 'Currently building',
+      title: 'Untitled Project',
+      blurb: 'Prototyping. Nothing playable yet, so nothing to promise.',
+      media: [
+        { clip: '', image: '' },
+        { clip: '', image: '' }
+      ],
+      tags: ['Unity', 'Solo', 'Prototype']
     };
 
     const PROJECTS = [
@@ -2719,6 +2918,7 @@
 
       const heroContent = document.getElementById('hero-content');
       const heroMilestones = document.getElementById('hero-milestones-full');
+      const wipClip = document.getElementById('wip-clip');
 
       const heroEl = document.querySelector('.hero');
       const secLabel = document.getElementById('sec-label');
@@ -2726,6 +2926,7 @@
       if (f === 'achievements') {
         if (heroContent) heroContent.hidden = true;
         if (heroMilestones) heroMilestones.hidden = false;
+        if (wipClip) wipClip.hidden = true;
         heroEl?.classList.add('hero--milestones');
         msSnapOpacity();
         // Achievements view stands on its own — hide the project archive below.
@@ -2734,6 +2935,7 @@
       } else {
         if (heroContent) heroContent.hidden = false;
         if (heroMilestones) heroMilestones.hidden = true;
+        if (wipClip) wipClip.hidden = false;
         heroEl?.classList.remove('hero--milestones');
         if (secLabel) secLabel.hidden = false;
         if (archiveWrap) archiveWrap.hidden = false;
@@ -2774,9 +2976,47 @@
       if ((f === 'games' || f === 'tech') && f !== HOME) b.remove();
     });
 
+    // Fills the WIP note from the WIP object. The media slot shows a clip, a
+    // still, or an empty frame, in that order of preference.
+    function buildWIP() {
+      const set = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text || '';
+      };
+      set('wip-eyebrow', WIP.eyebrow);
+      set('wip-title', WIP.title);
+      set('wip-status', WIP.blurb);
+
+      const fillMedia = (id, src) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const { clip, image } = src || {};
+        if (clip) {
+          el.classList.remove('wip-media--empty');
+          el.innerHTML = `<video src="${clip}" autoplay muted loop playsinline></video>`;
+        } else if (image) {
+          el.classList.remove('wip-media--empty');
+          el.innerHTML = `<img src="${image}" alt="">`;
+        } else {
+          el.classList.add('wip-media--empty');
+          el.innerHTML =
+            '<span style="font-size:1.5rem;line-height:1">▶</span><span>footage coming</span>';
+        }
+      };
+      fillMedia('wip-media', (WIP.media || [])[0]);
+      fillMedia('wip-media-2', (WIP.media || [])[1]);
+
+      const tags = document.getElementById('wip-tags');
+      if (tags) {
+        tags.innerHTML = (WIP.tags || [])
+          .map(t => `<span class="skill-tag">${t}</span>`).join('');
+      }
+    }
+
     buildAccordion();
     buildMilestonesView();
     buildSkillsTicker();
+    buildWIP();
     applyFilter(getParam(), false);
 
     document.querySelectorAll('.filter-btn').forEach(b =>
