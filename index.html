@@ -599,6 +599,17 @@
       color: color-mix(in srgb, var(--ink-2) 80%, var(--bg));
     }
 
+    /* Same treatment as the footer links. */
+    .wip-status a {
+      color: var(--mustard);
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .wip-status a:hover {
+      color: var(--ink);
+    }
+
     /* 16:9 frame: fills its note, stays a tidy empty frame until there is
        footage to put in it. */
     .wip-media {
@@ -2262,7 +2273,8 @@
     const WIP = {
       eyebrow: 'Currently building',
       title: '[Cave Diver]',
-      blurb: 'A work-in-progress minimalistic 2D cave-diving Godot game made in collab with an amazing designer and developer, Alex Freyr. Stay tuned!',
+      // `blurb` is rendered as HTML so it can carry a link.
+      blurb: 'A work-in-progress minimalistic 2D cave-diving Godot game made in collab with an amazing designer and developer, <a href="https://www.alexanderfreyr.com/" target="_blank" rel="noopener">Alex Freyr</a>. Stay tuned!',
       media: [
         { clip: '', image: 'untitled.webp' },
         { clip: '', image: 'untitled-2.webp' }
@@ -3012,7 +3024,8 @@
       };
       set('wip-eyebrow', WIP.eyebrow);
       set('wip-title', WIP.title);
-      set('wip-status', WIP.blurb);
+      const statusEl = document.getElementById('wip-status');
+      if (statusEl) statusEl.innerHTML = WIP.blurb || '';
 
       const fillMedia = (id, src) => {
         const el = document.getElementById(id);
