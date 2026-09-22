@@ -533,8 +533,9 @@
       border: 1px solid var(--border);
       padding: 1.1rem;
       display: grid;
-      grid-template-columns: auto auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.35fr);
       gap: 1.4rem;
+      align-items: start;
       min-height: 290px;
       filter: drop-shadow(3px 6px 14px rgba(0, 0, 0, 0.14));
       background-image: repeating-linear-gradient(0deg,
@@ -544,12 +545,17 @@
           transparent 15px);
     }
 
-    /* Right padding keeps the copy clear of the sticker overhead. */
     .wip-text {
       display: flex;
       flex-direction: column;
       gap: 0.55rem;
-      padding: 0.3rem 9rem 0 0;
+      padding: 0.3rem 0.4rem 0 0;
+    }
+
+    /* Only these two sit under the sticker, so only they need the clearance. */
+    .wip-eyebrow,
+    .wip-title {
+      padding-right: 8.5rem;
     }
 
     /* Sits along the card's top edge, in from the right corner. */
@@ -588,24 +594,29 @@
 
     .wip-status {
       font-family: 'Caveat', 'Space Mono', monospace;
-      font-size: 0.98rem;
+      font-size: 1.57rem;
       line-height: 1.2;
-      color: var(--ink-2);
+      color: color-mix(in srgb, var(--ink-2) 80%, var(--bg));
     }
 
     /* 16:9 frame: fills its note, stays a tidy empty frame until there is
        footage to put in it. */
     .wip-media {
       position: relative;
-      height: 100%;
+      width: 100%;
       aspect-ratio: 16 / 9;
       border: 1px solid var(--border);
       background: var(--soft-bg);
       overflow: hidden;
     }
 
+    /* Absolutely positioned so a large clip or still never widens the
+       frame: the footage fills the prepared 16:9 area instead of setting
+       its size from its own pixel dimensions. */
     .wip-media video,
     .wip-media img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -632,9 +643,10 @@
       margin-top: 0.15rem;
     }
 
+    /* Same size as the tags on the ticker up top. */
     .wip-tags .skill-tag {
-      font-size: 0.58rem;
-      padding: 0.2rem 0.45rem;
+      font-size: 0.8rem;
+      padding: 0.28rem 0.7rem;
     }
 
     /* ── SECTION LABEL ── */
@@ -1493,6 +1505,22 @@
         height: auto;
       }
 
+      .wip-status {
+        font-size: 0.98rem;
+        line-height: 1.2;
+        color: var(--ink-2);
+      }
+
+      .wip-tags .skill-tag {
+        font-size: 0.58rem;
+        padding: 0.2rem 0.45rem;
+      }
+
+      .wip-eyebrow,
+      .wip-title {
+        padding-right: 0;
+      }
+
       /* Room left under the frame for the description. */
       .wip-text {
         min-height: 92px;
@@ -2230,17 +2258,16 @@
     // media slot stays an empty frame.
     // `media` holds the two frames: each takes a clip (.mp4) or an image, and
     // stays an empty frame while both are blank. Only the first shows on
-    // phones. TODO(Alex): replace title, blurb and tags with the real project.
-    // TODO(Alex): drop gameplay .mp4s in the repo and name them here.
+    // phones. Animated .webp works in the image slot.
     const WIP = {
       eyebrow: 'Currently building',
-      title: 'Untitled Project',
-      blurb: 'Prototyping. Nothing playable yet, so nothing to promise.',
+      title: '[Cave Diver]',
+      blurb: 'A work-in-progress minimalistic 2D cave-diving Godot game made in collab with an amazing designer and developer, Alex Freyr. Stay tuned!',
       media: [
-        { clip: '', image: '' },
-        { clip: '', image: '' }
+        { clip: '', image: 'untitled.webp' },
+        { clip: '', image: 'untitled-2.webp' }
       ],
-      tags: ['Unity', 'Solo', 'Prototype']
+      tags: ['Godot', '2D', 'Co-op', 'Minimalistic', 'Exploration', 'Indie']
     };
 
     const PROJECTS = [
@@ -2412,7 +2439,7 @@
         color: '#5c7591',
         image: 'proj_hauntel.png',
         cover: true,
-        clip: 'hauntel_trailer.mp4',
+        clip: 'hauntel-management-gameplay.webm',
         canva: ['https://www.canva.com/design/DAGjZfe16-E/iZzWAS7NKQqlIqydwopIpA/view?embed'],
         roles: {
           games: 'Producer, Level & Sound Designer',
