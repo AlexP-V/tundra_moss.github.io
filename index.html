@@ -1357,9 +1357,19 @@
       color: var(--ink-2);
     }
 
+    /* Image slot at the foot of a frame; holds the deck/artbook button
+       (.c-img-deck) centred over the picture when a milestone has one. */
+    .frame-media {
+      position: relative;
+      margin-top: auto;
+    }
+
+    .frame-media .c-img-deck {
+      white-space: nowrap;
+    }
+
     .frame-shot {
       display: block;
-      margin-top: auto;
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
@@ -1898,6 +1908,21 @@
       }
     ];
 
+    // Image at the foot of a frame, with a "View Artbook" / "View Presentation"
+    // button over it when the milestone has a PDF or a slide deck.
+    function frameMediaHTML(m) {
+      if (!m.image) return '';
+      const icon = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>`;
+      let btn = '';
+      if (m.pdf) {
+        btn = `<button class="c-img-deck" onclick='openModalDecks(${JSON.stringify([m.pdf])})'>${icon} View Artbook</button>`;
+      } else if (m.canva) {
+        const decks = Array.isArray(m.canva) ? m.canva : [m.canva];
+        btn = `<button class="c-img-deck" onclick='openModalDecks(${JSON.stringify(decks)})'>${icon} View Presentation</button>`;
+      }
+      return `<div class="frame-media"><img class="frame-shot" src="${m.image}" alt="" loading="lazy" draggable="false">${btn}</div>`;
+    }
+
     function buildMilestonesView() {
       const el = document.getElementById('strip');
       if (!el) return;
@@ -1915,23 +1940,30 @@
           </div>
           <h4>${m.title}</h4>
           <p>${m.body}</p>
-          ${m.image ? `<img class="frame-shot" src="${m.image}" alt="" loading="lazy" draggable="false">` : ''}
+          ${frameMediaHTML(m)}
         </article>`;
       }).join('');
 
       // Mouse drag to scroll; touch keeps native momentum scrolling.
-      let down = false, startX = 0, startLeft = 0;
+      let down = false, startX = 0, startLeft = 0, moved = 0;
       el.addEventListener('pointerdown', e => {
         if (e.pointerType === 'touch') return;
         down = true;
+        moved = 0;
         startX = e.clientX;
         startLeft = el.scrollLeft;
         el.classList.add('dragging');
       });
       el.addEventListener('pointermove', e => {
         if (!down) return;
-        el.scrollLeft = startLeft - (e.clientX - startX);
+        const d = e.clientX - startX;
+        moved = Math.max(moved, Math.abs(d));
+        el.scrollLeft = startLeft - d;
       });
+      // A drag that ends on a button shouldn't open it.
+      el.addEventListener('click', e => {
+        if (moved > 5) { e.stopPropagation(); e.preventDefault(); }
+      }, true);
       const up = () => {
         if (!down) return;
         down = false;
