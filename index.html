@@ -1112,14 +1112,6 @@
       max-width: 100%;
     }
 
-    .ms-info-media:empty {
-      display: none;
-    }
-
-    .ms-media {
-      margin-top: 0.25rem;
-    }
-
     .c-clip {
       display: block;
       width: auto;
@@ -1282,137 +1274,108 @@
       color: var(--ink);
     }
 
-    /* ── MILESTONES FULL VIEW ── */
-    .hero-milestones-full:not([hidden]) {
-      display: grid;
-      grid-template-columns: calc((100vw - 11rem - 224px) / 2 + 130px) 705px;
-      gap: 2.5rem;
-      position: relative;
-      align-items: start;
-    }
-
-    .ms-carousel-wrap {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    /* Bare prev/next arrows, vertically centred on the 130px stamp. */
-    .ms-nav {
-      flex: 0 0 auto;
-      width: 36px;
-      margin-top: 53px;
-      padding: 0;
-      border: none;
-      background: none;
-      color: var(--ink-3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s;
-    }
-
-    .ms-nav:hover {
-      color: var(--ink);
-    }
-
-    #ms-nav-prev svg {
-      transform: scaleX(-1);
-    }
-
-    .ms-carousel-outer {
-      width: 609px;
-      overflow: hidden;
-      cursor: grab;
-    }
-
-    .ms-carousel-outer:active {
-      cursor: grabbing;
-    }
-
-    .ms-track {
-      display: flex;
-      gap: 96px;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform;
-    }
-
-    .ms-item {
-      flex: 0 0 130px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.65rem;
-      opacity: 0.3;
-      cursor: pointer;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .ms-item.ms-active {
-      opacity: 1;
-      cursor: default;
-    }
-
-    .ms-stamp {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .ms-stamp-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
+    /* ── MILESTONES ── draggable filmstrip (from Issue 01) */
+    .hero-milestones-full {
+      --ms-pad: 3rem;
     }
 
     .ms-label {
       font-family: 'Space Mono', monospace;
-      font-size: 0.52rem;
-      letter-spacing: 0.04em;
-      line-height: 1.5;
-      color: var(--ink-2);
-      text-align: center;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
     }
 
-    .ms-info {
-      min-width: 0;
+    .strip-wrap {
+      margin-top: 0;
+      position: relative;
+    }
+
+    .strip {
+      display: flex;
+      gap: 1.1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: var(--ms-pad);
+      padding: 0.3rem var(--ms-pad) 1.6rem;
+      margin: 0 calc(var(--ms-pad) * -1);
+      scrollbar-width: thin;
+      cursor: grab;
+    }
+
+    .strip.dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
+
+    .frame {
+      scroll-snap-align: start;
+      flex: 0 0 min(21rem, 78vw);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.1rem 1.2rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .frame-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+    }
+
+    .frame-year {
+      font-family: 'Londrina Shadow', sans-serif;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .frame-seal {
+      width: 3.1rem;
+      height: 3.1rem;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--soft-bd);
+      flex-shrink: 0;
+    }
+
+    .frame h4 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.32;
+    }
+
+    .frame p {
+      font-size: 0.85rem;
+      line-height: 1.62;
+      color: var(--ink-2);
+    }
+
+    .frame-shot {
+      display: block;
+      margin-top: auto;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      -webkit-user-drag: none;
+    }
+
+    .strip-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.2rem;
     }
 
     .hero--milestones {
       max-width: none;
-    }
-
-    .ms-info-date {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.08em;
-      color: var(--ink-3);
-      margin-bottom: 0.5rem;
-      transition: opacity 0.2s;
-    }
-
-    .ms-info-title {
-      font-size: 0.88rem;
-      font-weight: 400;
-      line-height: 1.65;
-      color: var(--ink-2);
-      transition: opacity 0.2s;
-    }
-
-    .ms-info-title.ms-fade,
-    .ms-info-date.ms-fade {
-      opacity: 0;
     }
 
     /* lavender highlighter — same marker treatment as .header-role */
@@ -1431,11 +1394,6 @@
       margin: 0 -0.12em;
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
-    }
-
-    /* ── MILESTONES MOBILE STACK ── (hidden on desktop) */
-    .ms-mobile-list {
-      display: none;
     }
 
     /* ── MILESTONES FILTER BTN ── */
@@ -1582,77 +1540,9 @@
         right: 6px;
       }
 
-      /* Achievements becomes a plain vertical stack of folder cards. */
-      .hero-milestones-full:not([hidden]) {
-        display: block;
-        grid-template-columns: none;
-        position: static;
-      }
-
-      /* Carousel (with its nav arrows) and the single-item info panel are
-         desktop-only. */
-      .ms-carousel-wrap,
-      .ms-info {
-        display: none;
-      }
-
-      .ms-mobile-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .ms-card {
-        border: 1px solid var(--border);
-        border-top: 3px solid #7B2340;
-        background: var(--surface);
-        background-image:
-          linear-gradient(rgba(0, 0, 0, .038) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0, 0, 0, .038) 1px, transparent 1px);
-        background-size: 20px 20px;
-        padding: 1.25rem 1.25rem 1.4rem;
-      }
-
-      .ms-card-head {
-        margin-bottom: 1rem;
-        padding-bottom: 0.9rem;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .ms-card-title {
-        font-size: 1rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        line-height: 1.25;
-      }
-
-      .ms-card-date {
-        font-family: 'Space Mono', monospace;
-        font-size: 0.56rem;
-        letter-spacing: 0.08em;
-        color: var(--ink-3);
-        margin-top: 0.4rem;
-      }
-
-      .ms-card-seal {
-        width: 96px;
-        height: 96px;
-        border-radius: 50%;
-        overflow: hidden;
-        margin: 0 0 1rem;
-      }
-
-      .ms-card-seal img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .ms-card-body {
-        font-size: 0.82rem;
-        line-height: 1.6;
-        color: var(--ink-2);
+      /* Milestones strip bleeds to the narrower mobile gutter. */
+      .hero-milestones-full {
+        --ms-pad: 1.5rem;
       }
 
       .photo-clip {
@@ -1879,33 +1769,16 @@
     </div>
 
     <div class="hero-milestones-full" id="hero-milestones-full" hidden>
-      <div class="ms-info" id="ms-info">
-        <div class="ms-info-date" id="ms-info-date"></div>
-        <div class="ms-info-media" id="ms-info-media"></div>
-        <div class="ms-info-title" id="ms-info-title"></div>
-      </div>
-      <div class="ms-carousel-wrap">
-        <button class="ms-nav" id="ms-nav-prev" aria-label="Previous milestone">
-          <svg viewBox="0 0 44 28" width="36" height="23" fill="none" stroke="currentColor" stroke-width="2.6"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 14 H40" />
-            <path d="M22 3 C36 5 41 14 42 14" />
-            <path d="M22 25 C36 23 41 14 42 14" />
+      <div class="strip-wrap">
+        <div class="strip" id="strip"></div>
+        <p class="strip-hint ms-label">
+          <svg width="30" height="10" viewBox="0 0 30 10" fill="none" stroke="currentColor" stroke-width="1.4"
+            aria-hidden="true">
+            <path d="M0 5h28M24 1.5 28.5 5 24 8.5" />
           </svg>
-        </button>
-        <div class="ms-carousel-outer" id="ms-carousel-outer">
-          <div class="ms-track" id="ms-track"></div>
-        </div>
-        <button class="ms-nav" id="ms-nav-next" aria-label="Next milestone">
-          <svg viewBox="0 0 44 28" width="36" height="23" fill="none" stroke="currentColor" stroke-width="2.6"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 14 H40" />
-            <path d="M22 3 C36 5 41 14 42 14" />
-            <path d="M22 25 C36 23 41 14 42 14" />
-          </svg>
-        </button>
+          Scroll or drag
+        </p>
       </div>
-      <div class="ms-mobile-list" id="ms-mobile-list"></div>
     </div>
   </div>
 
@@ -1965,8 +1838,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     // ── MILESTONES ───────────────────────────────────────────────
-
-    const MS_PLACEHOLDER = 'Text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text.';
+    // A draggable filmstrip of frames, newest first.
 
     const MILESTONES = [
       {
@@ -1979,19 +1851,19 @@
         body: `We got the driving game to a playable <span class="hl">research prototype</span>, and I wrote my own chapter on <span class="hl">Return on Time Invested</span> in our shared thesis. Handing in the build and the paper in the same week meant planning the writing as carefully as the code.`
       },
       {
-        title: "Directed a 3-Minute Motion-Capture Cinematic Shoot", date: "December 2025",
+        title: "Directed a 3-minute motion-capture cinematic shoot", date: "December 2025",
         seal: 'cropped_mocap.png',
         image: 'mocap_bg.png',
         canva: 'https://docs.google.com/presentation/d/1IE_sAJAuTb8D-W81A1Lt99QymGl9KQuaM0qzqIAvMtI/embed?start=false&loop=false&delayms=3000',
         body: `I planned, pitched, storyboarded and ran a <span class="hl">3-minute motion-capture cinematic</span> for a fictional game with a <span class="hl">team of 5</span>, from booking the lab to calibrating the suit. Most of the hours went into patience and cleanup, and the shoot came back with a distinction.`
       },
       {
-        title: "Advanced Interactive Storytelling — Two Narrative Board Games", date: "November 2025",
+        title: "Advanced Interactive Storytelling — two narrative board games", date: "November 2025",
         seal: 'cropped_stirytelling.png',
         body: `We made <span class="hl">two narrative board games</span> in parallel, a rural thriller and a spooky fantasy, with a team of 4 on each. My job was keeping both stories consistent across <span class="hl">200+ cards</span> of writing and editing.`
       },
       {
-        title: "Produced a Concept-Art Artbook", date: "November 2025",
+        title: "Produced a concept-art artbook", date: "November 2025",
         seal: 'cropped_conceptart.png',
         image: 'concept_art_bg.png',
         pdf: 'One_Hundred_Years_Of_Unemployment_Artbook_By_Alex_P-V.pdf',
@@ -2010,13 +1882,13 @@
         body: `Hauntel Management was exhibited at <span class="hl">Gotland Game Conference 2025</span>, <span class="hl">nominated for an award</span> and released on itch.io. Watching strangers play it at the conference and laugh at the jokes was the best feedback we got.`
       },
       {
-        title: 'Research Paper — Fairness in Turn-Based Strategy Games', date: "December 2024",
+        title: 'Research paper — Fairness in turn-based strategy games', date: "December 2024",
         seal: 'cropped_fairness.png',
         image: 'strategy_bg.png',
         body: `I wrote "Ensuring Fairness in Turn-Based Territorial Strategy Games": I designed a board game and studied <span class="hl">how fair it felt to players</span> through playtesting. Players often called a position unfair when the rules made it even, so the paper looks at how <span class="hl">rules and turn order shape that feeling</span>.`
       },
       {
-        title: "Four Game Projects in Eight Weeks, Rotating Roles", date: "2024",
+        title: "Four game projects in eight weeks, rotating roles", date: "2024",
         body: `We built <span class="hl">4 short game projects in 8 weeks</span>, and I took a different role on each: Scrum Master, artist, programmer and Product Owner. Sitting in every seat showed me <span class="hl">what each role needs from a producer</span>.`
       },
       {
@@ -2026,267 +1898,47 @@
       }
     ];
 
-    const MS_STAMP_W = 130;
-    const MS_GAP = 96;
-    const MS_STEP = MS_STAMP_W + MS_GAP; // 226
-    const MS_CONTAINER_W = 609;
-    const MS_OFFSET = Math.round((MS_CONTAINER_W - MS_STAMP_W) / 2); // 288
-
-    // Infinite loop: render several repeated copies of the milestones and keep
-    // the active slot inside the middle copy, snapping back invisibly at the edges.
-    const MS_N = MILESTONES.length;
-    const MS_COPIES = 9;                 // odd, so there is a true middle copy
-    const MS_TOTAL = MS_N * MS_COPIES;
-    const MS_BASE = Math.floor(MS_COPIES / 2) * MS_N; // first index of middle copy
-    const MS_INITIAL = 1;               // milestone centred on load (Thesis Driving Game — Prototype Completed)
-
-    // `pos` is the rendered-item index currently centred; data index = pos mod N.
-    const MS_STATE = { pos: MS_BASE + MS_INITIAL };
-    let msNavToken = 0;
-
-    function msData(pos) { return ((pos % MS_N) + MS_N) % MS_N; }
-
-    // ── OPACITY ENGINE ───────────────────────────────────────────
-    // Each stamp's opacity tracks how much of it sits inside the carousel
-    // area: 0 when fully outside, up to 0.3 when fully inside; the active
-    // stamp goes to 1. Driven per-frame so it eases as stamps slide in/out.
-
-    function msTargetOpacity(item, oRect) {
-      const r = item.getBoundingClientRect();
-      if (!r.width) return item.classList.contains('ms-active') ? 1 : 0;
-      const visible = Math.min(r.right, oRect.right) - Math.max(r.left, oRect.left);
-      const f = Math.max(0, Math.min(1, visible / r.width));
-      return item.classList.contains('ms-active') ? 1 : 0.3 * f;
-    }
-
-    // Snap every stamp straight to its target (no easing) — used on first
-    // layout and after the invisible recenter jump, to avoid a fade flash.
-    function msSnapOpacity() {
-      const outer = document.getElementById('ms-carousel-outer');
-      const track = document.getElementById('ms-track');
-      if (!outer || !track) return;
-      const oRect = outer.getBoundingClientRect();
-      track.querySelectorAll('.ms-item').forEach(item => {
-        const t = msTargetOpacity(item, oRect);
-        item._op = t;
-        item.style.opacity = t.toFixed(3);
-      });
-    }
-
-    let msRafId = 0;
-    let msAnimUntil = 0;
-
-    function msTick() {
-      const outer = document.getElementById('ms-carousel-outer');
-      const track = document.getElementById('ms-track');
-      if (!outer || !track) { msRafId = 0; return; }
-      const oRect = outer.getBoundingClientRect();
-      let moving = false;
-      track.querySelectorAll('.ms-item').forEach(item => {
-        const t = msTargetOpacity(item, oRect);
-        const cur = item._op === undefined ? t : item._op;
-        const next = cur + (t - cur) * 0.22;
-        if (Math.abs(t - cur) > 0.003) moving = true;
-        item._op = next;
-        item.style.opacity = next.toFixed(3);
-      });
-      msRafId = (moving || performance.now() < msAnimUntil)
-        ? requestAnimationFrame(msTick) : 0;
-    }
-
-    function msRunOpacity() {
-      msAnimUntil = performance.now() + 680; // cover the full slide
-      if (!msRafId) msRafId = requestAnimationFrame(msTick);
-    }
-
-    function msSetStyling(pos) {
-      const track = document.getElementById('ms-track');
-      if (!track) return;
-      track.querySelectorAll('.ms-item').forEach((item, i) =>
-        item.classList.toggle('ms-active', i === pos)
-      );
-    }
-
-    function msMediaHTML(m) {
-      if (!m.image && !m.pdf && !m.canva) return '';
-      const img = m.image ? `<img src="${m.image}" alt="${m.title}" class="c-img-photo c-img-cover">` : '';
-      let btn = '';
-      if (m.pdf) {
-        btn = `<button class="c-img-deck" onclick="event.stopPropagation(); openModalDecks(['${m.pdf}'])">
-             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-             View Artbook
-           </button>`;
-      } else if (m.canva) {
-        const decks = Array.isArray(m.canva) ? m.canva : [m.canva];
-        btn = `<button class="c-img-deck" onclick='event.stopPropagation(); openModalDecks(${JSON.stringify(decks)})'>
-             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-             View Presentation
-           </button>`;
-      }
-      return `<div class="c-img ms-media">${img}${btn}</div>`;
-    }
-
     function buildMilestonesView() {
-      const track = document.getElementById('ms-track');
-      if (!track) return;
+      const el = document.getElementById('strip');
+      if (!el) return;
 
-      // Repeated milestone copies for seamless looping
-      for (let i = 0; i < MS_TOTAL; i++) {
-        const m = MILESTONES[msData(i)];
-        const item = document.createElement('div');
-        item.className = 'ms-item' + (i === MS_STATE.pos ? ' ms-active' : '');
-        item.innerHTML = `
-          <div class="ms-stamp">
-            <img src="${m.seal || 'Uppsala_University_logo.svg.png'}" alt="${m.title} seal" class="ms-stamp-img" draggable="false"/>
-          </div>
-          <div class="ms-label">${m.title}</div>
-        `;
-        item.dataset.idx = i;
-        item.addEventListener('click', () => msGoTo(i));
-        track.appendChild(item);
-      }
-
-      // Mobile: a plain vertical stack of "folder" cards — title + date on top,
-      // then the seal, then the description. No carousel, no nav dots.
-      const mobileList = document.getElementById('ms-mobile-list');
-      if (mobileList) {
-        mobileList.innerHTML = MILESTONES.map(m => `
-          <div class="ms-card">
-            <div class="ms-card-head">
-              <div class="ms-card-title">${m.title}</div>
-              <div class="ms-card-date">${m.date}</div>
+      el.innerHTML = MILESTONES.map(m => {
+        const bits = m.date.split(' ');
+        return `
+        <article class="frame">
+          <div class="frame-top">
+            <div>
+              <div class="frame-year">${bits[bits.length - 1]}</div>
+              <div class="ms-label">${bits.length > 1 ? bits[0] : 'across the year'}</div>
             </div>
-            <div class="ms-card-seal">
-              <img src="${m.seal || 'Uppsala_University_logo.svg.png'}" alt="${m.title} seal" draggable="false"/>
-            </div>
-            ${msMediaHTML(m)}
-            <div class="ms-card-body">${m.body}</div>
+            ${m.seal ? `<img class="frame-seal" src="${m.seal}" alt="" loading="lazy" draggable="false">` : ''}
           </div>
-        `).join('');
-      }
+          <h4>${m.title}</h4>
+          <p>${m.body}</p>
+          ${m.image ? `<img class="frame-shot" src="${m.image}" alt="" loading="lazy" draggable="false">` : ''}
+        </article>`;
+      }).join('');
 
-      // Initial position: centre active item
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${MS_OFFSET - MS_STATE.pos * MS_STEP}px)`;
-      track.offsetHeight; // force reflow
-      track.style.transition = '';
-      msSnapOpacity();
-
-      const titleEl = document.getElementById('ms-info-title');
-      const dateEl = document.getElementById('ms-info-date');
-      const mediaEl = document.getElementById('ms-info-media');
-      if (titleEl) titleEl.innerHTML = MILESTONES[msData(MS_STATE.pos)].body;
-      if (dateEl) dateEl.textContent = MILESTONES[msData(MS_STATE.pos)].date;
-      if (mediaEl) mediaEl.innerHTML = msMediaHTML(MILESTONES[msData(MS_STATE.pos)]);
-
-      // Wheel scroll
-      const outer = document.getElementById('ms-carousel-outer');
-      let wheelLock = false;
-      outer.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        if (wheelLock) return;
-        wheelLock = true;
-        setTimeout(() => { wheelLock = false; }, 620);
-        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-        if (d > 0) msGoTo(MS_STATE.pos + 1);
-        else if (d < 0) msGoTo(MS_STATE.pos - 1);
-      }, { passive: false });
-
-      // Pointer drag
-      let dragStartX = null;
-      outer.addEventListener('pointerdown', (e) => {
-        dragStartX = e.clientX;
-        outer.setPointerCapture(e.pointerId);
+      // Mouse drag to scroll; touch keeps native momentum scrolling.
+      let down = false, startX = 0, startLeft = 0;
+      el.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'touch') return;
+        down = true;
+        startX = e.clientX;
+        startLeft = el.scrollLeft;
+        el.classList.add('dragging');
       });
-      outer.addEventListener('pointerup', (e) => {
-        if (dragStartX === null) return;
-        const dx = e.clientX - dragStartX;
-        dragStartX = null;
-        if (dx < -40) { msGoTo(MS_STATE.pos + 1); return; }
-        if (dx > 40) { msGoTo(MS_STATE.pos - 1); return; }
-        // A tap (not a drag): jump to whichever seal/title was clicked. Pointer
-        // capture can swallow the per-item click, so resolve the target here too.
-        const el = document.elementFromPoint(e.clientX, e.clientY);
-        const item = el && el.closest('.ms-item');
-        if (item && item.dataset.idx != null) msGoTo(parseInt(item.dataset.idx, 10));
+      el.addEventListener('pointermove', e => {
+        if (!down) return;
+        el.scrollLeft = startLeft - (e.clientX - startX);
       });
-
-      // Prev / next arrow buttons flanking the carousel
-      const prevBtn = document.getElementById('ms-nav-prev');
-      const nextBtn = document.getElementById('ms-nav-next');
-      if (prevBtn) prevBtn.addEventListener('click', () => msGoTo(MS_STATE.pos - 1));
-      if (nextBtn) nextBtn.addEventListener('click', () => msGoTo(MS_STATE.pos + 1));
-
-      // Arrow keys (only when milestones view visible)
-      document.addEventListener('keydown', (e) => {
-        const view = document.getElementById('hero-milestones-full');
-        if (!view || view.hidden) return;
-        if (e.key === 'ArrowRight') msGoTo(MS_STATE.pos + 1);
-        if (e.key === 'ArrowLeft') msGoTo(MS_STATE.pos - 1);
-      });
-    }
-
-    // Navigate to a milestone by its data index, taking the shortest looped path.
-    function msGoToData(dataIdx) {
-      let diff = dataIdx - msData(MS_STATE.pos);
-      while (diff > MS_N / 2) diff -= MS_N;
-      while (diff < -MS_N / 2) diff += MS_N;
-      msGoTo(MS_STATE.pos + diff);
-    }
-
-    // After the slide settles, jump (without transition) back to the middle copy.
-    // The rendered content repeats with period N, so the jump is visually invisible.
-    function msRecenter() {
-      const np = MS_BASE + msData(MS_STATE.pos);
-      if (np === MS_STATE.pos) return;
-      MS_STATE.pos = np;
-      const track = document.getElementById('ms-track');
-      if (!track) return;
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${MS_OFFSET - np * MS_STEP}px)`;
-      track.offsetHeight; // force reflow
-      track.style.transition = '';
-      msSetStyling(np);
-      msSnapOpacity();
-    }
-
-    function msGoTo(pos) {
-      if (pos === MS_STATE.pos) return;
-
-      MS_STATE.pos = pos;
-      const token = ++msNavToken;
-
-      const track = document.getElementById('ms-track');
-      if (!track) return;
-
-      track.style.transform = `translateX(${MS_OFFSET - pos * MS_STEP}px)`;
-      msRunOpacity();
-
-      const titleEl = document.getElementById('ms-info-title');
-      const dateEl = document.getElementById('ms-info-date');
-      if (titleEl) titleEl.classList.add('ms-fade');
-      if (dateEl) dateEl.classList.add('ms-fade');
-
-      // Brighten the incoming stamp and reveal its paragraph at the same moment
-      setTimeout(() => {
-        if (token !== msNavToken) return;
-        msSetStyling(pos);
-        if (titleEl) {
-          titleEl.innerHTML = MILESTONES[msData(pos)].body;
-          titleEl.classList.remove('ms-fade');
-        }
-        if (dateEl) {
-          dateEl.textContent = MILESTONES[msData(pos)].date;
-          dateEl.classList.remove('ms-fade');
-        }
-        const mediaEl = document.getElementById('ms-info-media');
-        if (mediaEl) mediaEl.innerHTML = msMediaHTML(MILESTONES[msData(pos)]);
-      }, 200);
-
-      // Once the slide has finished, snap back to the middle copy
-      setTimeout(() => {
-        if (token === msNavToken) msRecenter();
-      }, 560);
+      const up = () => {
+        if (!down) return;
+        down = false;
+        el.classList.remove('dragging');
+      };
+      el.addEventListener('pointerup', up);
+      el.addEventListener('pointerleave', up);
     }
 
     // ── DATA ─────────────────────────────────────────────────────
@@ -3001,7 +2653,6 @@
         if (heroMilestones) heroMilestones.hidden = false;
         if (wipClip) wipClip.hidden = true;
         heroEl?.classList.add('hero--milestones');
-        msSnapOpacity();
         // Achievements view stands on its own — hide the project archive below.
         if (secLabel) secLabel.hidden = true;
         if (archiveWrap) archiveWrap.hidden = true;
