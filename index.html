@@ -145,110 +145,6 @@
       transform: rotate(0deg) scale(1.08);
     }
 
-    /* ── SKILLS TICKER ── */
-    .skills-ticker {
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 0.55rem 0;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-    }
-
-    .skills-track {
-      display: flex;
-      width: max-content;
-      animation: ticker 60s linear infinite;
-    }
-
-    .skills-ticker:hover .skills-track {
-      animation-play-state: paused;
-    }
-
-    .skills-group {
-      display: flex;
-      gap: 0.5rem;
-      padding-right: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    .skills-group .skill-tag {
-      white-space: nowrap;
-      font-size: 0.8rem;
-    }
-
-    @keyframes ticker {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
-    @keyframes ticker-v {
-      from {
-        transform: translateY(0);
-      }
-
-      to {
-        transform: translateY(-50%);
-      }
-    }
-
-    /* Mobile: the line becomes a vertical strip pinned to the left edge */
-    @media (max-width: 767px) {
-      body {
-        padding-left: 2.6rem;
-      }
-
-      .skills-ticker {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 2.6rem;
-        z-index: 50;
-        background: var(--bg);
-        border: none;
-        border-right: 1px solid var(--border);
-        padding: 0 0.4rem;
-        -webkit-mask-image: linear-gradient(180deg, transparent, #000 4%, #000 96%, transparent);
-        mask-image: linear-gradient(180deg, transparent, #000 4%, #000 96%, transparent);
-      }
-
-      .skills-track {
-        flex-direction: column;
-        width: auto;
-        animation-name: ticker-v;
-      }
-
-      .skills-group {
-        flex-direction: column;
-        align-items: center;
-        padding-right: 0;
-        padding-bottom: 0.5rem;
-      }
-
-      .skills-group .skill-tag {
-        writing-mode: vertical-rl;
-        font-size: 0.7rem;
-        padding: 0.7rem 0.28rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .skills-ticker {
-        overflow-x: auto;
-        overflow-y: auto;
-      }
-
-      .skills-track {
-        animation: none;
-      }
-    }
-
     /* ── FILTER BAR ── */
     .filter-bar {
       padding: 0 3rem;
@@ -505,98 +401,68 @@
     /* ── HERO ── */
     .hero {
       padding: 2rem 3rem 1.5rem;
-      max-width: 900px;
     }
 
     .bio {
       font-size: 0.88rem;
       line-height: 1.65;
       color: var(--ink-2);
-      max-width: 580px;
     }
 
-    /* ── WIP NOTE ── one long card: footage left, text right. Matches the
-       archive's gutters so it lines up with the project cards below. */
+    /* ── IN PROGRESS ── laid out like About Me: footage stacked on the left
+       as taped shots; on the right a torn notebook card with the title and
+       blurb, and a taped card of tags. */
     .wip-clip {
-      padding: 0.6rem 3rem 2.4rem;
+      padding: 2rem 3rem 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 2.4rem 3rem;
+      align-items: start;
     }
 
     /* An author `display` beats the UA rule for [hidden], so restate it;
-       the milestones view hides this card. */
+       only the In Progress tab shows this block. */
     .wip-clip[hidden] {
       display: none;
     }
 
-    .wip-note {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.1rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.35fr);
-      gap: 1.4rem;
-      align-items: start;
-      min-height: 290px;
-      filter: drop-shadow(3px 6px 14px rgba(0, 0, 0, 0.14));
-      background-image: repeating-linear-gradient(0deg,
-          rgba(0, 0, 0, 0.035) 0,
-          rgba(0, 0, 0, 0.035) 1px,
-          transparent 1px,
-          transparent 15px);
-    }
-
-    .wip-text {
+    /* Stays in view while the footage column scrolls past. */
+    .wip-side {
+      position: sticky;
+      top: 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
-      padding: 0.3rem 0.4rem 0 0;
+      gap: 2rem;
     }
 
-    /* Only these two sit under the sticker, so only they need the clearance. */
-    .wip-eyebrow,
-    .wip-title {
-      padding-right: 8.5rem;
-    }
-
-    /* Sits along the card's top edge, in from the right corner. */
-    .wip-star {
-      position: absolute;
-      top: -30px;
-      right: 40px;
-      width: 92px;
-      height: 92px;
-      transform: rotate(13deg);
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .wip-star text {
-      font-family: 'Space Mono', monospace;
-      font-size: 25px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      fill: var(--bg);
-    }
-
-    .wip-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
-    .wip-title {
-      font-size: 1.15rem;
-      line-height: 1.25;
-      color: var(--ink);
+    /* Text card: same torn, ruled notebook page as the About Me offers. */
+    .wip-card {
+      position: relative;
+      background-color: var(--surface);
+      background-image: repeating-linear-gradient(0deg,
+          rgba(0, 0, 0, 0.04) 0,
+          rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px,
+          transparent 28px);
+      padding: 2.2rem 1.6rem 1.6rem;
     }
 
     .wip-status {
-      font-family: 'Caveat', 'Space Mono', monospace;
-      font-size: 1.57rem;
-      line-height: 1.2;
-      color: color-mix(in srgb, var(--ink-2) 80%, var(--bg));
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .wip-head {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .wip-head .about-head {
+      font-size: 2.6rem;
+      margin: 0;
     }
 
     /* Same treatment as the footer links. */
@@ -610,31 +476,50 @@
       color: var(--ink);
     }
 
-    /* 16:9 frame: fills its note, stays a tidy empty frame until there is
-       footage to put in it. */
-    .wip-media {
+    .wip-shots {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+    }
+
+    /* Each shot is its own taped print. */
+    .wip-shot {
       position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
+      margin: 0;
+      background: var(--surface);
       border: 1px solid var(--border);
-      background: var(--soft-bg);
-      overflow: hidden;
+      padding: 0.7rem;
+      filter: drop-shadow(0 1px 2px rgba(26, 24, 20, .16));
     }
 
-    /* Absolutely positioned so a large clip or still never widens the
-       frame: the footage fills the prepared 16:9 area instead of setting
-       its size from its own pixel dimensions. */
-    .wip-media video,
-    .wip-media img {
+    .wip-shot::before {
+      content: '';
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+      top: -10px;
+      left: calc(50% - 40px);
+      width: 80px;
+      height: 20px;
+      background: rgba(196, 149, 58, .3);
+      border-left: 2px dotted rgba(255, 255, 255, .5);
+      border-right: 2px dotted rgba(255, 255, 255, .5);
+      transform: rotate(-2.5deg);
+      z-index: 1;
     }
 
-    .wip-media--empty {
+    .wip-shot:nth-child(even)::before {
+      transform: rotate(2deg);
+    }
+
+    .wip-shot img,
+    .wip-shot video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+    }
+
+    .wip-shot--empty {
+      aspect-ratio: 16 / 9;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -647,166 +532,223 @@
       text-transform: uppercase;
     }
 
-    .wip-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-top: 0.15rem;
-    }
-
-    /* Same size as the tags on the ticker up top. */
-    .wip-tags .skill-tag {
-      font-size: 0.8rem;
-      padding: 0.28rem 0.7rem;
-    }
-
     /* ── SECTION LABEL ── */
-    .sec-label {
-      padding: 0.4rem 3rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-    }
-
     /* ── ACCORDION ── */
     .accordion-wrap {
-      padding: 0 3rem 3rem;
+      padding: 1rem 3rem 1.4rem;
     }
 
+    /* Project folders laid in a straight row, overlapping: the first file
+       lies on top at the left, each next one tucks behind it a step to the
+       right so its coloured side tab shows. Hover nudges a folder up;
+       clicking opens its project page (#/project/CODE). Positions and size
+       are set by layoutFan(). */
     .accordion {
-      display: flex;
-      gap: 2px;
-      height: calc(100vh - 370px);
-      min-height: 460px;
-      max-height: 660px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .panel {
+      --s: 1;
       position: relative;
-      flex: 0 0 52px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: flex .52s cubic-bezier(.4, 0, .2, 1);
-      border-right: 1px solid rgba(0, 0, 0, .07);
+      height: 600px;
+      margin-top: 1rem;
     }
 
-    .panel:last-child {
-      border-right: none;
-    }
-
-    .panel.open {
-      flex: 1;
-      cursor: default;
-    }
-
-    /* color fill (solid when collapsed, hidden behind content when open) */
-    .panel-fill {
+    .folder {
+      --lift: 0px;
+      --dy: 0px;
+      --r: 0deg;
       position: absolute;
-      inset: 0;
-      z-index: 0;
+      left: calc(50% - 165px);
+      top: 60px;
+      width: 330px;
+      height: 440px;
+      display: block;
+      color: var(--ink);
+      text-decoration: none;
+      transform-origin: 0 0;
+      /* scale from the top-left (layout maths), then tilt around the
+         folder's own centre and apply the jitter + hover nudge */
+      transform: scale(var(--s)) translateY(calc(var(--dy) + var(--lift))) translate(165px, 220px) rotate(var(--r)) translate(-165px, -220px);
+      transition: transform .3s cubic-bezier(.3, .7, .3, 1), filter .25s;
+      filter: drop-shadow(0 6px 10px rgba(26, 24, 20, .22));
     }
 
-    /* Featured (paid job) entry: white cover with a navy outline so it stands
-       out from the warm project covers. */
-    .panel--featured .panel-fill {
-      background: #fff !important;
-      box-shadow: inset 0 0 0 2px #2f4a6e;
+    /* Folders under the top one are black and white so they don't compete
+       with it; hovering one brings it back to full colour. */
+    .folder:not(.is-top) {
+      filter: grayscale(1);
     }
 
-    .panel--featured .spine-code {
-      color: rgba(47, 74, 110, .6);
+    .folder[hidden] {
+      display: none;
     }
 
-    .panel--featured .spine-title {
-      color: #2f4a6e;
+    /* Hover nudges a folder up out of the hand; it keeps its place in the stack. */
+    .folder:hover,
+    .folder:focus-visible {
+      --lift: -22px;
+      outline: none;
     }
 
-    .panel--featured .spine-dot {
-      background: rgba(47, 74, 110, .45);
+    /* A hovered folder from under the stack gets its colour back, but no
+       shadow; the top folder keeps the shadow it already has. */
+    .folder:not(.is-top):hover,
+    .folder:not(.is-top):focus-visible {
+      filter: none;
     }
 
-    /* ── SPINE (collapsed) ── */
-    .panel-spine {
+    .folder:focus-visible .folder-body {
+      box-shadow: inset 0 0 0 2px var(--mustard);
+    }
+
+    /* kraft board */
+    .folder-body {
       position: absolute;
-      inset: 0;
-      z-index: 1;
+      inset: 0 26px 0 0;
+      border-radius: 3px 6px 6px 3px;
+      background-color: #c79f6e;
+      background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 240, 210, .28), transparent 60%),
+        radial-gradient(ellipse at 80% 90%, rgba(90, 55, 20, .18), transparent 55%),
+        repeating-linear-gradient(97deg, rgba(0, 0, 0, .018) 0 2px, transparent 2px 5px);
+      box-shadow: inset 0 0 0 1px rgba(90, 60, 25, .25);
+    }
+
+    /* side tab in the project's colour */
+    .folder-tab {
+      position: absolute;
+      right: 0;
+      top: 24px;
+      width: 30px;
+      height: 230px;
+      border-radius: 0 6px 6px 0;
+      background: #c79f6e;
+      box-shadow: inset 0 0 0 1px rgba(90, 60, 25, .25);
+      padding: 6px 5px 6px 0;
+    }
+
+    .folder-tab span {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 0;
-      opacity: 1;
-      transition: opacity .15s;
-      pointer-events: none;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+      background: var(--c);
+      writing-mode: vertical-rl;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .92);
+      white-space: nowrap;
+      overflow: hidden;
     }
 
-    .panel.open .panel-spine {
-      opacity: 0;
+    .folder--featured .folder-tab span {
+      background: #fff;
+      color: #2f4a6e;
+      box-shadow: inset 0 0 0 1.5px #2f4a6e;
     }
 
-    .spine-code {
+    .folder-clip {
+      display: none;
+      position: absolute;
+      top: -16px;
+      left: 54px;
+      width: 58px;
+      height: 34px;
+    }
+
+    .folder.is-top .folder-clip {
+      display: block;
+    }
+
+    .folder-label {
+      position: absolute;
+      top: 54px;
+      left: 34px;
+      right: 34px;
+      background: #f6f0e2;
+      border-radius: 4px;
+      padding: 0.75rem 0.85rem 0.6rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+      border-top: 4px solid var(--c);
+      text-align: center;
+    }
+
+    .folder-kicker {
       font-family: 'Space Mono', monospace;
       font-size: 0.48rem;
-      letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, .5);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-2);
     }
 
-    .spine-title {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: rgba(255, 255, 255, .92);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      white-space: nowrap;
+    .folder-sub {
+      font-family: 'Space Mono', monospace;
+      font-style: italic;
+      font-size: 0.5rem;
+      color: var(--ink-3);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.25rem 0;
+      margin: 0.45rem 0 0.5rem;
     }
 
-    .spine-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .3);
+    .folder-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.12;
+      text-transform: uppercase;
     }
 
-    /* ── CONTENT (expanded) ── */
-    .panel-content {
+    .folder-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      text-align: left;
+    }
+
+    .folder-meta b {
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      margin-right: 0.3em;
+    }
+
+    .folder-stamp {
       position: absolute;
-      inset: 0;
-      z-index: 2;
-      padding: 1.75rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .22s ease .28s;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: var(--surface);
-      background-image:
-        linear-gradient(rgba(0, 0, 0, .038) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, .038) 1px, transparent 1px);
-      background-size: 20px 20px;
+      left: 34px;
+      right: 34px;
+      bottom: 64px;
+      background: #b8483a;
+      padding: 5px;
+      text-align: center;
     }
 
-    .panel.open .panel-content {
-      opacity: 1;
-      pointer-events: all;
+    .folder-stamp div {
+      background: #241f1a;
+      color: #e8b4a8;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      padding: 0.3rem 0;
     }
 
-    .panel-content::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    .panel-content::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .panel-content::-webkit-scrollbar-thumb {
-      background: var(--border);
+    .folder-stamp small {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-style: italic;
+      font-size: 0.5rem;
+      color: #241f1a;
+      padding-top: 3px;
     }
 
     .c-header {
@@ -1076,17 +1018,6 @@
       object-fit: cover;
     }
 
-    /* Project covers match the clips: capped at 40vh tall, sized to their own
-       aspect and centred. Landscape covers end up wider than portrait clips. */
-    .panel-content .c-img {
-      height: auto;
-      max-height: 40vh;
-      width: fit-content;
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
     .c-title-link {
       color: inherit;
       text-decoration: underline;
@@ -1096,20 +1027,6 @@
 
     .c-title-link:hover {
       color: var(--mustard);
-    }
-
-    /* YouTube embeds have no intrinsic size: fill the width at 16:9,
-       still capped at 40vh tall like the other covers. */
-    .panel-content .c-img--yt {
-      width: min(100%, calc(40vh * 16 / 9));
-      aspect-ratio: 16 / 9;
-    }
-
-    .panel-content .c-img-photo {
-      width: auto;
-      height: auto;
-      max-height: 40vh;
-      max-width: 100%;
     }
 
     .c-clip {
@@ -1141,51 +1058,299 @@
       margin-bottom: 0.85rem;
     }
 
-    .c-bullets {
-      list-style: none;
-      margin-bottom: 1.2rem;
-    }
-
-    .c-bullets li {
-      display: flex;
-      gap: 0.55rem;
-      font-size: 0.77rem;
-      line-height: 1.62;
-      color: var(--ink-2);
-      padding: 0.42rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* Postmortem bullet: straight dashed postmark frame, with a sticker
-       label on its edge styled like the WIP star (mustard, cream outline, tilt). */
-    .c-bullets li.c-lesson {
+    /* Postmortem: a note taped into the project page (paper card, slight
+       tilt, strip of mustard tape on top), set in the regular body font. */
+    .pj-pm {
       position: relative;
-      display: block;
-      margin: 1.5rem 0.3rem 0.6rem;
-      padding: 1.05rem 1rem 0.8rem;
-      border: 1.5px dashed rgba(123, 35, 64, 0.6);
-      border-radius: 7px;
-      background: rgba(123, 35, 64, 0.04);
-      color: var(--ink);
+      margin-top: 2.4rem;
+      padding: 1.3rem 1.5rem 1.2rem;
+      background: #fdf8e6;
+      border: 1px solid var(--soft-bd);
+      transform: rotate(-0.7deg);
+      box-shadow: 2px 5px 14px rgba(26, 24, 20, .1);
+    }
+
+    .pj-pm p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .pj-pm::before {
+      content: '';
+      position: absolute;
+      top: -0.7rem;
+      left: 50%;
+      width: 6rem;
+      height: 1.5rem;
+      margin-left: -3rem;
+      background: rgba(196, 149, 58, .22);
+      border-left: 1px dashed rgba(0, 0, 0, .08);
+      border-right: 1px dashed rgba(0, 0, 0, .08);
+      transform: rotate(-1.6deg);
     }
 
     .c-lesson-tag {
-      position: absolute;
-      top: -0.95rem;
-      left: 0.7rem;
-      padding: 0.28rem 0.6rem 0.24rem;
-      background: var(--mustard);
-      border: 2px solid var(--bg);
-      border-radius: 4px;
+      display: block;
+      margin-bottom: 0.6rem;
       font-family: 'Space Mono', monospace;
       font-size: 0.56rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--bg);
-      line-height: 1.2;
-      transform: rotate(-5deg);
-      filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.18));
+      color: #a8412f;
+    }
+
+    /* ── PROJECT PAGE ── full page per project (#/project/CODE), laid out
+       like the archive's dossier: info rail left, reading column right. */
+    .pj-view {
+      padding: 0 3rem 3rem;
+    }
+
+    body.pj-open> :not(.pj-view):not(footer):not(script):not(.canva-modal) {
+      display: none !important;
+    }
+
+    /* Back link styled as a folder's side tab (kraft edge, strip in the
+       project's colour), hooked onto the card's right edge. Sticky, so it
+       stays in reach on long pages. */
+    .pj-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    .pj-side {
+      position: sticky;
+      top: 1.4rem;
+      margin-top: 24px;
+      margin-left: -1px;
+    }
+
+    .pj-back {
+      display: block;
+      width: 30px;
+      height: 230px;
+      border-radius: 0 6px 6px 0;
+      background: #c79f6e;
+      box-shadow: inset 0 0 0 1px rgba(90, 60, 25, .25), 0 6px 10px rgba(26, 24, 20, .14);
+      padding: 6px 5px 6px 0;
+      text-decoration: none;
+    }
+
+    .pj-back span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+      background: var(--c, var(--mustard));
+      writing-mode: vertical-rl;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .92);
+      white-space: nowrap;
+      transition: background-color .16s, color .16s;
+    }
+
+    /* Hover turns the strip black, like the View Presentation button. */
+    .pj-back:hover span,
+    .pj-back:focus-visible span {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .pj-back:focus-visible {
+      outline: none;
+    }
+
+    .pj {
+      display: grid;
+      grid-template-columns: 16rem minmax(0, 1fr);
+      gap: 0 clamp(2rem, 4.5vw, 4rem);
+      border: 1px solid var(--border);
+      border-top-width: 4px;
+      background: var(--surface);
+      box-shadow: 0 10px 28px rgba(26, 24, 20, 0.1);
+      padding: clamp(1.6rem, 3vw, 2.6rem);
+    }
+
+    .pj-rail {
+      position: sticky;
+      top: 1.4rem;
+      align-self: start;
+      border-right: 1px solid var(--border);
+      padding-right: clamp(1rem, 2vw, 2rem);
+    }
+
+    .pj-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--mustard);
+    }
+
+    .pj-title {
+      font-family: 'Londrina Shadow', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+      line-height: 0.96;
+      letter-spacing: 0.01em;
+      margin: 0.5rem 0 0.6rem;
+    }
+
+    .pj-title a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 2px solid var(--mustard);
+    }
+
+    .pj-meta {
+      margin-top: 1.4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .pj-meta div {
+      border-bottom: 1px solid var(--border);
+      padding: 0.55rem 0;
+    }
+
+    .pj-meta dt {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .pj-meta dd {
+      font-size: 0.86rem;
+      line-height: 1.45;
+      margin-top: 0.15rem;
+    }
+
+    .pj-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 1.2rem;
+    }
+
+    .pj-skills .skill-tag {
+      font-size: 0.58rem;
+    }
+
+    .pj-body {
+      max-width: 66ch;
+    }
+
+    .pj-body>p {
+      font-size: 0.95rem;
+      line-height: 1.78;
+      color: var(--ink-2);
+      margin-top: 1.3rem;
+    }
+
+    .pj-body>p.pj-lead {
+      margin-top: 0;
+      font-size: 1.12rem;
+      line-height: 1.62;
+      color: var(--ink);
+    }
+
+    /* The frame hugs its picture or clip, whatever its ratio; only the
+       YouTube embed (.pj-plate--wide) spans the column. */
+    .pj-plate {
+      width: fit-content;
+      max-width: 100%;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      background: #efe8db;
+      padding: 0.55rem;
+    }
+
+    .pj-plate img,
+    .pj-plate video,
+    .pj-plate iframe {
+      display: block;
+      border: 0;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    .pj-plate img,
+    .pj-plate video {
+      max-height: 70vh;
+      width: auto;
+      height: auto;
+    }
+
+    .pj-plate--wide {
+      width: auto;
+    }
+
+    .pj-plate iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .pj-plate figcaption {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      padding: 0.55rem 0.15rem 0.1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .pj-docs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.6rem;
+    }
+
+    .pj-doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.85rem;
+      background: var(--surface);
+      cursor: pointer;
+      transition: background-color .16s, color .16s;
+    }
+
+    .pj-doc-btn:hover {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    @media (max-width: 1023px) {
+      .pj {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+
+      .pj-rail {
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-right: 0;
+        padding-bottom: 1.4rem;
+      }
     }
 
     .c-skills {
@@ -1274,6 +1439,142 @@
       color: var(--ink);
     }
 
+    /* ── ABOUT ME ── bio across the top; below it the toolbox (taped index
+       cards) beside a torn notebook page of what I can do for you. */
+    .about {
+      padding: 2rem 3rem 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2.2rem 3rem;
+      align-items: start;
+    }
+
+    .about[hidden] {
+      display: none;
+    }
+
+    .about-bio {
+      grid-column: 1 / -1;
+      max-width: 54rem;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .about-head {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--mustard);
+      margin-bottom: 1.2rem;
+    }
+
+    .toolbox {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .tool-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.3rem 1.2rem;
+      filter: drop-shadow(0 1px 2px rgba(26, 24, 20, .16));
+    }
+
+    /* washi tape holding each card down */
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 1.2rem;
+      width: 72px;
+      height: 20px;
+      background: rgba(196, 149, 58, .3);
+      border-left: 2px dotted rgba(255, 255, 255, .5);
+      border-right: 2px dotted rgba(255, 255, 255, .5);
+      transform: rotate(-3deg);
+    }
+
+    .tool-card:nth-child(even)::before {
+      left: auto;
+      right: 1.2rem;
+      transform: rotate(2.5deg);
+    }
+
+    .tool-card h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.8rem;
+    }
+
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tool-tags .skill-tag {
+      font-size: 0.62rem;
+      padding: 0.24rem 0.55rem;
+    }
+
+    .offers-wrap {
+      filter: drop-shadow(0 1px 2px rgba(26, 24, 20, .2));
+    }
+
+    .offers {
+      position: relative;
+      list-style: none;
+      counter-reset: offer;
+      background-color: var(--surface);
+      background-image: repeating-linear-gradient(0deg,
+          rgba(0, 0, 0, 0.04) 0,
+          rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px,
+          transparent 28px);
+      padding: 2.2rem 1.6rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+    }
+
+    .offers li {
+      counter-increment: offer;
+      display: grid;
+      grid-template-columns: 2.2rem minmax(0, 1fr);
+      column-gap: 0.4rem;
+    }
+
+    .offers li::before {
+      content: counter(offer);
+      grid-row: span 2;
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 2rem;
+      line-height: 0.9;
+      color: var(--ink-3);
+    }
+
+    .offers b {
+      font-weight: 500;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+
+    .offers span {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
     /* ── MILESTONES ── draggable filmstrip (from Issue 01) */
     .hero-milestones-full {
       --ms-pad: 3rem;
@@ -1298,7 +1599,7 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-padding-left: var(--ms-pad);
-      padding: 0.3rem var(--ms-pad) 1.6rem;
+      padding: 0.9rem var(--ms-pad) 1.6rem;
       margin: 0 calc(var(--ms-pad) * -1);
       scrollbar-width: thin;
       cursor: grab;
@@ -1321,6 +1622,41 @@
       gap: 0.6rem;
     }
 
+    /* ── MILESTONE PAPER ── each card is a page torn out of a spiral
+       notebook: the top edge is a row of half-holes where it ripped
+       through the wire. */
+    .frame {
+      position: relative;
+      padding-top: 1.6rem;
+      border-top: 0;
+    }
+
+    /* Torn-out-of-a-spiral-notebook top edge; shared by the milestone
+       cards and the About Me offers page. */
+    .torn-top {
+      -webkit-mask:
+        radial-gradient(circle 7px at 50% 0, transparent 6.6px, #000 7.2px) 0 0 / 22px 12px repeat-x,
+        linear-gradient(#000, #000) 0 12px / 100% 100% no-repeat;
+      mask:
+        radial-gradient(circle 7px at 50% 0, transparent 6.6px, #000 7.2px) 0 0 / 22px 12px repeat-x,
+        linear-gradient(#000, #000) 0 12px / 100% 100% no-repeat;
+    }
+
+    .torn-top::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 14px;
+      background: linear-gradient(rgba(120, 100, 70, .1), transparent);
+      pointer-events: none;
+    }
+
+    /* A soft paper shadow on the whole strip, so it follows the torn
+       edge too (a card's own shadow would be cut off by the mask). */
+    .strip {
+      filter: drop-shadow(0 1px 2px rgba(26, 24, 20, .2));
+    }
+
     .frame-top {
       display: flex;
       align-items: center;
@@ -1331,9 +1667,11 @@
     }
 
     .frame-year {
-      font-family: 'Londrina Shadow', sans-serif;
-      font-size: 1.9rem;
-      line-height: 1;
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 2.3rem;
+      line-height: 0.9;
+      color: var(--ink-3);
     }
 
     .frame-seal {
@@ -1377,12 +1715,6 @@
       -webkit-user-drag: none;
     }
 
-    .strip-hint {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-top: 0.2rem;
-    }
 
     .hero--milestones {
       max-width: none;
@@ -1469,11 +1801,25 @@
         flex-direction: row;
       }
 
+      /* Icons sit straight on phones. */
+      nav a:nth-child(1),
+      nav a:nth-child(2) {
+        transform: none;
+      }
+
       .filter-bar,
-      .sec-label,
       .accordion-wrap {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+      }
+
+      .about {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.5rem 1.5rem 2rem;
+      }
+
+      .offers {
+        padding: 2rem 1.1rem 1.2rem;
       }
 
       /* Filters don't fit on one row — let them scroll sideways instead of
@@ -1499,55 +1845,18 @@
       }
 
       .wip-clip {
-        padding: 0 1.5rem 1.8rem;
-      }
-
-      /* One column: a single 16:9 frame, then the text under it. */
-      .wip-media--second {
-        display: none;
-      }
-
-      .wip-note {
+        padding: 1.5rem 1.5rem 2rem;
         grid-template-columns: minmax(0, 1fr);
-        gap: 1rem;
-        min-height: 0;
-        transform: rotate(-0.8deg);
       }
 
-      .wip-media {
-        width: 100%;
-        height: auto;
+      /* Text first on phones, footage under it. */
+      .wip-side {
+        position: static;
+        order: -1;
       }
 
-      .wip-status {
-        font-size: 0.98rem;
-        line-height: 1.2;
-        color: var(--ink-2);
-      }
-
-      .wip-tags .skill-tag {
-        font-size: 0.58rem;
-        padding: 0.2rem 0.45rem;
-      }
-
-      .wip-eyebrow,
-      .wip-title {
-        padding-right: 0;
-      }
-
-      /* Room left under the frame for the description. */
-      .wip-text {
-        min-height: 92px;
-        padding: 0 0.2rem 0.3rem;
-      }
-
-      /* Kept inside the note's edge on narrow screens so it never lands
-         outside the viewport. */
-      .wip-star {
-        width: 64px;
-        height: 64px;
-        top: -22px;
-        right: 6px;
+      .wip-head .about-head {
+        font-size: 2.1rem;
       }
 
       /* Milestones strip bleeds to the narrower mobile gutter. */
@@ -1573,90 +1882,114 @@
         font-size: 0.74rem;
       }
 
+      /* Phones: no room for a fan, so the folders become a plain stack of
+         kraft folders, each showing its label; tap to open. */
       .accordion {
-        flex-direction: column;
         height: auto;
-        max-height: none;
-        min-height: auto;
-        gap: 8px;
-      }
-
-      .panel {
-        flex: none !important;
-        height: auto;
-        cursor: default;
-        border-right: none;
-      }
-
-      .panel-spine {
-        display: none;
-      }
-
-      .panel-fill {
-        height: 3px;
-        bottom: auto;
-      }
-
-      .panel--featured .panel-fill {
-        background: #2f4a6e !important;
-        box-shadow: none;
-      }
-
-      .panel-content {
-        position: static;
-        opacity: 1 !important;
-        pointer-events: all !important;
-        transition: none;
-      }
-
-      /* Collapsed entries: a solid coloured bar with the code + title.
-         Tap to expand; tap the entry's header to collapse again. */
-      .panel:not(.open) {
-        cursor: pointer;
-      }
-
-      .panel:not(.open) .panel-content {
-        display: none;
-      }
-
-      .panel:not(.open) .panel-fill {
-        bottom: 0;
-        height: auto;
-      }
-
-      .panel--featured:not(.open) .panel-fill {
-        background: #fff !important;
-        box-shadow: inset 0 0 0 2px #2f4a6e;
-      }
-
-      .panel:not(.open) .panel-spine {
+        margin-top: 0.5rem;
         display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* No stack here, so nothing is "underneath": every folder in colour. */
+      .folder:not(.is-top) {
+        filter: drop-shadow(0 6px 10px rgba(26, 24, 20, .22));
+      }
+
+      .folder {
         position: relative;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 0.8rem;
-        padding: 1rem 1.1rem;
+        left: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        z-index: auto !important;
       }
 
-      .panel:not(.open) .spine-code,
-      .panel:not(.open) .spine-title {
+      .folder-body {
+        right: 0;
+      }
+
+      /* The side tab becomes a ribbon bookmark in the project's colour,
+         hanging from the folder's top edge. */
+      .folder-tab {
+        top: 0;
+        right: 22px;
+        width: 16px;
+        height: 42px;
+        padding: 0;
+        border-radius: 0;
+        background: var(--c);
+        box-shadow: none;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+        z-index: 2;
+      }
+
+      .folder-tab span {
+        display: none;
+      }
+
+      .folder.is-top .folder-clip,
+      .folder-stamp {
+        display: none;
+      }
+
+      .folder-label {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        margin: 14px 50px 14px 14px;
+      }
+
+      .pj-view {
+        padding: 0 1.5rem 2rem;
+      }
+
+      /* Phones: the first visual comes right after the lead paragraph. */
+      .pj-body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .pj-body > * {
+        order: 3;
+      }
+
+      .pj-body > .pj-lead {
+        order: 1;
+      }
+
+      .pj-body > .pj-plate:first-of-type {
+        order: 2;
+      }
+
+      .pj-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .pj-side {
+        position: static;
+        grid-row: 1;
+        margin: 0 0 -1px 18px;
+      }
+
+      .pj-back {
+        width: 200px;
+        height: 30px;
+        border-radius: 6px 6px 0 0;
+        padding: 5px 6px 0;
+      }
+
+      .pj-back span {
         writing-mode: horizontal-tb;
-        transform: none;
+        border-radius: 3px 3px 0 0;
       }
 
-      .panel:not(.open) .spine-title {
-        font-size: 0.85rem;
-        white-space: normal;
-      }
 
-      .panel:not(.open) .spine-dot {
-        margin-left: auto;
-        flex-shrink: 0;
-      }
-
-      .panel.open .c-header {
-        cursor: pointer;
+      .pj-title {
+        font-size: 2rem;
       }
 
       /* Stack the clip + skills vertically on narrow screens. */
@@ -1685,10 +2018,6 @@
 </head>
 
 <body>
-
-  <div class="skills-ticker" aria-label="Skills">
-    <div class="skills-track js-skills-track"></div>
-  </div>
 
   <header>
     <div class="header-cols">
@@ -1748,8 +2077,8 @@
           <div class="header-role">Creative PM · Producer · GameDev</div>
         </div>
         <nav>
-          <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank"
-            rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <a href="https://www.linkedin.com/in/aleksandra-pavlova-verevkina/" target="_blank" rel="noopener"
+            aria-label="LinkedIn" title="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
@@ -1768,58 +2097,74 @@
   </header>
 
   <div class="filter-bar">
+    <button class="filter-btn" data-filter="about">About Me</button>
     <button class="filter-btn active" data-filter="games">Projects</button>
     <button class="filter-btn" data-filter="tech">Projects</button>
+    <button class="filter-btn" data-filter="wip">In Progress</button>
     <button class="filter-btn filter-btn--milestones" data-filter="achievements">Milestones</button>
   </div>
 
   <div class="hero">
-    <div id="hero-content">
-      <p class="bio" id="hero-bio"></p>
-    </div>
-
     <div class="hero-milestones-full" id="hero-milestones-full" hidden>
       <div class="strip-wrap">
         <div class="strip" id="strip"></div>
-        <p class="strip-hint ms-label">
-          <svg width="30" height="10" viewBox="0 0 30 10" fill="none" stroke="currentColor" stroke-width="1.4"
-            aria-hidden="true">
-            <path d="M0 5h28M24 1.5 28.5 5 24 8.5" />
-          </svg>
-          Scroll or drag
-        </p>
       </div>
     </div>
   </div>
 
-    <!-- WIP: one long card, two footage frames and text. Spans the same
-         width as the archive below. Contents come from the WIP object. -->
-    <aside class="wip-clip" id="wip-clip" aria-label="Work in progress">
-      <div class="wip-note">
-        <svg class="wip-star" viewBox="0 0 100 100" aria-hidden="true">
-          <path
-            d="M50.0 1.0 L60.6 10.4 L74.5 7.6 L79.0 21.0 L92.4 25.5 L89.6 39.4 L99.0 50.0 L89.6 60.6 L92.4 74.5 L79.0 79.0 L74.5 92.4 L60.6 89.6 L50.0 99.0 L39.4 89.6 L25.5 92.4 L21.0 79.0 L7.6 74.5 L10.4 60.6 L1.0 50.0 L10.4 39.4 L7.6 25.5 L21.0 21.0 L25.5 7.6 L39.4 10.4 Z"
-            fill="var(--mustard)" stroke="var(--bg)" stroke-width="2" stroke-linejoin="round" />
-          <text x="50" y="59" text-anchor="middle">WIP</text>
-        </svg>
-        <div class="wip-media" id="wip-media"></div>
-        <div class="wip-media wip-media--second" id="wip-media-2"></div>
-        <div class="wip-text">
-          <div class="wip-eyebrow" id="wip-eyebrow"></div>
-          <div class="wip-title" id="wip-title"></div>
-          <div class="wip-status" id="wip-status"></div>
-          <div class="wip-tags" id="wip-tags"></div>
-        </div>
-      </div>
-    </aside>
 
-  <div class="sec-label" id="sec-label">Archive Log // 9 Projects</div>
+  <!-- ABOUT ME: bio, a skills toolbox and "what I can do for you".
+       Filled from the ABOUT object (per role view). -->
+  <section class="about" id="about" hidden>
+    <p class="about-bio" id="about-bio"></p>
+    <div class="about-col">
+      <h3 class="about-head">my toolbox</h3>
+      <div class="toolbox" id="toolbox"></div>
+    </div>
+    <div class="about-col">
+      <h3 class="about-head">what I can do for you</h3>
+      <div class="offers-wrap">
+        <ol class="offers torn-top" id="offers"></ol>
+      </div>
+    </div>
+  </section>
+
 
   <div class="accordion-wrap">
     <div class="accordion" id="accordion"></div>
   </div>
 
+  <!-- IN PROGRESS: footage stacked on the left as taped shots; on the
+         right a torn notebook card with the text and a taped card of tags.
+         Contents come from the WIP object. -->
+  <section class="wip-clip" id="wip-clip" aria-label="Work in progress" hidden>
+    <div class="wip-shots" id="wip-shots"></div>
+    <div class="wip-side">
+      <div class="offers-wrap">
+        <div class="wip-card torn-top">
+          <div class="wip-head">
+            <h3 class="about-head" id="wip-title"></h3>
+          </div>
+          <p class="wip-status" id="wip-status"></p>
+        </div>
+      </div>
+      <div class="tool-card">
+        <h4>Tags</h4>
+        <div class="tool-tags" id="wip-tags"></div>
+      </div>
+    </div>
+  </section>
+
   <div id="focus-backdrop" class="focus-backdrop"></div>
+
+  <main class="pj-view" id="pj-view" hidden>
+    <div class="pj-shell">
+      <article class="pj" id="pj"></article>
+      <div class="pj-side" role="navigation" aria-label="Project navigation">
+        <a class="pj-back" href="#"><span>← Back to projects</span></a>
+      </div>
+    </div>
+  </main>
 
   <footer>
     <div class="footer-name">© Made with html by Aleksandra Pavlova-Verevkina · 2026</div>
@@ -1930,7 +2275,7 @@
       el.innerHTML = MILESTONES.map(m => {
         const bits = m.date.split(' ');
         return `
-        <article class="frame">
+        <article class="frame torn-top">
           <div class="frame-top">
             <div>
               <div class="frame-year">${bits[bits.length - 1]}</div>
@@ -1980,6 +2325,51 @@
       tech: "I run projects for teams that mix engineering, design and writing. For almost two years I managed client projects for an interior design studio in Moscow on contract, remote from Sweden, and alongside it I produced games with teams of three to eight. Right now I'm handling planning, scoping and grant applications for two projects up for funding. Have a look around :)"
     };
 
+    // ── ABOUT ME ──────────────────────────────────────────────
+    // Toolbox groups and "what I can do for you", per role view.
+    // TODO(Alex): drafted from the project write-ups; reword freely.
+    const ABOUT = {
+      toolbox: {
+        games: [
+          { title: 'Running the work', skills: ['Scrum', 'Agile', 'Kanban', 'Jira', 'Scoping', 'Milestone Planning', 'Risk Management', 'Financial Analysis'] },
+          { title: 'Making the game', skills: ['Game Design', 'Level Design', 'Rapid Prototyping', 'Playtesting', 'Sound Design', 'FMOD', 'Unity', 'Unreal Engine 5'] },
+          { title: 'Working with people', skills: ['Team Leadership', 'Stakeholder Communication', 'Non-Violent Communication', 'Conflict Resolution'] }
+        ],
+        tech: [
+          { title: 'Running the work', skills: ['Scrum', 'Kanban', 'Lean', 'Jira', 'Capacity Planning', 'Scope Management', 'Risk Management'] },
+          { title: 'Numbers and research', skills: ['Financial Analysis', 'Business Planning', 'Budget Control', 'Data Analysis', 'User Research', 'Market Research'] },
+          { title: 'Working with people', skills: ['Stakeholder Communication', 'Client Management', 'Remote Teams', 'Team Leadership', 'Non-Violent Communication', 'Conflict Resolution'] }
+        ]
+      },
+      offers: {
+        games: [
+          ['Project planning and execution', 'Sprints, milestones and scope management, so the game you ship is the one you planned and delivered on time. Time is money :)'],
+          ['Process that fits the team', 'I set up Jira from scratch and teach Scrum when needed, and the process is always adapted to the team rather than the textbook. We’re all different people with different needs and backgrounds, after all.'],
+          ['Playtests to support desicions', 'Recruiting testers, running sessions and turning what they say into numbers the team can scope with.'],
+          ['Presentations and business pitches', 'Decks for stakeholdersinvestors, incubators and clients that are easy to follow, look good and come together fast.'],
+          ['Game development', 'Game design (systems and UI), audio design (SFX and background music, in Logic Pro and FMOD), level design.']
+        ],
+        tech: [
+          ['Client projects run end to end', 'From the brief call to the final delivery, with check-ins that catch mismatched expectations early.'],
+          ['Teams in sync across time zones', 'Planning rhythms and boards that keep remote, mixed teams on the same week.'],
+          ['Plans with numbers behind them', 'Budgets, financial models and risk matrices, so scope talks happen with the costs on the table.'],
+          ['Process that fits the team', 'Scrum, Kanban or something lighter, set up in Jira and tuned to how the team actually works.'],
+          ['Research that leads to decisions', 'Interviews, surveys and playtests turned into data a team can prioritise with.']
+        ]
+      }
+    };
+
+    function buildAbout(role) {
+      document.getElementById('about-bio').innerHTML = HERO[role] || HERO.games;
+      document.getElementById('toolbox').innerHTML = ABOUT.toolbox[role].map(g => `
+        <div class="tool-card">
+          <h4>${g.title}</h4>
+          <div class="tool-tags">${g.skills.map(renderSkillTag).join('')}</div>
+        </div>`).join('');
+      document.getElementById('offers').innerHTML = ABOUT.offers[role]
+        .map(([t, d]) => `<li><b>${t}</b><span>${d}</span></li>`).join('');
+    }
+
     // ── WIP NOTE ──────────────────────────────────────────────
     // One current project, shown next to the bio in the project views.
     // `clip` takes an .mp4 and `image` a still; leave both empty and the
@@ -1988,7 +2378,6 @@
     // stays an empty frame while both are blank. Only the first shows on
     // phones. Animated .webp works in the image slot.
     const WIP = {
-      eyebrow: 'Currently building',
       title: '[Cave Diver]',
       // `blurb` is rendered as HTML so it can carry a link.
       blurb: 'A work-in-progress minimalistic 2D cave-diving Godot game made in collab with an amazing designer and developer, <a href="https://www.alexanderfreyr.com/" target="_blank" rel="noopener">Alex Freyr</a>. Stay tuned!',
@@ -2005,6 +2394,7 @@
         title: "Andreeva Tonya's Interior Design",
         subtitle: 'A Five-Designer Residential Practice',
         org: 'Moscow · Contract PM, remote from Sweden',
+        team: '5 designers',
         date: 'Oct 2024 — Jul 2026',
         status: 'Client Work',
         color: '#2f4a6e',
@@ -2031,9 +2421,10 @@
         title: 'Untitled Driving Game',
         subtitle: 'Thesis Game Project, Team of 3',
         org: 'Uppsala University · Produced the Build',
+        team: '3',
         date: 'Jan 2026 — May 2026',
         status: 'Completed',
-        color: '#b5a38e',
+        color: '#2f7a78',
         image: 'proj_highway.png',
         pdf: 'Ventilation_Final_Presentation.pdf',
         clip: 'Untitled-Driving-Game.mp4',
@@ -2064,11 +2455,11 @@
         title: 'Return on Time Invested',
         subtitle: 'How Much Fun Did Each Obstacle Buy Per Hour?',
         org: 'Uppsala University · My Chapter in Our Shared Bachelor Thesis',
+        team: '3',
         date: 'Jan 2026 — Jun 2026',
         status: 'Research',
         color: '#4f6457',
         image: 'roti_bg.png',
-        cover: true,
         pdf: 'ROTI_in_Game_Production.pdf',
         btnLabel: 'View Article',
         roles: {
@@ -2102,7 +2493,6 @@
         status: 'Completed',
         color: '#7a8a94',
         image: 'proj_experimental.png',
-        cover: true,
         clip: 'experimental_penguin.mp4',
         roles: {
           games: 'Project Manager, Designer & Programmer',
@@ -2163,11 +2553,11 @@
         title: 'Hauntel Management',
         subtitle: 'Cooperative Management Game',
         org: 'Uppsala University · Exhibited at Gotland Game Conference 2025',
+        team: '4',
         date: 'Mar 2025 — Jun 2025',
         status: 'Exhibited',
         color: '#5c7591',
         image: 'proj_hauntel.png',
-        cover: true,
         clip: 'hauntel-management-gameplay.webm',
         canva: ['https://www.canva.com/design/DAGjZfe16-E/iZzWAS7NKQqlIqydwopIpA/view?embed'],
         roles: {
@@ -2233,7 +2623,7 @@
       {
         code: 'PROJ_006',
         title: 'The Antiquarian',
-        subtitle: 'A 3-Year Production Plan, No Game Built',
+        subtitle: 'A 3-Year Production Plan',
         org: 'Uppsala University',
         date: 'Sep 2024 — Jan 2025',
         status: 'Completed',
@@ -2249,7 +2639,7 @@
         },
         bullets: {
           games: [
-            "A cozy simulation game planned down to the last euro and never built. The deliverable is the business case: three years of production on paper, a budget and an investor pitch.",
+            "A cozy simulation game pitch planned down to the last euro. The deliverable is the business case: three years of production on paper, a budget and an investor pitch.",
             "I built the financial model in Excel: about €1M of production across pre-production, alpha, beta and release plus two DLCs, staffing growing from two part-timers to five full-time, and three revenue scenarios, the lowest breaking even at 71,000 units. Underneath sat per-stage costs and durations, per-discipline deliverables, tiered pricing and a year-by-year P&L.",
             "I ran the market research end to end: sized the cozy simulation market, placed five comparable titles on a price-versus-rating quadrant, and wrote the feature comparison, the SWOT and three player profiles.",
             "The delivery evidence came from our own work. We ran four pre-production sprints in Jira, so the pitch showed our velocity charts and cumulative flow, averaging 13.5 story points.",
@@ -2257,7 +2647,7 @@
             { lesson: "No game was built. Putting a cost next to every feature made our scope discussions much shorter." }
           ],
           tech: [
-            "A cozy simulation game planned down to the last euro and never built. The deliverable is the business case: three years of production on paper, a budget and an investor pitch.",
+            "A cozy simulation game pitch planned down to the last euro. The deliverable is the business case: three years of production on paper, a budget and an investor pitch.",
             "I built the financial model in Excel: about €1M of production across pre-production, alpha, beta and release plus two DLCs, staffing growing from two part-timers to five full-time, and three revenue scenarios, the lowest breaking even at 71,000 units. Underneath sat per-stage cost and duration, per-discipline deliverables, tiered pricing and a year-by-year P&L.",
             "I ran the market and competitor analysis end to end: sized the cozy simulation segment, placed five comparable titles on a price-versus-rating quadrant, and wrote the feature comparison, the SWOT and three user profiles.",
             "The delivery evidence came from our own work. We ran four pre-production sprints in Jira, so the pitch showed our velocity charts and cumulative flow, averaging 13.5 story points, and the plan's throughput came from our own numbers.",
@@ -2306,11 +2696,11 @@
         title: 'Splish-Splash Submarine',
         subtitle: "Retro Shoot 'em Up",
         org: 'Uppsala University · Published on itch.io',
+        team: '7',
         date: 'Jan 2024 — Mar 2024',
         status: 'Published',
         color: '#3c4a5a',
         image: 'splish_splash_bg.png',
-        cover: true,
         clip: 'splish_trailer.mp4',
         roles: {
           games: 'Project Manager & Sound Designer',
@@ -2340,11 +2730,11 @@
         title: 'Mini-Games About Dementia',
         subtitle: 'Awareness Game Compilation, Team of 7',
         org: 'Uppsala University',
+        team: '7',
         date: 'Oct 2023 — Nov 2023',
         status: 'Completed',
         color: '#7a7060',
         image: 'dementia_bg.png',
-        cover: true,
         roles: {
           games: 'Project Manager & Game Designer',
           tech: 'Project Manager',
@@ -2375,12 +2765,6 @@
       }
     ];
 
-    const HEADER_SKILLS = {
-      all: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Design Production', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
-      games: ['Scrum', 'Agile', 'Jira', 'Team Leadership', 'Game Production', 'Game Design', 'Unity', 'Sound Design', 'Risk Management', 'FMOD'],
-      tech: ['Scrum', 'Kanban', 'LEAN', 'Jira', 'Risk Management', 'Stakeholder Communication', 'Cross-functional Delivery', 'Financial Analysis', 'Data Analysis']
-    };
-
     // Soft skills shown on every tab, after that tab's hard skills.
     const SOFT_SKILLS_LIST = [
 
@@ -2395,7 +2779,7 @@
 
     function getParam() {
       const v = new URLSearchParams(location.search).get('view');
-      return ['games', 'tech', 'achievements'].includes(v) ? v : getHome();
+      return ['games', 'tech', 'about', 'wip', 'achievements'].includes(v) ? v : getHome();
     }
 
     // The role view (games / tech) a visitor arrived on. Visitors can only
@@ -2408,10 +2792,15 @@
       return params.get('role') === 'tech' ? 'tech' : 'games';
     }
 
+    // games / tech are the Projects tab; every other tab is a side view.
+    function isRoleView(f) {
+      return f === 'games' || f === 'tech';
+    }
+
     function pushParam(f) {
       const u = new URL(location.href);
       u.searchParams.set('view', f);
-      if (f === 'achievements' && HOME === 'tech') u.searchParams.set('role', 'tech');
+      if (!isRoleView(f) && HOME === 'tech') u.searchParams.set('role', 'tech');
       else u.searchParams.delete('role');
       history.pushState({}, '', u);
     }
@@ -2426,124 +2815,180 @@
       return `<span class="skill-tag ${type}">${skill}</span>`;
     }
 
-    // ── SKILLS TICKER ────────────────────────────────────────────
-    // Every skill from the header lists and projects, deduplicated
-    // (case-insensitive), scrolling like TV captions. The group is
-    // rendered twice so the -50% loop is seamless.
-    const SKILL_ALIASES = { 'Stakeholder Comm.': 'Stakeholder Communication', 'LEAN': 'Lean' };
-    const TICKER_SPEED = 40; // scroll speed in pixels per second
-
-    function buildSkillsTicker() {
-      const track = document.querySelector('.js-skills-track');
-      if (!track) return;
-      const seen = new Map();
-      [
-        ...Object.values(HEADER_SKILLS).flat(),
-        ...PROJECTS.flatMap(p => p.skills || []),
-        ...SOFT_SKILLS_LIST
-      ].forEach(raw => {
-        const s = SKILL_ALIASES[raw] || raw;
-        const k = s.toLowerCase();
-        if (!seen.has(k)) seen.set(k, s);
-      });
-      const group = [...seen.values()].map(renderSkillTag).join('');
-      track.innerHTML = `<div class="skills-group">${group}</div>` +
-        `<div class="skills-group" aria-hidden="true">${group}</div>`;
-
-      // Duration = one group's width / speed, so the speed stays the same
-      // however many skills there are. Re-measured once fonts load.
-      // On mobile the line runs vertically, so measure height there instead.
-      const mobile = window.matchMedia('(max-width: 767px)');
-      const setDuration = () => {
-        const g = track.firstElementChild;
-        const len = mobile.matches ? g.offsetHeight : g.offsetWidth;
-        if (len) track.style.animationDuration = (len / TICKER_SPEED) + 's';
-      };
-      setDuration();
-      document.fonts?.ready.then(setDuration);
-      mobile.addEventListener('change', setDuration);
-    }
-
     // ── BUILD ACCORDION ──────────────────────────────────────────
 
     const MOBILE = window.matchMedia('(max-width: 767px)');
 
+    const CLIP_SVG = `<svg class="folder-clip" viewBox="0 0 58 34" aria-hidden="true">
+      <rect x="4" y="12" width="50" height="20" rx="2" fill="#2b2a28"/>
+      <rect x="4" y="12" width="50" height="5" rx="2" fill="#4a4845"/>
+      <path d="M14 13 V4 a3 3 0 0 1 3 -3 H41 a3 3 0 0 1 3 3 V13" fill="none" stroke="#b9b6b0" stroke-width="2.4"/>
+    </svg>`;
+
     function buildAccordion() {
       const root = document.getElementById('accordion');
       PROJECTS.forEach((p, i) => {
-        const panel = document.createElement('div');
-        // On mobile every entry starts collapsed.
-        panel.className = 'panel' + (p.featured ? ' panel--featured' : '') + (i === 0 && !MOBILE.matches ? ' open' : '');
-        panel.id = 'p' + i;
-
-        panel.innerHTML = `
-      <div class="panel-fill" style="background:${p.color}"></div>
-
-      <div class="panel-spine">
-        <div class="spine-code">${p.code}</div>
-        <div class="spine-title">${p.title.toUpperCase()}</div>
-        <div class="spine-dot"></div>
-      </div>
-
-      <div class="panel-content" style="border-top: 3px solid ${p.color}">
-        <div class="c-header">
-          <div>
-            <div class="c-code">${p.code} // ${p.subtitle}</div>
-            <div class="c-title">${p.link ? `<a class="c-title-link" href="${p.link}" target="_blank" rel="noopener">${p.title}</a>` : p.title}</div>
-            <div class="c-role js-role"></div>
+        const f = document.createElement('a');
+        f.className = 'folder' + (p.featured ? ' folder--featured' : '');
+        f.id = 'p' + i;
+        f.href = '#/project/' + p.code;
+        f.style.setProperty('--c', p.color);
+        f.setAttribute('aria-label', p.title);
+        f.innerHTML = `
+          <div class="folder-tab"><span>${p.title}</span></div>
+          <div class="folder-body"></div>
+          ${CLIP_SVG}
+          <div class="folder-label">
+            <div class="folder-kicker">${p.org.split(' · ')[0]}</div>
+            <div class="folder-sub">${p.subtitle}</div>
+            <div class="folder-title">${p.title}</div>
+            <div class="folder-meta">
+              <span><b>FILE</b>${p.code}</span>
+              <span><b>DATES</b>${p.date}</span>
+            </div>
           </div>
-          <div class="c-right">
-            <div class="c-date">${p.date}</div>
-            <div class="c-status">${p.status}</div>
-          </div>
-        </div>
-
-        <div class="c-img${p.youtube ? ' c-img--yt' : ''}" style="background:${p.color}18; border: 1px solid ${p.color}35">
-          ${p.youtube
-            ? `<iframe class="c-img-video" src="${p.youtube}" title="${p.title}"
-                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
-            : (p.canva || p.pdf)
-              ? `${p.image ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo c-img-cover">` : ''}
-               <button class="c-img-deck" onclick="openCanva(event, ${i})">
-                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
-                 ${p.btnLabel || (p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations')}
-               </button>`
-              : p.image
-                ? `<img src="${p.image}" alt="${p.title}" class="c-img-photo${p.cover ? ' c-img-cover' : ''}">`
-                : `<span class="c-img-lbl" style="color:${p.color}aa">Image Placeholder</span>`}
-        </div>
-
-        ${p.clip ? `
-        <div class="c-media-row">
-          <video class="c-clip" src="${p.clip}" autoplay muted loop playsinline preload="metadata"></video>
-          <div class="c-skills">
-            ${p.skills.map(s => renderSkillTag(s)).join('')}
-          </div>
-        </div>` : ''}
-
-        <div class="c-org">${p.org}</div>
-        <ul class="c-bullets js-bullets"></ul>
-        ${p.clip ? '' : `<div class="c-skills">
-          ${p.skills.map(s => renderSkillTag(s)).join('')}
-        </div>`}
-      </div>
-    `;
-
-        panel.addEventListener('click', (e) => {
-          const open = panel.classList.contains('open');
-          if (MOBILE.matches) {
-            // Mobile: entries toggle independently. Collapse only via the
-            // header, so taps on links, videos and buttons don't close it.
-            if (!open) panel.classList.add('open');
-            else if (e.target.closest('.c-header') && !e.target.closest('a')) panel.classList.remove('open');
-            return;
-          }
-          if (!open) openPanel(i);
-        });
-
-        root.appendChild(panel);
+          <div class="folder-stamp"><div>${p.status}</div><small>Open the file</small></div>
+`;
+        root.appendChild(f);
       });
+    }
+
+    // Lay the visible folders in an overlapping row across the section's
+    // width: same top, even steps, first folder on top at the left.
+    // Folders are 330 x 440 units, scaled by --s.
+    const FAN = { w: 330, h: 440, scale: 1.25, minStep: 46, jitterY: 14 };
+    // Tilt (deg) and vertical offset (px) per folder. Only the folder on
+    // top of the stack uses its entry; the rest sit straight and level.
+    const MESS = [
+      [-1.4, -6], [1.1, 9], [-0.6, -11], [2.0, 4], [-1.8, 13], [0.7, -5],
+      [-2.2, 7], [1.5, -13], [-0.8, 2], [1.9, 11], [-1.2, -8]
+    ];
+    function layoutFan() {
+      const root = document.getElementById('accordion');
+      const shown = [...root.querySelectorAll('.folder:not([hidden])')];
+      if (MOBILE.matches) {
+        root.removeAttribute('style');
+        shown.forEach(el => { el.style.left = el.style.top = ''; });
+        return;
+      }
+      const cw = root.clientWidth;
+      // Hidden (a project page is open): nothing to measure. route()
+      // lays the stack out again on the way back.
+      if (!cw) return;
+      const gaps = Math.max(1, shown.length - 1);
+      // Shrink the folders if the row would leave too thin a strip of each.
+      const sc = Math.min(FAN.scale, (cw - gaps * FAN.minStep) / FAN.w);
+      const step = shown.length > 1 ? (cw - FAN.w * sc) / gaps : 0;
+      const lift = 44;                                  // room for hover nudge + jitter
+      root.style.setProperty('--s', sc.toFixed(3));
+      root.style.height = Math.round(lift + (FAN.h + FAN.jitterY) * sc + 24) + 'px';
+      shown.forEach((el, n) => {
+        // Neat stack: only the top folder keeps its tilt and offset.
+        const [r, dy] = n === 0 ? MESS[+el.id.slice(1) % MESS.length] : [0, 0];
+        el.style.setProperty('--r', r + 'deg');
+        el.style.setProperty('--dy', dy + 'px');
+        el.style.left = (n * step) + 'px';
+        el.style.top = lift + 'px';
+        el.style.zIndex = String(shown.length - n);
+        el.classList.toggle('is-top', n === 0);
+      });
+    }
+    window.addEventListener('resize', layoutFan);
+
+    // ── PROJECT PAGE ─────────────────────────────────────────────
+    // #/project/CODE swaps the home page for one project's full page. Text
+    // follows the current view (games / tech); a { lesson } entry becomes
+    // the taped postmortem note at the end.
+
+    const DOC_ICON = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg>`;
+    const HOME_TITLE = document.title;
+    let homeScrollY = 0;
+
+    function projectKey() {
+      const f = getParam();
+      return resolveKey(isRoleView(f) ? f : HOME);
+    }
+
+    function renderProject(code) {
+      const p = PROJECTS.find(x => x.code === code);
+      if (!p) return false;
+      const i = PROJECTS.indexOf(p);
+      const key = projectKey();
+      const items = p.bullets[key] || [];
+      const paras = items.filter(b => typeof b === 'string');
+      const lesson = items.find(b => b && b.lesson);
+
+      const media = p.youtube
+        ? `<figure class="pj-plate pj-plate--wide">
+             <iframe src="${p.youtube}" title="${p.title}" loading="lazy"
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+               referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+             <figcaption><span>Fig. 01 — ${p.title}</span><span>${p.code}</span></figcaption>
+           </figure>`
+        : p.image
+          ? `<figure class="pj-plate">
+               <img src="${p.image}" alt="${p.title}">
+               <figcaption><span>Fig. 01 — ${p.title}</span><span>${p.code}</span></figcaption>
+             </figure>`
+          : '';
+      const clip = p.clip
+        ? `<figure class="pj-plate">
+             <video src="${p.clip}" autoplay muted loop playsinline preload="metadata"></video>
+             <figcaption><span>Fig. 02 — footage</span><span>silent loop</span></figcaption>
+           </figure>`
+        : '';
+      const docs = (p.canva || p.pdf)
+        ? `<div class="pj-docs"><button class="pj-doc-btn" onclick="openCanva(event, ${i})">${DOC_ICON}
+             ${p.btnLabel || (p.pdf || (p.canva && p.canva.length === 1) ? 'View Presentation' : 'View Presentations')}</button></div>`
+        : '';
+
+      const pj = document.getElementById('pj');
+      pj.style.borderTopColor = p.color;
+      pj.innerHTML = `
+        <div class="pj-rail">
+          <div class="pj-code">${p.code}</div>
+          <h2 class="pj-title">${p.link ? `<a href="${p.link}" target="_blank" rel="noopener">${p.title}</a>` : p.title}</h2>
+          <dl class="pj-meta">
+            <div><dt>My role</dt><dd>${p.roles[key]}</dd></div>
+            ${p.team ? `<div><dt>Team size</dt><dd>${p.team}</dd></div>` : ''}
+            <div><dt>Dates</dt><dd>${p.date}</dd></div>
+            <div><dt>Status</dt><dd>${p.status}</dd></div>
+          </dl>
+          <div class="pj-skills">${p.skills.map(renderSkillTag).join('')}</div>
+        </div>
+        <div class="pj-body">
+          ${paras.map((t, n) => `<p${n === 0 ? ' class="pj-lead"' : ''}>${t}</p>`).join('')}
+          ${media}
+          ${clip}
+          ${docs}
+          ${lesson ? `<aside class="pj-pm"><div class="c-lesson-tag">Postmortem</div><p>${lesson.lesson}</p></aside>` : ''}
+        </div>`;
+
+      document.getElementById('pj-view').style.setProperty('--c', p.color);
+
+      document.title = `${p.title} — Aleksandra Pavlova-Verevkina`;
+      return true;
+    }
+
+    function route() {
+      const m = location.hash.match(/^#\/project\/([\w-]+)/);
+      const view = document.getElementById('pj-view');
+      const wasOpen = document.body.classList.contains('pj-open');
+      if (m && renderProject(m[1].toUpperCase())) {
+        if (!wasOpen) homeScrollY = window.scrollY;
+        view.hidden = false;
+        document.body.classList.add('pj-open');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      } else {
+        view.hidden = true;
+        document.getElementById('pj').innerHTML = '';
+        document.body.classList.remove('pj-open');
+        document.title = HOME_TITLE;
+        if (wasOpen) {
+          layoutFan();
+          window.scrollTo({ top: homeScrollY, behavior: 'instant' });
+        }
+      }
     }
 
     function playVideo(e, url) {
@@ -2654,18 +3099,6 @@
       }
     });
 
-    function openPanel(idx) {
-      document.querySelectorAll('.panel').forEach((p, i) =>
-        p.classList.toggle('open', i === idx)
-      );
-      const clip = document.getElementById('photo-clip');
-      if (clip) {
-        clip.classList.remove('swaying');
-        void clip.offsetWidth;
-        clip.classList.add('swaying');
-      }
-    }
-
     // ── APPLY FILTER ─────────────────────────────────────────────
 
     function applyFilter(f, push = true) {
@@ -2673,54 +3106,27 @@
         b.classList.toggle('active', b.dataset.filter === f)
       );
 
-      const heroContent = document.getElementById('hero-content');
       const heroMilestones = document.getElementById('hero-milestones-full');
-      const wipClip = document.getElementById('wip-clip');
-
       const heroEl = document.querySelector('.hero');
-      const secLabel = document.getElementById('sec-label');
+      const about = document.getElementById('about');
+      const wipClip = document.getElementById('wip-clip');
       const archiveWrap = document.querySelector('.accordion-wrap');
-      if (f === 'achievements') {
-        if (heroContent) heroContent.hidden = true;
-        if (heroMilestones) heroMilestones.hidden = false;
-        if (wipClip) wipClip.hidden = true;
-        heroEl?.classList.add('hero--milestones');
-        // Achievements view stands on its own — hide the project archive below.
-        if (secLabel) secLabel.hidden = true;
-        if (archiveWrap) archiveWrap.hidden = true;
-      } else {
-        if (heroContent) heroContent.hidden = false;
-        if (heroMilestones) heroMilestones.hidden = true;
-        if (wipClip) wipClip.hidden = false;
-        heroEl?.classList.remove('hero--milestones');
-        if (secLabel) secLabel.hidden = false;
-        if (archiveWrap) archiveWrap.hidden = false;
+      const projects = isRoleView(f);
 
-        document.getElementById('hero-bio').innerHTML = HERO[f] || HERO.all;
+      // Each tab shows only its own block.
+      if (about) about.hidden = f !== 'about';
+      if (wipClip) wipClip.hidden = f !== 'wip';
+      if (heroEl) heroEl.hidden = f !== 'achievements';
+      if (heroMilestones) heroMilestones.hidden = f !== 'achievements';
+      heroEl?.classList.toggle('hero--milestones', f === 'achievements');
+      if (archiveWrap) archiveWrap.hidden = !projects;
 
-        const key = resolveKey(f);
-        let visibleCount = 0;
-        let firstVisible = -1;
+      if (projects) {
         PROJECTS.forEach((p, i) => {
           const panel = document.getElementById('p' + i);
-          if (!panel) return;
-          const hide = Array.isArray(p.hideIn) && p.hideIn.includes(f);
-          panel.hidden = hide;
-          if (hide) return;
-          if (firstVisible === -1) firstVisible = i;
-          visibleCount++;
-          panel.querySelector('.js-role').textContent = p.roles[key];
-          panel.querySelector('.js-bullets').innerHTML =
-            p.bullets[key].map(b => b && b.lesson
-              ? `<li class="c-lesson"><span class="c-lesson-tag">Postmortem</span>${b.lesson}</li>`
-              : `<li>${b}</li>`).join('');
+          if (panel) panel.hidden = Array.isArray(p.hideIn) && p.hideIn.includes(f);
         });
-
-        if (secLabel) secLabel.textContent = `Archive Log // ${visibleCount} Projects`;
-
-        // If the currently open panel was hidden in this view, open the first visible one.
-        const openEl = document.querySelector('.panel.open');
-        if ((!openEl || openEl.hidden) && firstVisible !== -1 && !MOBILE.matches) openPanel(firstVisible);
+        layoutFan();
       }
 
       if (push) pushParam(f);
@@ -2741,48 +3147,55 @@
         const el = document.getElementById(id);
         if (el) el.textContent = text || '';
       };
-      set('wip-eyebrow', WIP.eyebrow);
       set('wip-title', WIP.title);
       const statusEl = document.getElementById('wip-status');
       if (statusEl) statusEl.innerHTML = WIP.blurb || '';
 
-      const fillMedia = (id, src) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const { clip, image } = src || {};
-        if (clip) {
-          el.classList.remove('wip-media--empty');
-          el.innerHTML = `<video src="${clip}" autoplay muted loop playsinline></video>`;
-        } else if (image) {
-          el.classList.remove('wip-media--empty');
-          el.innerHTML = `<img src="${image}" alt="">`;
-        } else {
-          el.classList.add('wip-media--empty');
-          el.innerHTML =
-            '<span style="font-size:1.5rem;line-height:1">▶</span><span>footage coming</span>';
-        }
-      };
-      fillMedia('wip-media', (WIP.media || [])[0]);
-      fillMedia('wip-media-2', (WIP.media || [])[1]);
+      // One taped shot per media entry: a clip, a still, or an empty frame.
+      const shots = document.getElementById('wip-shots');
+      if (shots) {
+        shots.innerHTML = (WIP.media || []).map(({ clip, image } = {}) => {
+          if (clip) return `<figure class="wip-shot"><video src="${clip}" autoplay muted loop playsinline></video></figure>`;
+          if (image) return `<figure class="wip-shot"><img src="${image}" alt="${WIP.title} screenshot" loading="lazy"></figure>`;
+          return `<figure class="wip-shot wip-shot--empty"><span style="font-size:1.5rem;line-height:1">▶</span><span>footage coming</span></figure>`;
+        }).join('');
+      }
 
       const tags = document.getElementById('wip-tags');
       if (tags) {
         tags.innerHTML = (WIP.tags || [])
-          .map(t => `<span class="skill-tag">${t}</span>`).join('');
+          .map(t => `<span class="skill-tag hard">${t}</span>`).join('');
       }
     }
 
     buildAccordion();
     buildMilestonesView();
-    buildSkillsTicker();
     buildWIP();
+    buildAbout(HOME);
     applyFilter(getParam(), false);
 
+    // Phones: the tab row scrolls sideways. Centre the tab just pressed so
+    // its neighbours peek in and show there's more to the row.
+    function centerTab(btn) {
+      const bar = btn.parentElement;
+      if (!MOBILE.matches || bar.scrollWidth <= bar.clientWidth) return;
+      const off = btn.getBoundingClientRect().left - bar.getBoundingClientRect().left;
+      bar.scrollTo({
+        left: bar.scrollLeft + off - (bar.clientWidth - btn.offsetWidth) / 2,
+        behavior: 'smooth'
+      });
+    }
+
     document.querySelectorAll('.filter-btn').forEach(b =>
-      b.addEventListener('click', () => applyFilter(b.dataset.filter))
+      b.addEventListener('click', () => {
+        applyFilter(b.dataset.filter);
+        centerTab(b);
+      })
     );
 
     window.addEventListener('popstate', () => applyFilter(getParam(), false));
+    window.addEventListener('hashchange', route);
+    route();
 
     // ── PHOTO FOCUS MODE ─────────────────────────────────────────
     // Click the photo to flip it to the note, float it to the centre of the
